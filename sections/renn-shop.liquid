@@ -15,11 +15,10 @@
           <a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a>
           <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
           <p>{{ p.description | strip_html | truncatewords: 22 }}</p>
-          {%- if p.tags.size > 0 -%}<div class="chips">{%- for t in p.tags limit: 5 -%}<span>{{ t }}</span>{%- endfor -%}</div>{%- endif -%}
           <div class="buy">{% render 'renn-buy', product: p, label: 'Shop Now' %}</div>
         </article>
       {%- else -%}
-        <p class="muted">Add products in Shopify, then pick them here in the theme editor.</p>
+        {%- if request.design_mode -%}<p class="muted">Add products in Shopify, then pick them here in the theme editor.</p>{%- endif -%}
       {%- endfor -%}
     </div>
   </div>

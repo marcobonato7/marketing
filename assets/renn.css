@@ -309,3 +309,30 @@ h2.big{font:300 clamp(40px,5.6vw,80px)/1 var(--display);letter-spacing:-.015em;m
   .pcard .buy .add,.pcard .buy > a.btn{flex:1}
   .pcard .buy .btn{width:100%}
 }
+
+/* ---------- fonts (hosted in the theme) ---------- */
+@font-face{font-family:"Bricolage Grotesque";src:url(renn-bricolage.woff2) format("woff2");font-weight:300 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(renn-hanken.woff2) format("woff2");font-weight:400 600;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(renn-plexmono-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(renn-plexmono-500.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+
+/* ---------- film blends into the page: no hard edges ---------- */
+.stage{background:var(--cream)}
+.stage .edge{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(to bottom,var(--cream) 0,rgba(245,238,230,0) 13%,rgba(245,238,230,0) 72%,var(--cream) 100%),
+  linear-gradient(to right,var(--cream) 0,rgba(245,238,230,0) 7%,rgba(245,238,230,0) 93%,var(--cream) 100%)}
+@media (max-width:820px){.stage .edge{background:linear-gradient(to right,var(--cream) 0,rgba(245,238,230,0) 5%,rgba(245,238,230,0) 95%,var(--cream) 100%)}}
+.hdr{transition:background .5s var(--ease),box-shadow .5s var(--ease),backdrop-filter .5s var(--ease)}
+
+/* ---------- review polish ---------- */
+.reviews h2.big,.signup h2.big{max-width:20ch}
+.btn{white-space:nowrap}
+.ftr .wrap{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+@media (max-width:820px){
+  .intro h1,.intro p,.intro .mono{text-shadow:0 0 18px rgba(245,238,230,.95),0 0 4px rgba(245,238,230,.9)}
+  .pick .result .opt{grid-template-columns:92px 1fr;gap:14px}
+  .pick .result h4{font-size:17px}
+  .pick .result .buy{flex-wrap:wrap;gap:10px}
+  .pick .result .buy .add,.pick .result .buy > a.btn{flex:1}
+  .pick .result .btn{width:100%}
+}

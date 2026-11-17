@@ -4,14 +4,16 @@
       <a class="logo" href="{{ routes.root_url }}">{{ settings.wordmark | default: 'renn' }}<b>.</b></a>
       <p class="tag">{{ section.settings.tagline }}</p>
     </div>
+    {%- if settings.instagram != blank or settings.tiktok != blank or request.design_mode -%}
     <div>
       <h4>Follow</h4>
       <ul>
         {%- if settings.instagram != blank -%}<li><a href="{{ settings.instagram }}" target="_blank" rel="noopener">Instagram</a></li>{%- endif -%}
         {%- if settings.tiktok != blank -%}<li><a href="{{ settings.tiktok }}" target="_blank" rel="noopener">TikTok</a></li>{%- endif -%}
-        {%- if settings.instagram == blank and settings.tiktok == blank -%}<li><span class="muted">Add your social links in Theme settings</span></li>{%- endif -%}
+        {%- if settings.instagram == blank and settings.tiktok == blank and request.design_mode -%}<li><span class="muted">Add your social links in Theme settings</span></li>{%- endif -%}
       </ul>
     </div>
+    {%- endif -%}
     <div>
       <h4>Help</h4>
       <ul>

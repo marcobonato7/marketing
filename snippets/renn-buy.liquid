@@ -16,5 +16,5 @@
   {%- endif -%}
 {%- else -%}
   <span class="price">{{ fallback_price | default: '$25.00' }}</span>
-  <a class="btn" href="{{ routes.all_products_collection_url }}">{{ label | default: 'Shop Now' }}</a>
+  <a class="btn" href="{{ routes.all_products_collection_url }}">Shop Now</a>
 {%- endif -%}

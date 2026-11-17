@@ -60,7 +60,12 @@
   }
 
   /* ---------- header ---------- */
-  function hdrState() { if (hdr && !hdr.classList.contains("always")) hdr.classList.toggle("solid", scrollY > innerHeight * 0.6); }
+  function hdrState() {
+    if (!hdr || hdr.classList.contains("always")) return;
+    var fm = document.getElementById("film");
+    var lim = fm ? fm.offsetTop + fm.offsetHeight - innerHeight * 1.02 : innerHeight * 0.6;
+    hdr.classList.toggle("solid", scrollY > lim);
+  }
 
   /* =====================================================================
      Scroll film: the pours are a sequence of still frames drawn on a canvas.
@@ -81,7 +86,7 @@
   var SEG = 6, N = Math.max(1, pcards.length);            /* each product is a 6 second pour */
   var HOLD0 = 0.7, RAMP = 1.35, HOLD = 1.15;              /* in screen heights */
   var useSeq = false, target = 0, shown = -1, drawnF = -1, raf = 0, lastStill = -1, lastCard = -1;
-  var vh = stage.clientHeight || innerHeight, lastW = innerWidth, bg = "#F6E9E0", bgT = "rgba(246,233,224,0)";
+  var vh = stage.clientHeight || innerHeight, lastW = innerWidth, bg = "#F5EEE6", bgT = "rgba(245,238,230,0)";
 
   /* ---- frames ---- */
   var mobileSet = phone.matches;
@@ -126,14 +131,7 @@
     for (var d = 0; d < 16; d++) { if (ok[i - d]) return i - d; if (ok[i + d]) return i + d; }
     return -1;
   }
-  function sampleBg(im) {
-    try {
-      var c = document.createElement("canvas"); c.width = c.height = 1;
-      var g = c.getContext("2d"); g.drawImage(im, 4, 4, 1, 1, 0, 0, 1, 1);
-      var p = g.getImageData(0, 0, 1, 1).data; bg = "rgb(" + p[0] + "," + p[1] + "," + p[2] + ")"; bgT = "rgba(" + p[0] + "," + p[1] + "," + p[2] + ",0)";
-    } catch (e) { /* keep default */ }
-    stage.style.background = bg;
-  }
+  function sampleBg() { /* the film fades into the page colour, so there is nothing to sample */ }
 
   /* ---- canvas ---- */
   function size() {
@@ -154,9 +152,12 @@
     cx.drawImage(imgs[A], r[0], r[1], r[2], r[3]);
     if (A === i && a > 0.02 && ok[i + 1]) { cx.globalAlpha = a; cx.drawImage(imgs[i + 1], r[0], r[1], r[2], r[3]); cx.globalAlpha = 1; }
     if (mobileSet) {                                          /* soften the frame's top and bottom edges */
-      var e = Math.min(48 * (cv.width / 390), r[3] * 0.12), gt = cx.createLinearGradient(0, r[1], 0, r[1] + e), gb = cx.createLinearGradient(0, r[1] + r[3] - e, 0, r[1] + r[3]);
+      var e = r[3] * 0.26, gt = cx.createLinearGradient(0, r[1], 0, r[1] + e), gb = cx.createLinearGradient(0, r[1] + r[3] - e, 0, r[1] + r[3]);
       gt.addColorStop(0, bg); gt.addColorStop(1, bgT); gb.addColorStop(0, bgT); gb.addColorStop(1, bg);
       cx.fillStyle = gt; cx.fillRect(0, r[1] - 1, cv.width, e + 1); cx.fillStyle = gb; cx.fillRect(0, r[1] + r[3] - e, cv.width, e + 1);
+      var w = r[2] * 0.1, gl = cx.createLinearGradient(r[0], 0, r[0] + w, 0), gr = cx.createLinearGradient(r[0] + r[2] - w, 0, r[0] + r[2], 0);
+      gl.addColorStop(0, bg); gl.addColorStop(1, bgT); gr.addColorStop(0, bgT); gr.addColorStop(1, bg);
+      cx.fillStyle = gl; cx.fillRect(r[0] - 1, 0, w + 1, cv.height); cx.fillStyle = gr; cx.fillRect(r[0] + r[2] - w, 0, w + 1, cv.height);
     }
     return true;
   }
