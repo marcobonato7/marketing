@@ -86,7 +86,7 @@
   /* ---- frames ---- */
   var mobileSet = phone.matches;
   var base = (mobileSet ? film.dataset.m : film.dataset.d) || "";
-  var imgs = [], ok = [], loaded = 0;
+  var imgs = [], ok = [], loaded = 0, failed = 0, retried = {};
   function pad(n) { return ("00" + n).slice(-3); }
   function url(i) { return base.replace(/001\.jpg/, pad(i + 1) + ".jpg"); }
   function loadFrames(startAt) {
@@ -110,7 +110,11 @@
             if (loaded === COUNT) loader.classList.add("done");
             pump();
           };
-          im.onerror = function () { active--; pump(); };
+          im.onerror = function () {
+            active--; failed++;
+            if (!retried[k]) { retried[k] = 1; setTimeout(function () { order.push(k); pump(); }, 1500); }
+            pump();
+          };
           im.src = url(k);
         })(order[next++]);
       }
@@ -224,7 +228,18 @@
     lastW = innerWidth; layout(); if (useSeq) size(); onScroll();
   });
   hdrState();
-  if (reduce || tiny || !cx || !base) { loader.classList.add("done"); return; }   /* stills only */
-  var begin = function () { loadFrames(Math.round(target * FPS)); };
-  if (document.readyState === "complete") begin(); else addEventListener("load", begin);
+  /* The film only moves when the visitor scrolls, so it also runs with Reduce Motion on. */
+  if (tiny || !cx || !base) { loader.classList.add("done"); return; }   /* stills only */
+  /* Start right away: waiting for the page "load" event can take a long time on phones and in-app browsers. */
+  loadFrames(Math.round(target * FPS));
+
+  /* Status readout: add ?renn-debug to the page address to see it. */
+  if (/renn-debug/.test(location.search)) {
+    var dbg = document.createElement("div");
+    dbg.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99;background:#000;color:#fff;font:12px/1.4 monospace;padding:6px 8px;border-radius:8px;opacity:.85";
+    document.body.appendChild(dbg);
+    setInterval(function () {
+      dbg.textContent = "film 3.1 | set " + (mobileSet ? "phone" : "desktop") + " | frames " + loaded + "/" + COUNT + " | failed " + failed + " | playing " + useSeq + " | reduce-motion " + reduce + " | dpr " + (window.devicePixelRatio || 1);
+    }, 500);
+  }
 })();
