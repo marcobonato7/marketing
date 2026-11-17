@@ -1,0 +1,20 @@
+{%- comment -%}
+  Price + Add to Cart for one product. Prices come from Shopify, so change them in Products.
+  Params: product, label, fallback_price
+{%- endcomment -%}
+{%- if product != blank -%}
+  {%- assign v = product.selected_or_first_available_variant -%}
+  <span class="price">{{ v.price | money }}{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
+  {%- if product.available -%}
+    <form method="post" action="{{ routes.cart_add_url }}" class="add" data-add>
+      <input type="hidden" name="id" value="{{ v.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button class="btn" type="submit">{{ label | default: 'Add to Cart' }}</button>
+    </form>
+  {%- else -%}
+    <button class="btn" type="button" disabled>Sold out</button>
+  {%- endif -%}
+{%- else -%}
+  <span class="price">{{ fallback_price | default: '$25.00' }}</span>
+  <a class="btn" href="{{ routes.all_products_collection_url }}">{{ label | default: 'Shop Now' }}</a>
+{%- endif -%}

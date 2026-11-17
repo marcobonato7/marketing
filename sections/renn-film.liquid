@@ -1,0 +1,133 @@
+{%- comment -%}
+  The scroll film. Desktop: the pour plays as you scroll and stops on each pool, where a product card lands.
+  Phones: a designed still version with the same cards. Up to 4 product blocks, one per pour.
+{%- endcomment -%}
+<section class="film" id="film" aria-label="Product film">
+  <div class="stage" id="stage">
+    <img class="still on" data-i="0" src="{{ 'frame-0.jpg' | asset_url }}" alt="Glossy sky-blue clay cream curling across a warm cream surface" width="1600" height="905" fetchpriority="high">
+    {%- for block in section.blocks limit: 4 -%}
+      {%- assign f = 'frame-' | append: forloop.index | append: '.jpg' -%}
+      <img class="still" data-i="{{ forloop.index }}" src="{{ f | asset_url }}" alt="{{ block.settings.pool_alt | escape }}" width="1600" height="905" loading="lazy">
+    {%- endfor -%}
+    {%- liquid
+      assign film_src = section.settings.film_url
+      if section.settings.film != blank
+        assign mp4s = section.settings.film.sources | where: 'format', 'mp4' | sort: 'height'
+        for s in mp4s
+          if s.height <= 1080
+            assign film_src = s.url
+          endif
+        endfor
+        if film_src == blank
+          assign film_src = mp4s.last.url
+        endif
+      endif
+    -%}
+    <video id="vid" muted playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="{{ film_src }}"></video>
+    <div class="glints" aria-hidden="true">
+      <i style="left:58%;top:30%;animation-delay:0s"></i><i style="left:66%;top:62%;animation-delay:2.2s"></i>
+      <i style="left:44%;top:70%;animation-delay:4.1s"></i><i style="left:72%;top:22%;animation-delay:6s"></i>
+      <i style="left:52%;top:48%;animation-delay:7.3s"></i>
+    </div>
+    <div class="intro" id="intro">
+      <h1>{{ settings.wordmark | default: 'renn' }}<b>.</b><span class="vh"> {{ section.settings.heading }}</span></h1>
+      <p>{{ section.settings.heading }}</p>
+      <span class="mono">{{ section.settings.subheading }}</span>
+    </div>
+    <div class="cue" id="cue"><span></span><small class="mono">Scroll</small></div>
+    <div class="chapter mono" id="chapter" style="opacity:0">
+      <span id="chapterTxt"></span>
+      <div class="dots">{%- for block in section.blocks limit: 4 -%}<i data-label="0{{ forloop.index }} / {{ block.settings.label | escape }}"></i>{%- endfor -%}</div>
+    </div>
+    <div class="loader" id="loader" aria-hidden="true"><svg viewBox="0 0 26 26"><circle class="bg" cx="13" cy="13" r="11"/><circle class="fg" id="ring" cx="13" cy="13" r="11"/></svg><small class="mono">Loading film</small></div>
+    {%- for block in section.blocks limit: 4 -%}
+      {%- assign side = 'left' -%}{%- assign r = forloop.index | modulo: 2 -%}{%- if r == 0 -%}{%- assign side = 'right' -%}{%- endif -%}
+      {% render 'renn-pcard', block: block, index: forloop.index, side: side %}
+    {%- endfor -%}
+  </div>
+  <div id="anchors"></div>
+</section>
+
+<section class="mfilm" id="mfilm" aria-label="Products">
+  <div class="mscene mintro in">
+    <img class="bg" src="{{ 'm-frame-0.jpg' | asset_url }}" alt="Glossy sky-blue clay cream curling across a warm cream surface" width="760" height="1013">
+    <div class="txt">
+      <p class="mlogo" aria-hidden="true">{{ settings.wordmark | default: 'renn' }}<b>.</b></p>
+      <p class="mhead">{{ section.settings.heading }}</p>
+      <span class="mono">{{ section.settings.subheading }}</span>
+    </div>
+  </div>
+  {%- for block in section.blocks limit: 4 -%}
+    {%- assign f = 'm-frame-' | append: forloop.index | append: '.jpg' -%}
+    <div class="mscene" id="m-{{ forloop.index }}">
+      <img class="bg" src="{{ f | asset_url }}" alt="" loading="lazy" width="760" height="1013">
+      <div class="sheen"></div>
+      {% render 'renn-pcard', block: block, index: forloop.index, side: '' %}
+    </div>
+  {%- endfor -%}
+</section>
+
+{%- comment -%} Product data for Google {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {%- assign first = true -%}
+    {%- for block in section.blocks limit: 4 -%}
+      {%- assign p = block.settings.product -%}
+      {%- if p != blank -%}
+        {%- unless first -%},{%- endunless -%}{%- assign first = false -%}
+        {
+          "@type": "Product",
+          "name": {{ p.title | json }},
+          "description": {{ p.description | strip_html | truncatewords: 40 | json }},
+          "url": {{ request.origin | append: p.url | json }},
+          {%- if p.featured_media -%}"image": {{ p.featured_media | image_url: width: 1200 | prepend: 'https:' | json }},{%- endif -%}
+          "brand": { "@type": "Brand", "name": {{ p.vendor | default: 'medicube' | json }} },
+          "sku": {{ p.selected_or_first_available_variant.sku | default: p.handle | json }},
+          "offers": {
+            "@type": "Offer",
+            "price": {{ p.price | divided_by: 100.0 | json }},
+            "priceCurrency": {{ cart.currency.iso_code | json }},
+            "availability": "https://schema.org/{% if p.available %}InStock{% else %}OutOfStock{% endif %}",
+            "itemCondition": "https://schema.org/NewCondition",
+            "url": {{ request.origin | append: p.url | json }},
+            "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+          }
+        }
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "Scroll film",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Four masks. One calm night routine." },
+    { "type": "text", "id": "subheading", "label": "Small line", "default": "Genuine medicube, shipped from Renn" },
+    { "type": "video", "id": "film", "label": "Scroll film", "info": "Upload renn-film.mp4 in Content > Files, then pick it here. Until then, the pours show as still images." },
+    { "type": "url", "id": "film_url", "label": "Or film link", "info": "Optional. A direct .mp4 link, used only if no video is picked above." }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product pour",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Pore care" },
+        { "type": "text", "id": "line", "label": "One-line benefit", "default": "Clear pores in three minutes." },
+        { "type": "textarea", "id": "desc", "label": "Short description" },
+        { "type": "color", "id": "color", "label": "Dot color", "default": "#8FB4D9" },
+        { "type": "text", "id": "fallback_title", "label": "Name shown before a product is picked" },
+        { "type": "select", "id": "fallback_image", "label": "Photo shown before a product is picked", "default": "mud",
+          "options": [ { "value": "mud", "label": "Mud mask" }, { "value": "collagen", "label": "Collagen" }, { "value": "pdrn", "label": "PDRN" }, { "value": "kojic", "label": "Kojic" } ] },
+        { "type": "text", "id": "pool_alt", "label": "Pool image description" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Scroll film" } ]
+}
+{% endschema %}

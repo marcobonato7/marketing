@@ -1,0 +1,78 @@
+{%- assign v = product.selected_or_first_available_variant -%}
+<section class="page pdp">
+  <div class="wrap pdp-grid">
+    <div class="gallery">
+      <div class="tile main-img">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(max-width: 900px) 100vw, 55vw', alt: product.title, id: 'mainImg' }}
+        {%- endif -%}
+      </div>
+      {%- if product.media.size > 1 -%}
+        <div class="thumbs">
+          {%- for m in product.media -%}
+            {%- if m.media_type == 'image' -%}
+              <button type="button" class="thumb" data-src="{{ m | image_url: width: 1200 }}" aria-label="Show photo {{ forloop.index }}">{{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: m.alt }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="info">
+      <span class="kicker mono">{{ product.vendor }}</span>
+      <h1 class="ptitle">{{ product.title }}</h1>
+      <p class="pprice"><span data-price>{{ v.price | money }}</span>{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</p>
+      {%- form 'product', product, class: 'pform add' -%}
+        {%- unless product.has_only_default_variant -%}
+          <label class="mono" for="variant">{{ product.options.first }}</label>
+          <select id="variant" name="id" class="select">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" data-price="{{ variant.price | money }}"{% if variant == v %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} (sold out){% endunless %}</option>
+            {%- endfor -%}
+          </select>
+        {%- else -%}
+          <input type="hidden" name="id" value="{{ v.id }}">
+        {%- endunless -%}
+        <div class="qty-row">
+          <label class="vh" for="qty">Quantity</label>
+          <input id="qty" class="qty" type="number" name="quantity" value="1" min="1">
+          <button class="btn wide" type="submit"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold out{% endif %}</button>
+        </div>
+      {%- endform -%}
+      <div class="rte">{{ product.description }}</div>
+      <ul class="promises">
+        <li>Genuine {{ product.vendor | default: 'medicube' }}, in its original box.</li>
+        <li>Questions? <a href="mailto:{{ settings.contact_email | default: shop.email }}">Email us</a>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | json }},
+  "url": {{ request.origin | append: product.url | json }},
+  {%- if product.featured_media -%}"image": [{{ product.featured_media | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "sku": {{ v.sku | default: product.handle | json }},
+  "offers": [
+    {%- for variant in product.variants -%}
+    {
+      "@type": "Offer",
+      "price": {{ variant.price | divided_by: 100.0 | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+      "itemCondition": "https://schema.org/NewCondition",
+      "url": {{ request.origin | append: variant.url | json }},
+      "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{ "name": "Product page", "settings": [] }
+{% endschema %}

@@ -1,0 +1,24 @@
+name: Fetch Renn theme images
+# One-time job: downloads the theme's photos into assets/, then deletes itself.
+on:
+  push:
+    branches: [renn-shopify-theme]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and add images
+        run: |
+          curl -fsSL -o imgs.zip "https://d2ol7oe51mr4n9.cloudfront.net/user_3LIjwiDLDmGwMEJWDvsGfdWkoUt/ee6d04a4-1733-40d6-9bc1-09c177454717.zip"
+          echo "46040a07ec8a6561a1c6a0e872fe417b3ea430f1ee6676e7d11952494e8b215b  imgs.zip" | sha256sum -c -
+          unzip -o imgs.zip -d assets
+          rm imgs.zip
+          git rm -q .github/workflows/fetch-theme-images.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets
+          git commit -m "Add Renn theme images"
+          git push

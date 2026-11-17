@@ -1,0 +1,40 @@
+{%- liquid
+  assign list = section.settings.products
+  if list == blank or list.size == 0
+    assign list = collections.all.products
+  endif
+-%}
+<section class="blk reveal" id="shop" style="--c:var(--clay)">
+  <svg class="drip" viewBox="0 0 24 90" aria-hidden="true"><path d="M12 0v70"/><circle cx="12" cy="80" r="6"/></svg>
+  <div class="wrap">
+    <span class="kicker mono rise">{{ section.settings.kicker }}</span>
+    <h2 class="big rise">{{ section.settings.heading }}</h2>
+    <p class="lede rise">{{ section.settings.text }}</p>
+    <div class="grid">
+      {%- for p in list limit: 8 -%}
+        <article class="scard rise" id="shop-{{ p.handle }}" style="transition-delay:{{ forloop.index0 | times: 90 }}ms">
+          <a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a>
+          <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
+          <p>{{ p.description | strip_html | truncatewords: 22 }}</p>
+          {%- if p.tags.size > 0 -%}<div class="chips">{%- for t in p.tags limit: 5 -%}<span>{{ t }}</span>{%- endfor -%}</div>{%- endif -%}
+          <div class="buy">{% render 'renn-buy', product: p, label: 'Shop Now' %}</div>
+        </article>
+      {%- else -%}
+        <p class="muted">Add products in Shopify, then pick them here in the theme editor.</p>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop grid",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small label", "default": "The edit" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick the mask that fits tonight." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Four genuine medicube masks, $25 each. One clears pores in minutes. Three work while you sleep and peel off in the morning." },
+    { "type": "product_list", "id": "products", "label": "Products", "limit": 8, "info": "Leave empty to show all products." }
+  ],
+  "presets": [ { "name": "Shop grid" } ]
+}
+{% endschema %}

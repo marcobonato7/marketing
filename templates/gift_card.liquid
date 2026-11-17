@@ -1,0 +1,21 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your {{ shop.name }} gift card</title>
+  {{ 'renn.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+</head>
+<body class="tpl-gift">
+  <main class="page"><div class="wrap narrow">
+    <p class="logo xl">{{ settings.wordmark | default: 'renn' }}<b>.</b></p>
+    <h1 class="big">Your gift card: {{ gift_card.initial_value | money }}</h1>
+    {%- if gift_card.balance != gift_card.initial_value -%}<p class="lede">Balance left: {{ gift_card.balance | money }}</p>{%- endif -%}
+    <p class="mono giftcode">{{ gift_card.code | format_code }}</p>
+    {%- if gift_card.expired or gift_card.enabled != true -%}<p class="muted">This gift card is no longer active.</p>{%- endif -%}
+    <a class="btn" href="{{ shop.url }}">Start shopping</a>
+  </div></main>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<header class="hdr{% unless template.name == 'index' %} solid always{% endunless %}" id="hdr">
+  <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">{{ settings.wordmark | default: 'renn' }}<b>.</b></a>
+  <nav class="nav" aria-label="Main">
+    <a href="{{ routes.root_url }}#shop">Shop</a>
+    <a href="{{ routes.root_url }}#routine" class="hide-m">Routine</a>
+    <a href="{{ routes.root_url }}#about">About</a>
+    <a class="cart" href="{{ routes.cart_url }}" aria-label="Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+      <span class="count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+    </a>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}

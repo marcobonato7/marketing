@@ -1,0 +1,74 @@
+<section class="blk routine reveal" id="routine" style="--c:var(--glass)">
+  <svg class="drip" viewBox="0 0 24 90" aria-hidden="true"><path d="M12 0v70"/><circle cx="12" cy="80" r="6"/></svg>
+  <div class="wrap">
+    <span class="kicker mono rise">{{ section.settings.kicker }}</span>
+    <h2 class="big rise">{{ section.settings.heading }}</h2>
+    <p class="lede rise">{{ section.settings.text }}</p>
+    <ol class="steps">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'step' -%}
+          <li class="step rise" style="transition-delay:{{ forloop.index0 | times: 120 }}ms" {{ block.shopify_attributes }}><div class="num">0{{ forloop.index }}</div><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ol>
+
+    <div class="pick rise" id="pick">
+      <div>
+        <span class="kicker mono">{{ section.settings.pick_kicker }}</span>
+        <h3>{{ section.settings.pick_heading }}</h3>
+        <div class="opts" role="group" aria-label="{{ section.settings.pick_heading | escape }}">
+          {%- assign n = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'option' -%}
+              {%- assign n = n | plus: 1 -%}
+              <button type="button" data-pick="{{ block.id }}" aria-pressed="{% if n == 1 %}true{% else %}false{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.label }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="result" id="pickResult" aria-live="polite">
+        {%- assign n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'option' -%}
+            {%- assign n = n | plus: 1 -%}
+            {%- assign p = block.settings.product -%}
+            <div class="opt" data-for="{{ block.id }}"{% if n != 1 %} hidden{% endif %}>
+              {% render 'renn-tile', product: p, fallback: block.settings.fallback_image, fallback_title: block.settings.fallback_title %}
+              <div>
+                <h4>{% if p != blank %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ block.settings.fallback_title }}{% endif %}</h4>
+                <p>{{ block.settings.line }}</p>
+                <div class="buy">{% render 'renn-buy', product: p, label: 'Add to Cart' %}</div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Routine",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small label", "default": "The routine" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Five quiet steps. Most of them happen while you sleep." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Use the mud mask once or twice a week. On the other nights, pick one wrapping mask for how your skin feels that day." },
+    { "type": "text", "id": "pick_kicker", "label": "Picker label", "default": "Which mask tonight?" },
+    { "type": "text", "id": "pick_heading", "label": "Picker question", "default": "How does your skin feel today?" }
+  ],
+  "blocks": [
+    { "type": "step", "name": "Step", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Cleanse" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Start with clean, dry skin." } ] },
+    { "type": "option", "name": "Picker answer", "settings": [
+      { "type": "text", "id": "label", "label": "Answer", "default": "Dry and tight" },
+      { "type": "product", "id": "product", "label": "Product" },
+      { "type": "text", "id": "line", "label": "One-line benefit" },
+      { "type": "text", "id": "fallback_title", "label": "Name shown before a product is picked" },
+      { "type": "select", "id": "fallback_image", "label": "Photo shown before a product is picked", "default": "collagen",
+        "options": [ { "value": "mud", "label": "Mud mask" }, { "value": "collagen", "label": "Collagen" }, { "value": "pdrn", "label": "PDRN" }, { "value": "kojic", "label": "Kojic" } ] } ] }
+  ],
+  "presets": [ { "name": "Routine" } ]
+}
+{% endschema %}

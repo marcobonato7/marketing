@@ -1,0 +1,40 @@
+{%- comment -%} Reviews: shows an honest "on their way" note until you add real customer reviews as blocks, or install a reviews app. {%- endcomment -%}
+<section class="blk reviews reveal" id="reviews">
+  <div class="wrap">
+    <span class="kicker mono rise">{{ section.settings.kicker }}</span>
+    <h2 class="big rise center">{{ section.settings.heading }}</h2>
+    {%- if section.blocks.size > 0 -%}
+      <div class="rgrid">
+        {%- for block in section.blocks -%}
+          <figure class="review rise" {{ block.shopify_attributes }}>
+            <blockquote>{{ block.settings.quote }}</blockquote>
+            <figcaption class="mono">{{ block.settings.name }}{% if block.settings.product != blank %} · {{ block.settings.product }}{% endif %}</figcaption>
+          </figure>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="empty rise">
+        <div class="stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="big-line">Reviews are on their way.</p>
+        <p class="muted">We only post reviews from real {{ shop.name }} customers. Bought a mask? We'd love to hear how it went.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small label", "default": "Reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say." }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Real review", "settings": [
+      { "type": "textarea", "id": "quote", "label": "Review (paste the customer's own words)" },
+      { "type": "text", "id": "name", "label": "Customer name or initials" },
+      { "type": "text", "id": "product", "label": "Product" } ] }
+  ],
+  "presets": [ { "name": "Reviews" } ]
+}
+{% endschema %}

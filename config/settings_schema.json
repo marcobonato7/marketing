@@ -1,0 +1,19 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Renn",
+    "theme_version": "1.0.0",
+    "theme_author": "Renn",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Renn",
+    "settings": [
+      { "type": "text", "id": "wordmark", "label": "Wordmark", "default": "renn" },
+      { "type": "text", "id": "contact_email", "label": "Contact email", "info": "Leave empty to use your store email." },
+      { "type": "url", "id": "instagram", "label": "Instagram link" },
+      { "type": "url", "id": "tiktok", "label": "TikTok link" }
+    ]
+  }
+]

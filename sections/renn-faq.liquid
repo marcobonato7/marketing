@@ -1,0 +1,25 @@
+<section class="blk faq reveal" id="faq">
+  <div class="wrap">
+    <span class="kicker mono rise">{{ section.settings.kicker }}</span>
+    <h2 class="big rise">{{ section.settings.heading }}</h2>
+    {%- for block in section.blocks -%}
+      <details class="rise" {{ block.shopify_attributes }}><summary>{{ block.settings.q }}</summary><div class="a">{{ block.settings.a }}</div></details>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Questions",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small label", "default": "Questions" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Good to know." }
+  ],
+  "blocks": [
+    { "type": "qa", "name": "Question", "settings": [
+      { "type": "text", "id": "q", "label": "Question", "default": "Question" },
+      { "type": "richtext", "id": "a", "label": "Answer", "default": "<p>Answer</p>" } ] }
+  ],
+  "presets": [ { "name": "Questions" } ]
+}
+{% endschema %}

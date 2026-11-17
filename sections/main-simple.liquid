@@ -1,0 +1,74 @@
+{%- comment -%} One section for the simpler pages: page, 404, search, collections list, blog, article, password. {%- endcomment -%}
+<section class="page">
+  <div class="wrap narrow">
+    {%- case request.page_type -%}
+      {%- when 'page' -%}
+        <h1 class="big">{{ page.title }}</h1>
+        <div class="rte">{{ page.content }}</div>
+
+      {%- when '404' -%}
+        <span class="kicker mono">404</span>
+        <h1 class="big">This page slipped away.</h1>
+        <p class="lede">It may have moved. The masks are still right where you left them.</p>
+        <a class="btn" href="{{ routes.root_url }}#shop">Back to the shop</a>
+
+      {%- when 'search' -%}
+        <h1 class="big">Search</h1>
+        <form action="{{ routes.search_url }}" method="get" class="searchform" role="search">
+          <label class="vh" for="q">Search</label>
+          <input id="q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search masks">
+          <button class="btn" type="submit">Search</button>
+        </form>
+        {%- if search.performed -%}
+          <p class="muted">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %}</p>
+          <div class="grid">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                <article class="scard">
+                  <a href="{{ item.url }}" class="tlink">{% render 'renn-tile', product: item %}</a>
+                  <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+                  <div class="buy">{% render 'renn-buy', product: item, label: 'Add to Cart' %}</div>
+                </article>
+              {%- else -%}
+                <article class="scard"><h3><a href="{{ item.url }}">{{ item.title }}</a></h3></article>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      {%- when 'list-collections' -%}
+        <h1 class="big">Collections</h1>
+        <ul class="plain">
+          {%- for c in collections -%}<li><a href="{{ c.url }}">{{ c.title }}</a></li>{%- endfor -%}
+        </ul>
+
+      {%- when 'blog' -%}
+        <h1 class="big">{{ blog.title }}</h1>
+        {%- paginate blog.articles by 12 -%}
+          <ul class="plain">
+            {%- for a in blog.articles -%}<li><a href="{{ a.url }}">{{ a.title }}</a> <span class="muted small">{{ a.published_at | date: '%B %-d, %Y' }}</span></li>{%- endfor -%}
+          </ul>
+          {%- if paginate.pages > 1 -%}<nav class="pager">{{ paginate | default_pagination }}</nav>{%- endif -%}
+        {%- endpaginate -%}
+
+      {%- when 'article' -%}
+        <span class="kicker mono">{{ article.published_at | date: '%B %-d, %Y' }}</span>
+        <h1 class="big">{{ article.title }}</h1>
+        <div class="rte">{{ article.content }}</div>
+
+      {%- when 'password' -%}
+        <p class="logo xl">{{ settings.wordmark | default: 'renn' }}<b>.</b></p>
+        <p class="lede">{{ shop.password_message | default: 'Opening soon.' }}</p>
+        {%- form 'storefront_password', class: 'searchform' -%}
+          <label class="vh" for="pw">Password</label>
+          <input id="pw" type="password" name="password" placeholder="Store password">
+          <button class="btn" type="submit">Enter</button>
+          {%- if form.errors -%}<p class="msg">That password didn't work.</p>{%- endif -%}
+        {%- endform -%}
+    {%- endcase -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Page content", "settings": [] }
+{% endschema %}

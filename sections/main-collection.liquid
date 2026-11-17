@@ -1,0 +1,25 @@
+<section class="page">
+  <div class="wrap">
+    <span class="kicker mono">Shop</span>
+    <h1 class="big">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="lede rte">{{ collection.description }}</div>{%- endif -%}
+    {%- paginate collection.products by 24 -%}
+      <div class="grid">
+        {%- for p in collection.products -%}
+          <article class="scard">
+            <a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a>
+            <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
+            <div class="buy">{% render 'renn-buy', product: p, label: 'Add to Cart' %}</div>
+          </article>
+        {%- else -%}
+          <p class="muted">No products here yet.</p>
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}<nav class="pager">{{ paginate | default_pagination }}</nav>{%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Collection", "settings": [] }
+{% endschema %}

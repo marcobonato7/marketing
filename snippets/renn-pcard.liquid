@@ -1,0 +1,15 @@
+{%- comment -%} Product card that lands on each pool. Params: block, index, side {%- endcomment -%}
+{%- assign p = block.settings.product -%}
+{%- if p != blank -%}{%- assign t = p.title -%}{%- else -%}{%- assign t = block.settings.fallback_title -%}{%- endif -%}
+<article class="pcard {{ side }}" style="--c:{{ block.settings.color }}" data-i="{{ index }}" aria-label="{{ t | escape }}" {{ block.shopify_attributes }}>
+  <div class="inner">
+    {% render 'renn-tile', product: p, fallback: block.settings.fallback_image, fallback_title: block.settings.fallback_title %}
+    <div>
+      <div class="mono"><i></i>0{{ index }} · {{ block.settings.label }}</div>
+      <h2>{% if p != blank %}<a href="{{ p.url }}">{{ t }}</a>{% else %}{{ t }}{% endif %}</h2>
+      <p class="line">{{ block.settings.line }}</p>
+      <p class="desc">{{ block.settings.desc }}</p>
+    </div>
+    <div class="buy">{% render 'renn-buy', product: p, label: 'Add to Cart' %}</div>
+  </div>
+</article>

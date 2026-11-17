@@ -1,0 +1,354 @@
+{
+  "sections": {
+    "film": {
+      "type": "renn-film",
+      "blocks": {
+        "pour_mud": {
+          "type": "product",
+          "settings": {
+            "label": "Pore care",
+            "line": "Clear pores in three minutes.",
+            "desc": "30% pore-purifying clay with AHA, BHA and PHA. Smooth on, wait three to five minutes, rinse.",
+            "color": "#8FB4D9",
+            "fallback_title": "Zero Pore Blackhead Mud Mask",
+            "fallback_image": "mud",
+            "pool_alt": "A smooth round pool of blue clay mud mask"
+          }
+        },
+        "pour_collagen": {
+          "type": "product",
+          "settings": {
+            "label": "Moisture and firmness",
+            "line": "Sleep in moisture. Wake up smooth.",
+            "desc": "Collagen, niacinamide and ceramide NP seal in hydration overnight, so skin feels smooth and firm by morning.",
+            "color": "#D9A5A0",
+            "fallback_title": "Collagen Night Wrapping Mask",
+            "fallback_image": "collagen",
+            "pool_alt": "A clear glassy pool of collagen gel"
+          }
+        },
+        "pour_pdrn": {
+          "type": "product",
+          "settings": {
+            "label": "Soothing and glow",
+            "line": "Wake up looking rested.",
+            "desc": "PDRN soothes and adds glow. Caffeine and niacinamide help skin look lifted and fresh.",
+            "color": "#F2A7C3",
+            "fallback_title": "PDRN Pink Caffeine Night Wrapping Mask",
+            "fallback_image": "pdrn",
+            "pool_alt": "A shimmering pink pool of PDRN gel with glitter"
+          }
+        },
+        "pour_kojic": {
+          "type": "product",
+          "settings": {
+            "label": "Dullness care",
+            "line": "For dull mornings.",
+            "desc": "Kojic acid, vitamin C and turmeric brighten tone while collagen nourishes skin overnight.",
+            "color": "#E8C46A",
+            "fallback_title": "Kojic Acid Turmeric Night Wrapping Mask",
+            "fallback_image": "kojic",
+            "pool_alt": "A pale golden pool of kojic turmeric gel with amber flecks"
+          }
+        }
+      },
+      "block_order": [
+        "pour_mud",
+        "pour_collagen",
+        "pour_pdrn",
+        "pour_kojic"
+      ],
+      "settings": {}
+    },
+    "shop": {
+      "type": "renn-shop",
+      "settings": {}
+    },
+    "routine": {
+      "type": "renn-routine",
+      "blocks": {
+        "step1": {
+          "type": "step",
+          "settings": {
+            "title": "Cleanse",
+            "text": "Start with clean, dry skin."
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "title": "Clear",
+            "text": "Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse."
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "title": "Wrap",
+            "text": "Last step of the night. Spread an even layer of your night mask."
+          }
+        },
+        "step4": {
+          "type": "step",
+          "settings": {
+            "title": "Let it set",
+            "text": "Give it 15 to 20 minutes before your face meets the pillow."
+          }
+        },
+        "step5": {
+          "type": "step",
+          "settings": {
+            "title": "Peel",
+            "text": "In the morning, peel it off and rinse with lukewarm water."
+          }
+        },
+        "opt_collagen": {
+          "type": "option",
+          "settings": {
+            "label": "Dry and tight",
+            "line": "Sleep in moisture. Wake up smooth.",
+            "fallback_title": "Collagen Night Wrapping Mask",
+            "fallback_image": "collagen"
+          }
+        },
+        "opt_mud": {
+          "type": "option",
+          "settings": {
+            "label": "Pores feel clogged",
+            "line": "Clear pores in three minutes.",
+            "fallback_title": "Zero Pore Blackhead Mud Mask",
+            "fallback_image": "mud"
+          }
+        },
+        "opt_pdrn": {
+          "type": "option",
+          "settings": {
+            "label": "I look tired",
+            "line": "Wake up looking rested.",
+            "fallback_title": "PDRN Pink Caffeine Night Wrapping Mask",
+            "fallback_image": "pdrn"
+          }
+        },
+        "opt_kojic": {
+          "type": "option",
+          "settings": {
+            "label": "Dull and uneven",
+            "line": "For dull mornings.",
+            "fallback_title": "Kojic Acid Turmeric Night Wrapping Mask",
+            "fallback_image": "kojic"
+          }
+        }
+      },
+      "block_order": [
+        "step1",
+        "step2",
+        "step3",
+        "step4",
+        "step5",
+        "opt_collagen",
+        "opt_mud",
+        "opt_pdrn",
+        "opt_kojic"
+      ],
+      "settings": {}
+    },
+    "inside": {
+      "type": "renn-ingredients",
+      "blocks": {
+        "ing1": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Clay",
+            "text": "Kaolin and bentonite draw out oil and buildup from pores. 30% of the mud mask.",
+            "mud": true,
+            "collagen": false,
+            "pdrn": false,
+            "kojic": false
+          }
+        },
+        "ing2": {
+          "type": "ingredient",
+          "settings": {
+            "title": "AHA, BHA, PHA",
+            "text": "Three gentle acids that loosen dead skin, so pores and blackheads look clearer.",
+            "mud": true,
+            "collagen": false,
+            "pdrn": false,
+            "kojic": false
+          }
+        },
+        "ing3": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Collagen",
+            "text": "Holds water on the skin's surface, so skin feels plump and soft by morning.",
+            "mud": false,
+            "collagen": true,
+            "pdrn": false,
+            "kojic": true
+          }
+        },
+        "ing4": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Niacinamide",
+            "text": "Vitamin B3. Supports the skin barrier and helps tone look more even.",
+            "mud": false,
+            "collagen": true,
+            "pdrn": true,
+            "kojic": false
+          }
+        },
+        "ing5": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Ceramide NP",
+            "text": "A lipid your skin already makes. It helps seal moisture in overnight.",
+            "mud": false,
+            "collagen": true,
+            "pdrn": false,
+            "kojic": false
+          }
+        },
+        "ing6": {
+          "type": "ingredient",
+          "settings": {
+            "title": "PDRN",
+            "text": "Sodium DNA, a K-beauty favorite for calming skin and a healthy-looking glow.",
+            "mud": false,
+            "collagen": false,
+            "pdrn": true,
+            "kojic": false
+          }
+        },
+        "ing7": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Caffeine",
+            "text": "Helps skin look fresher and less puffy, especially around the face's contours.",
+            "mud": false,
+            "collagen": false,
+            "pdrn": true,
+            "kojic": false
+          }
+        },
+        "ing8": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Kojic acid",
+            "text": "Targets dullness and uneven tone for a brighter look over time.",
+            "mud": false,
+            "collagen": false,
+            "pdrn": false,
+            "kojic": true
+          }
+        },
+        "ing9": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Turmeric",
+            "text": "A warm root extract that helps skin look calm and radiant.",
+            "mud": false,
+            "collagen": false,
+            "pdrn": false,
+            "kojic": true
+          }
+        },
+        "ing10": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin C and retinol",
+            "text": "A brightening pair that helps skin look smoother and more even.",
+            "mud": false,
+            "collagen": false,
+            "pdrn": false,
+            "kojic": true
+          }
+        }
+      },
+      "block_order": [
+        "ing1",
+        "ing2",
+        "ing3",
+        "ing4",
+        "ing5",
+        "ing6",
+        "ing7",
+        "ing8",
+        "ing9",
+        "ing10"
+      ],
+      "settings": {}
+    },
+    "about": {
+      "type": "renn-about",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "renn-reviews",
+      "settings": {}
+    },
+    "faq": {
+      "type": "renn-faq",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "q": "Are these genuine medicube products?",
+            "a": "<p>Yes. Renn sells genuine medicube masks in their original packaging. Renn is an independent retailer and is not run by medicube.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "q": "Will the night mask stick to my pillow?",
+            "a": "<p>Give it 15 to 20 minutes to set after you apply it. Once it's dry to the touch, it stays put.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "q": "Can I use these on sensitive skin?",
+            "a": "<p>Many people with sensitive skin use them, but every face is different. Try a small patch first. If you feel itching, skip the area under your nose and rinse if needed.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "q": "How often should I use each one?",
+            "a": "<p>The mud mask, once or twice a week. The night wrapping masks, 2 to 3 nights a week or whenever your skin asks for it.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "q": "How long does shipping take?",
+            "a": "<p>Add your shipping times and costs here. Your full shipping and returns policies are linked in the footer.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {}
+    },
+    "signup": {
+      "type": "renn-signup",
+      "settings": {}
+    }
+  },
+  "order": [
+    "film",
+    "shop",
+    "routine",
+    "inside",
+    "about",
+    "reviews",
+    "faq",
+    "signup"
+  ]
+}
