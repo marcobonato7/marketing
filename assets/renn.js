@@ -103,7 +103,8 @@
   var tiny = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "");
 
   var COUNT = +film.dataset.count || 242, FPS = +film.dataset.fps || 10;
-  var SEG = 6, N = Math.max(1, pcards.length);            /* each product is a 6 second pour */
+  var SEG = 6, NB = stage.querySelectorAll(".pcard.bundle").length;
+  var N = Math.max(1, pcards.length - NB);                  /* each product is a 6 second pour; the bundle is one extra stop */
   var HOLD0 = 0.7, RAMP = 1.35, HOLD = 1.15;              /* in screen heights */
   var useSeq = false, target = 0, shown = -1, drawnF = -1, raf = 0, lastStill = -1, lastCard = -1;
   var vh = stage.clientHeight || innerHeight, lastW = innerWidth, bg = "#F5EEE6", bgT = "rgba(245,238,230,0)";
@@ -185,9 +186,10 @@
   /* ---- story position ---- */
   function layout() {
     vh = stage.clientHeight || innerHeight;
-    film.style.height = ((HOLD0 + N * (RAMP + HOLD)) * vh + vh) + "px";
+    film.style.height = ((HOLD0 + N * (RAMP + HOLD) + NB * HOLD) * vh + vh) + "px";
     var a = "", y = HOLD0 * vh;
     for (var i = 1; i <= N; i++) { y += RAMP * vh; a += '<span class="anchor" id="pour-' + i + '" style="top:' + (y + 0.25 * vh) + 'px"></span>'; y += HOLD * vh; }
+    if (NB) a += '<span class="anchor" id="bundle" style="top:' + (y + 0.25 * vh) + 'px"></span>';
     document.getElementById("anchors").innerHTML = a;
   }
   function state() {
@@ -197,8 +199,9 @@
     for (var i = 0; i < N; i++) {
       if (y < RAMP) { var k = y / RAMP; return { t: (i + k) * SEG, hold: -1, ramp: i, k: k }; }
       y -= RAMP;
-      if (y < HOLD || i === N - 1) return { t: (i + 1) * SEG, hold: i + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
+      if (y < HOLD || (i === N - 1 && !NB)) return { t: (i + 1) * SEG, hold: i + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
       y -= HOLD;
+      if (i === N - 1) return { t: N * SEG, hold: N + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
     }
   }
 
@@ -218,6 +221,7 @@
     target = Math.min(s.t, (COUNT - 1) / FPS);
     if (!useSeq) {                                            /* still images until frames arrive */
       var st = s.hold >= 0 ? s.hold : (s.k > 0.5 ? s.ramp + 1 : s.ramp);
+      st = Math.min(st, N);
       if (st !== lastStill) { stills.forEach(function (el) { el.classList.toggle("on", +el.dataset.i === st); }); lastStill = st; }
     }
   }

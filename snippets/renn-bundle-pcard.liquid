@@ -1,0 +1,16 @@
+{%- comment -%} The bundle card that lands at the end of the scroll film. Params: index, side {%- endcomment -%}
+{%- assign b = settings.bundle_product -%}
+{%- if b != blank -%}{%- assign burl = b.url -%}{%- assign bname = b.title -%}{%- else -%}{%- assign burl = routes.all_products_collection_url -%}{%- assign bname = settings.bundle_name | default: 'The Full Routine' -%}{%- endif -%}
+{%- capture sv -%}{% render 'renn-bundle-save' %}{%- endcapture -%}
+<article class="pcard bundle {{ side }}" style="--c:#D8C3AE" data-i="{{ index }}" aria-label="{{ bname | escape }}">
+  <div class="inner">
+    <a href="{{ burl }}" class="tlink" aria-label="{{ bname | escape }}">{% render 'renn-bundle-collage' %}</a>
+    <div>
+      <div class="mono"><i></i>0{{ index }} · Best value{%- if sv != blank -%}<span class="save">{{ sv }}</span>{%- endif -%}</div>
+      <h2><a href="{{ burl }}">{{ bname }}</a></h2>
+      <p class="line">{{ settings.bundle_line | default: 'All four masks. One price.' }}</p>
+      <p class="desc">Mud, collagen, PDRN and kojic. The whole week, covered.</p>
+    </div>
+    <div class="buy">{% render 'renn-bundle-buy' %}</div>
+  </div>
+</article>

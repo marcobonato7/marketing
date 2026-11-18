@@ -1,0 +1,8 @@
+{%- comment -%} The four masks in a 2 x 2 photo grid. {%- endcomment -%}
+<div class="tile collage">
+  {%- assign names = 'mud,collagen,pdrn,kojic' | split: ',' -%}
+  {%- for k in names -%}
+    {%- assign f = k | append: '.jpg' -%}
+    <img src="{{ f | asset_url }}" alt="" loading="lazy" width="720" height="720">
+  {%- endfor -%}
+</div>

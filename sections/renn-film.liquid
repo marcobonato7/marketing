@@ -33,13 +33,18 @@
     <div class="cue" id="cue"><span></span><small class="mono">Scroll</small></div>
     <div class="chapter mono" id="chapter" style="opacity:0">
       <span id="chapterTxt"></span>
-      <div class="dots">{%- for block in section.blocks limit: 4 -%}<i data-label="0{{ forloop.index }} / {{ block.settings.label | escape }}"></i>{%- endfor -%}</div>
+      <div class="dots">{%- for block in section.blocks limit: 4 -%}<i data-label="0{{ forloop.index }} / {{ block.settings.label | escape }}"></i>{%- endfor -%}{%- if section.settings.show_bundle -%}<i data-label="0{{ section.blocks.size | at_most: 4 | plus: 1 }} / Best value"></i>{%- endif -%}</div>
     </div>
     <div class="loader" id="loader" aria-hidden="true"><svg viewBox="0 0 26 26"><circle class="bg" cx="13" cy="13" r="11"/><circle class="fg" id="ring" cx="13" cy="13" r="11"/></svg></div>
     {%- for block in section.blocks limit: 4 -%}
       {%- assign side = 'left' -%}{%- assign r = forloop.index | modulo: 2 -%}{%- if r == 0 -%}{%- assign side = 'right' -%}{%- endif -%}
       {% render 'renn-pcard', block: block, index: forloop.index, side: side %}
     {%- endfor -%}
+    {%- if section.settings.show_bundle -%}
+      {%- assign nb = section.blocks.size | at_most: 4 | plus: 1 -%}
+      {%- assign bside = 'left' -%}{%- assign r = nb | modulo: 2 -%}{%- if r == 0 -%}{%- assign bside = 'right' -%}{%- endif -%}
+      {% render 'renn-bundle-pcard', index: nb, side: bside %}
+    {%- endif -%}
   </div>
   <div id="anchors"></div>
 </section>
@@ -84,7 +89,8 @@
   "max_blocks": 4,
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Four masks. One calm night routine." },
-    { "type": "text", "id": "subheading", "label": "Small line", "default": "Genuine medicube, shipped from Renn" }
+    { "type": "text", "id": "subheading", "label": "Small line", "default": "Genuine medicube, shipped from Renn" },
+    { "type": "checkbox", "id": "show_bundle", "label": "End the film on the bundle", "default": true, "info": "Pick the bundle product in Theme settings > Bundle." }
   ],
   "blocks": [
     {

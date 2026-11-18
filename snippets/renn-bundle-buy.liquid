@@ -1,0 +1,18 @@
+{%- comment -%} Price + Add to Cart for the bundle. Set the price in Shopify on the bundle product. {%- endcomment -%}
+{%- assign b = settings.bundle_product -%}
+{%- if b != blank -%}
+  {%- assign v = b.selected_or_first_available_variant -%}
+  <span class="price">{{ v.price | money }}{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
+  {%- if b.available -%}
+    <form method="post" action="{{ routes.cart_add_url }}" class="add">
+      <input type="hidden" name="id" value="{{ v.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button class="btn" type="submit">Add to Cart</button>
+    </form>
+  {%- else -%}
+    <button class="btn" type="button" disabled>Sold out</button>
+  {%- endif -%}
+{%- else -%}
+  <span class="price">{{ settings.bundle_price | default: '$75.00' }} <s>{{ settings.bundle_compare | default: '$100.00' }}</s></span>
+  <a class="btn" href="{{ routes.all_products_collection_url }}">Shop Now</a>
+{%- endif -%}

@@ -10,10 +10,69 @@
   {
     "name": "Renn",
     "settings": [
-      { "type": "text", "id": "wordmark", "label": "Wordmark", "default": "renn" },
-      { "type": "text", "id": "contact_email", "label": "Contact email", "info": "Leave empty to use your store email." },
-      { "type": "url", "id": "instagram", "label": "Instagram link" },
-      { "type": "url", "id": "tiktok", "label": "TikTok link" }
+      {
+        "type": "text",
+        "id": "wordmark",
+        "label": "Wordmark",
+        "default": "renn"
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Contact email",
+        "info": "Leave empty to use your store email."
+      },
+      {
+        "type": "url",
+        "id": "instagram",
+        "label": "Instagram link"
+      },
+      {
+        "type": "url",
+        "id": "tiktok",
+        "label": "TikTok link"
+      }
+    ]
+  },
+  {
+    "name": "Bundle",
+    "settings": [
+      {
+        "type": "product",
+        "id": "bundle_product",
+        "label": "Bundle product",
+        "info": "Create a product with all four masks (for example The Full Routine, $75, compare-at price $100), then pick it here."
+      },
+      {
+        "type": "text",
+        "id": "bundle_name",
+        "label": "Name shown before a product is picked",
+        "default": "The Full Routine"
+      },
+      {
+        "type": "text",
+        "id": "bundle_line",
+        "label": "One-line pitch",
+        "default": "All four masks. One price."
+      },
+      {
+        "type": "text",
+        "id": "bundle_price",
+        "label": "Price shown before a product is picked",
+        "default": "$75.00"
+      },
+      {
+        "type": "text",
+        "id": "bundle_compare",
+        "label": "Was-price shown before a product is picked",
+        "default": "$100.00"
+      },
+      {
+        "type": "text",
+        "id": "bundle_save",
+        "label": "Savings label shown before a product is picked",
+        "default": "Save $25"
+      }
     ]
   }
 ]

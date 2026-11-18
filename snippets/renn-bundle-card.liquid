@@ -1,0 +1,19 @@
+{%- comment -%} Wide bundle card: shop grid and product pages. Params: kicker {%- endcomment -%}
+{%- assign b = settings.bundle_product -%}
+{%- if b != blank -%}{%- assign burl = b.url -%}{%- assign bname = b.title -%}{%- else -%}{%- assign burl = routes.all_products_collection_url -%}{%- assign bname = settings.bundle_name | default: 'The Full Routine' -%}{%- endif -%}
+{%- capture sv -%}{% render 'renn-bundle-save' %}{%- endcapture -%}
+<article class="bcard rise" id="shop-bundle">
+  <a href="{{ burl }}" class="tlink" aria-label="{{ bname | escape }}">{% render 'renn-bundle-collage' %}</a>
+  <div class="bc-txt">
+    <div class="mono"><i></i>{{ kicker | default: 'Best value' }}{%- if sv != blank -%}<span class="save">{{ sv }}</span>{%- endif -%}</div>
+    <h3><a href="{{ burl }}">{{ bname }}</a></h3>
+    <p class="bc-line">{{ settings.bundle_line | default: 'All four masks. One price.' }}</p>
+    <ul class="bc-list">
+      <li style="--dc:var(--clay)">Zero Pore Blackhead Mud Mask</li>
+      <li style="--dc:var(--glass)">Collagen Night Wrapping Mask</li>
+      <li style="--dc:var(--pearl)">PDRN Pink Caffeine Night Wrapping Mask</li>
+      <li style="--dc:var(--honey)">Kojic Acid Turmeric Night Wrapping Mask</li>
+    </ul>
+    <div class="buy">{% render 'renn-bundle-buy' %}</div>
+  </div>
+</article>

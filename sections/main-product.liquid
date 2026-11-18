@@ -7,7 +7,11 @@
   assign v = product.selected_or_first_available_variant
   assign t = product.title | downcase
   assign key = ''
-  if t contains 'kojic' or t contains 'turmeric'
+  if settings.bundle_product != blank and product.id == settings.bundle_product.id
+    assign key = 'bundle'
+  elsif t contains 'bundle' or t contains 'full routine' or t contains 'routine set'
+    assign key = 'bundle'
+  elsif t contains 'kojic' or t contains 'turmeric'
     assign key = 'kojic'
   elsif t contains 'pdrn' or t contains 'caffeine'
     assign key = 'pdrn'
@@ -19,6 +23,15 @@
 
   assign night_how = 'Use it as the last step of your night routine.|Spread an even layer and let it set for 15 to 20 minutes before bed.|In the morning, peel it off and rinse with lukewarm water.'
   case key
+    when 'bundle'
+      assign n = 0
+      assign color = '#D8C3AE'
+      assign label = 'Best value'
+      assign line = settings.bundle_line | default: 'All four masks. One price.'
+      assign kind = 'All four masks in one set'
+      assign benefits = 'All four Renn masks: Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric.|A full week covered: clear pores, then pick a night mask for how your skin feels.|Costs less than buying all four on their own.'
+      assign how = 'Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Dry and tight: Collagen Night Wrapping Mask.|Tired-looking: PDRN Pink Caffeine Night Wrapping Mask.|Dull and uneven: Kojic Acid Turmeric Night Wrapping Mask.'
+      assign note = 'Night masks go on last, set for 15 to 20 minutes, and peel off in the morning.'
     when 'mud'
       assign n = 1
       assign color = '#8FB4D9'
@@ -82,6 +95,8 @@
         {%- if product.featured_media -%}
           {%- assign alt = product.featured_media.alt | default: product.title | escape -%}
           {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(max-width: 900px) 100vw, 55vw', alt: alt }}
+        {%- elsif key == 'bundle' -%}
+          {% render 'renn-bundle-collage' %}
         {%- endif -%}
       </div>
       {%- if product.media.size > 1 -%}
@@ -135,14 +150,28 @@
   </div>
 </section>
 
-{%- if key != '' -%}
+{%- if key == 'bundle' -%}
+  <section class="blk four reveal">
+    <div class="wrap">
+      <span class="kicker mono rise">Four textures</span>
+      <div class="four-grid rise">
+        {%- assign tnames = 'Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}
+        {%- for tn in tnames -%}
+          {%- assign f = 'm-frame-' | append: forloop.index | append: '.jpg' -%}
+          <figure><img src="{{ f | asset_url }}" alt="{{ tn }}" loading="lazy" width="760" height="1013"><figcaption class="mono">{{ tn }}</figcaption></figure>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- elsif key != '' -%}
   {%- assign frame = 'frame-' | append: n | append: '.jpg' -%}
   <section class="pour reveal" style="--c:{{ color }}">
     <img src="{{ frame | asset_url }}" alt="{{ texture | escape }}" loading="lazy" width="1600" height="905">
     <div class="pour-edge" aria-hidden="true"></div>
     <div class="pour-cap rise"><span class="mono">The texture</span><p>{{ texture }}</p></div>
   </section>
-
+{%- endif -%}
+{%- if key != '' -%}
   <section class="blk pbody reveal" style="--c:{{ color }}">
     <div class="wrap pcols">
       <div>
@@ -162,7 +191,23 @@
       </div>
     </div>
   </section>
-
+{%- endif -%}
+{%- if key == 'bundle' -%}
+  <section class="blk pings reveal" style="--c:{{ color }}">
+    <div class="wrap">
+      <span class="kicker mono rise">What's in the set</span>
+      <div class="grid rise">
+        {%- assign c = 0 -%}
+        {%- for p in collections.all.products limit: 12 -%}
+          {%- if p.id != product.id and c < 4 -%}
+            {%- assign c = c | plus: 1 -%}
+            <article class="scard"><a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a><h3><a href="{{ p.url }}">{{ p.title }}</a></h3></article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- elsif key != '' -%}
   <section class="blk pings reveal" style="--c:{{ color }}">
     <div class="wrap">
       <span class="kicker mono rise">Key ingredients</span>
@@ -177,12 +222,17 @@
   </section>
 {%- endif -%}
 
+{%- if key != '' and key != 'bundle' and settings.bundle_product != blank -%}
+  <section class="blk upsell reveal">
+    <div class="wrap">{% render 'renn-bundle-card', kicker: 'Get all four' %}</div>
+  </section>
+{%- endif -%}
 {%- liquid
   assign shown = 0
 -%}
 {%- capture pairs -%}
   {%- for p in collections.all.products limit: 12 -%}
-    {%- if p.id != product.id and shown < 3 -%}
+    {%- if p.id != product.id and shown < 3 and p.id != settings.bundle_product.id -%}
       {%- assign shown = shown | plus: 1 -%}
       <article class="scard rise">
         <a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a>
@@ -192,7 +242,7 @@
     {%- endif -%}
   {%- endfor -%}
 {%- endcapture -%}
-{%- if shown > 0 -%}
+{%- if shown > 0 and key != 'bundle' -%}
   <section class="blk pairs reveal">
     <div class="wrap">
       <span class="kicker mono rise">Pairs well with</span>
