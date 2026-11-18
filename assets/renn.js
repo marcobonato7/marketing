@@ -100,7 +100,7 @@
   var chapterTxt = document.getElementById("chapterTxt"), dots = chapter.querySelectorAll(".dots i");
   var loader = document.getElementById("loader"), ring = document.getElementById("ring");
   var conn = navigator.connection || {};
-  var tiny = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "");
+  var tiny = /(^|-)2g$/.test(conn.effectiveType || "");
 
   var COUNT = +film.dataset.count || 242, FPS = +film.dataset.fps || 10;
   var NB = stage.querySelectorAll(".pcard.bundle").length;
@@ -108,22 +108,26 @@
   var STOPS = (film.dataset.stops || "").split(",").map(Number).filter(function (n) { return n > 0; });
   var N = Math.max(1, Math.min(pcards.length - NB, STOPS.length || 99));
   if (!STOPS.length) for (var si = 1; si <= N; si++) STOPS.push(si * 60);
-  var HOLD0 = 0.7, RAMP = 1.35, HOLD = 1.15;              /* in screen heights; RAMP is per 6 seconds of pour */
+  var HOLD0 = 0.9, RAMP = 1.35, HOLD = 1.15;              /* in screen heights; RAMP is per 6 seconds of pour */
   function rampLen(i) { var prev = i ? STOPS[i - 1] : 0; return Math.max(0.8, RAMP * (STOPS[i] - prev) / 60); }
   var useSeq = false, target = 0, shown = -1, drawnF = -1, raf = 0, lastStill = -1, lastCard = -1;
+  /* The page opens on the first product's resting frame ("hero"); scrolling dissolves it into that product's pour. */
+  var HERO = STOPS[0], heroA = 1, drawnH = -1;
   var vh = stage.clientHeight || innerHeight, lastW = innerWidth, bg = "#F5EEE6", bgT = "rgba(245,238,230,0)";
 
   /* ---- frames ---- */
   var mobileSet = phone.matches;
   var base = (mobileSet ? film.dataset.m : film.dataset.d) || "";
+  var STEP = mobileSet ? 2 : 1, NEED = Math.ceil(COUNT / STEP);
   var imgs = [], ok = [], loaded = 0, failed = 0, retried = {};
   function pad(n) { return ("00" + n).slice(-3); }
   function url(i) { return base.replace(/001\.jpg/, pad(i + 1) + ".jpg"); }
   function loadFrames(startAt) {
-    var order = [], seen = {}, i, step;
-    for (step = 8; step >= 1; step = step / 2 | 0) {            /* coarse pass first, then fill in */
-      for (i = 0; i < COUNT; i += step) { var k = (startAt + i) % COUNT; if (!seen[k]) { seen[k] = 1; order.push(k); } }
-      if (step === 1) break;
+    var order = [HERO], seen = {}, i, step;
+    seen[HERO] = 1; startAt -= startAt % STEP;
+    for (step = 8 * STEP; step >= STEP; step = step / 2 | 0) {   /* coarse pass first, then fill in */
+      for (i = 0; i < COUNT; i += step) { var k = (startAt + i) % COUNT; k -= k % STEP; if (!seen[k]) { seen[k] = 1; order.push(k); } }
+      if (step === STEP) break;
     }
     var next = 0, active = 0;
     function pump() {
@@ -133,11 +137,12 @@
           var im = new Image(); im.decoding = "async";
           im.onload = function () {
             imgs[k] = im; ok[k] = 1; loaded++; active--;
-            ring.style.strokeDashoffset = 69.1 * (1 - loaded / COUNT);
+            ring.style.strokeDashoffset = 69.1 * (1 - Math.min(1, loaded / NEED));
             if (loaded === 1) sampleBg(im);
-            if (!useSeq && near(Math.round(target * FPS)) >= 0) start();
+            if (!useSeq && near(Math.round(target * FPS)) >= 0 && (heroA < 0.02 || ok[HERO])) start();
             if (useSeq && Math.abs(k - target * FPS) < 9) { drawnF = -1; kick(); }
-            if (loaded === COUNT) loader.classList.add("done");
+            if (useSeq && k === HERO && heroA > 0) { drawnF = -1; kick(); }
+            if (loaded >= NEED) loader.classList.add("done");
             pump();
           };
           im.onerror = function () {
@@ -153,7 +158,7 @@
   }
   function near(i) {                                          /* closest loaded frame */
     i = Math.max(0, Math.min(COUNT - 1, i));
-    for (var d = 0; d < 16; d++) { if (ok[i - d]) return i - d; if (ok[i + d]) return i + d; }
+    for (var d = 0; d < 24; d++) { if (ok[i - d]) return i - d; if (ok[i + d]) return i + d; }
     return -1;
   }
   function sampleBg() { /* the film fades into the page colour, so there is nothing to sample */ }
@@ -170,12 +175,13 @@
     s = Math.max(W / iw, H / ih); dw = iw * s; dh = ih * s; return [(W - dw) / 2, (H - dh) / 2, dw, dh];
   }
   function draw(f) {
-    var i = Math.floor(f), a = f - i, A = near(i);
+    var i = Math.floor(f / STEP) * STEP, a = (f - i) / STEP, A = near(i);
     if (A < 0) return false;
     var r = place(imgs[A]);
     cx.globalAlpha = 1; cx.fillStyle = bg; cx.fillRect(0, 0, cv.width, cv.height);
     cx.drawImage(imgs[A], r[0], r[1], r[2], r[3]);
-    if (A === i && a > 0.02 && ok[i + 1]) { cx.globalAlpha = a; cx.drawImage(imgs[i + 1], r[0], r[1], r[2], r[3]); cx.globalAlpha = 1; }
+    if (A === i && a > 0.02 && ok[i + STEP]) { cx.globalAlpha = a; cx.drawImage(imgs[i + STEP], r[0], r[1], r[2], r[3]); cx.globalAlpha = 1; }
+    if (heroA > 0.005 && ok[HERO]) { cx.globalAlpha = heroA; cx.drawImage(imgs[HERO], r[0], r[1], r[2], r[3]); cx.globalAlpha = 1; }
     if (mobileSet) {                                          /* soften the frame's top and bottom edges */
       var e = r[3] * 0.26, gt = cx.createLinearGradient(0, r[1], 0, r[1] + e), gb = cx.createLinearGradient(0, r[1] + r[3] - e, 0, r[1] + r[3]);
       gt.addColorStop(0, bg); gt.addColorStop(1, bgT); gb.addColorStop(0, bgT); gb.addColorStop(1, bg);
@@ -214,6 +220,8 @@
   function paint() {
     var s = state();
     var v = s.hold === 0 ? 1 - Math.max(0, (s.k - 0.55) / 0.45) : 0;
+    var hx = s.hold === 0 ? Math.min(1, Math.max(0, (s.k - 0.3) / 0.7)) : 1;
+    heroA = 1 - hx * hx * (3 - 2 * hx);
     intro.style.opacity = v; intro.style.setProperty("--lift", ((1 - v) * 30) + "px");
     cue.style.opacity = s.hold === 0 && s.k < 0.3 ? 1 : 0;
     chapter.style.opacity = s.hold === 0 ? 0 : 1;
@@ -226,7 +234,7 @@
 
     target = Math.min(s.t, (COUNT - 1) / FPS);
     if (!useSeq) {                                            /* still images until frames arrive */
-      var st = s.hold >= 0 ? s.hold : (s.k > 0.5 ? s.ramp + 1 : s.ramp);
+      var st = s.hold > 0 ? s.hold : s.hold === 0 ? (s.k < 0.65 ? 1 : 0) : (s.k > 0.5 ? s.ramp + 1 : s.ramp);
       st = Math.min(st, N);
       if (st !== lastStill) { stills.forEach(function (el) { el.classList.toggle("on", +el.dataset.i === st); }); lastStill = st; }
     }
@@ -238,14 +246,14 @@
     var d = target - shown;
     shown = Math.abs(d) < 0.004 ? target : shown + d * 0.16;     /* gentle easing toward the scroll position */
     var f = shown * FPS;
-    if (Math.abs(f - drawnF) > 0.01) { if (draw(f)) drawnF = f; }
+    if (Math.abs(f - drawnF) > 0.01 || Math.abs(heroA - drawnH) > 0.003) { if (draw(f)) { drawnF = f; drawnH = heroA; } }
     if (shown !== target) raf = requestAnimationFrame(tick);
   }
   function kick() { if (useSeq && !raf) raf = requestAnimationFrame(tick); }
 
   function start() {
     useSeq = true; size(); shown = target; drawnF = -1;
-    if (draw(target * FPS)) drawnF = target * FPS;
+    if (draw(target * FPS)) { drawnF = target * FPS; drawnH = heroA; }
     stage.classList.add("ready");
     stills.forEach(function (el) { el.classList.remove("on"); }); lastStill = -1;
   }
@@ -270,7 +278,7 @@
     dbg.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99;background:#000;color:#fff;font:12px/1.4 monospace;padding:6px 8px;border-radius:8px;opacity:.85";
     document.body.appendChild(dbg);
     setInterval(function () {
-      dbg.textContent = "film 3.1 | set " + (mobileSet ? "phone" : "desktop") + " | frames " + loaded + "/" + COUNT + " | failed " + failed + " | playing " + useSeq + " | reduce-motion " + reduce + " | dpr " + (window.devicePixelRatio || 1);
+      dbg.textContent = "film 3.7 | set " + (mobileSet ? "phone" : "desktop") + " | frames " + loaded + "/" + NEED + " | failed " + failed + " | playing " + useSeq + " | reduce-motion " + reduce + " | dpr " + (window.devicePixelRatio || 1);
     }, 500);
   }
 })();

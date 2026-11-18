@@ -1,5 +1,6 @@
 {%- comment -%}
-  The scroll film. As you scroll, the pour plays frame by frame and stops on each pool, where a product card lands.
+  The scroll film. The page opens on the first product. As you scroll, it dissolves into that product's pour, which plays
+  frame by frame and comes to rest on the product, where its card lands. Then the next product's pour plays, and so on.
   Works on desktop and phones, with nothing to upload: the frames ship inside the theme (seq-d-*.jpg for wide screens, seq-m-*.jpg for phones).
   Up to 5 product blocks, one per pour, in this order: neck cream, mud, collagen, PDRN, kojic.
   data-stops lists the frame where each pour comes to rest.
@@ -9,14 +10,14 @@
   <div class="stage" id="stage">
     <picture>
       <source media="(max-width: 820px)" srcset="{{ 'm-frame-0.jpg' | asset_url }}">
-      <img class="still on" data-i="0" src="{{ 'frame-0.jpg' | asset_url }}" alt="Glossy sky-blue clay cream curling across a warm cream surface" width="1600" height="905" fetchpriority="high">
+      <img class="still" data-i="0" src="{{ 'frame-0.jpg' | asset_url }}" alt="A ribbon of silky white cream pouring onto a blush-pink set" width="1600" height="905" loading="lazy">
     </picture>
     {%- for block in section.blocks limit: 5 -%}
       {%- assign f = 'frame-' | append: forloop.index | append: '.jpg' -%}
       {%- assign mf = 'm-frame-' | append: forloop.index | append: '.jpg' -%}
       <picture>
         <source media="(max-width: 820px)" srcset="{{ mf | asset_url }}">
-        <img class="still" data-i="{{ forloop.index }}" src="{{ f | asset_url }}" alt="{{ block.settings.pool_alt | escape }}" width="1600" height="905" loading="lazy">
+        <img class="still{% if forloop.first %} on{% endif %}" data-i="{{ forloop.index }}" src="{{ f | asset_url }}" alt="{{ block.settings.pool_alt | escape }}" width="1600" height="905"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
       </picture>
     {%- endfor -%}
     <canvas id="seq" aria-hidden="true"></canvas>
