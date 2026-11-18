@@ -3,7 +3,7 @@
   {%- if product != blank and product.featured_media -%}
     {%- assign alt = product.featured_media.alt | default: product.title | escape -%}
     {{ product.featured_media | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360, 540, 720', sizes: '(max-width: 820px) 45vw, 340px', alt: alt }}
-  {%- elsif fallback != blank -%}
+  {%- elsif fallback != blank and fallback != 'none' -%}
     <img src="{{ fallback | append: '.jpg' | asset_url }}" alt="medicube {{ fallback_title | escape }}" loading="lazy" width="720" height="720">
   {%- endif -%}
 </div>

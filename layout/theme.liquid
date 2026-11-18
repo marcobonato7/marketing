@@ -12,8 +12,8 @@
   {{ 'renn-bricolage.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
   {{ 'renn-hanken.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
   {%- if template.name == 'index' -%}
-    {{ 'frame-1.jpg' | asset_url | preload_tag: as: 'image', media: '(min-width: 821px)' }}
-    {{ 'm-frame-1.jpg' | asset_url | preload_tag: as: 'image', media: '(max-width: 820px)' }}
+    {{ 'frame-0.jpg' | asset_url | preload_tag: as: 'image', media: '(min-width: 821px)' }}
+    {{ 'm-frame-0.jpg' | asset_url | preload_tag: as: 'image', media: '(max-width: 820px)' }}
   {%- endif -%}
   {{ 'renn.css' | asset_url | stylesheet_tag }}
   <script type="application/ld+json">

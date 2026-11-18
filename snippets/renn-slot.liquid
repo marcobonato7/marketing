@@ -1,0 +1,26 @@
+{%- comment -%}
+  Which pour a film block belongs to, read from its product's name (or its fallback name and photo):
+  1 neck cream, 2 mud, 3 collagen, 4 PDRN, 5 kojic. This keeps every product on its own colour
+  whatever order the blocks are in. Params: block, fallback_slot
+{%- endcomment -%}
+{%- liquid
+  assign p = block.settings.product
+  if p != blank
+    assign h = p.handle | append: ' ' | append: p.title | downcase
+  else
+    assign h = block.settings.fallback_image | append: ' ' | append: block.settings.fallback_title | downcase
+  endif
+  assign s = fallback_slot
+  if h contains 'neck' or h contains 'gua sha' or h contains 'gua-sha'
+    assign s = 1
+  elsif h contains 'kojic' or h contains 'turmeric'
+    assign s = 5
+  elsif h contains 'pdrn' or h contains 'caffeine'
+    assign s = 4
+  elsif h contains 'mud' or h contains 'pore' or h contains 'blackhead'
+    assign s = 2
+  elsif h contains 'collagen'
+    assign s = 3
+  endif
+  echo s
+-%}

@@ -110,6 +110,8 @@
           {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(max-width: 900px) 100vw, 55vw', alt: alt }}
         {%- elsif key == 'bundle' -%}
           {% render 'renn-bundle-collage' %}
+        {%- elsif key != blank -%}
+          <img src="{{ key | append: '.jpg' | asset_url }}" alt="{{ product.title | escape }}" width="720" height="720" fetchpriority="high">
         {%- endif -%}
       </div>
       {%- if product.media.size > 1 -%}

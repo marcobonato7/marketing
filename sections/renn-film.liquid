@@ -1,23 +1,21 @@
 {%- comment -%}
-  The scroll film. The page opens on the first product. As you scroll, it dissolves into that product's pour, which plays
-  frame by frame and comes to rest on the product, where its card lands. Then the next product's pour plays, and so on.
-  Works on desktop and phones, with nothing to upload: the frames ship inside the theme (seq-d-*.jpg for wide screens, seq-m-*.jpg for phones).
-  Up to 5 product blocks, one per pour, in this order: neck cream, mud, collagen, PDRN, kojic.
-  data-stops lists the frame where each pour comes to rest.
+  The scroll film. On arrival the neck cream's pour plays by itself and lands on the tube.
+  Then, as you scroll, each product's own pour plays and comes to rest on it, where its card lands:
+  1 neck cream (pink), 2 mud (blue), 3 collagen (clear), 4 PDRN (pink shimmer), 5 kojic (gold), then the bundle.
+  Each block is matched to its pour by the product's name, so the block order doesn't matter.
+  The frames ship inside the theme (seq-d-*.jpg for wide screens, seq-m-*.jpg for phones).
 {%- endcomment -%}
+{%- assign slot_labels = 'Neck care|Pore care|Moisture and firmness|Soothing and glow|Dullness care' | split: '|' -%}
+{%- assign slot_alts = 'A ribbon of silky white cream pouring onto a blush-pink set|The pink medicube neck cream tube with its gua sha head, beside a swoosh of white cream|A smooth round pool of blue clay mud mask|A clear glassy pool of collagen gel|A shimmering pink pool of PDRN gel|A pale golden pool of kojic turmeric gel with amber flecks' | split: '|' -%}
 <section class="film" id="film" aria-label="Product film"
   data-d="{{ 'seq-d-001.jpg' | asset_url }}" data-m="{{ 'seq-m-001.jpg' | asset_url }}" data-count="362" data-stops="120,180,240,300,360" data-fps="10">
   <div class="stage" id="stage">
-    <picture>
-      <source media="(max-width: 820px)" srcset="{{ 'm-frame-0.jpg' | asset_url }}">
-      <img class="still" data-i="0" src="{{ 'frame-0.jpg' | asset_url }}" alt="A ribbon of silky white cream pouring onto a blush-pink set" width="1600" height="905" loading="lazy">
-    </picture>
-    {%- for block in section.blocks limit: 5 -%}
-      {%- assign f = 'frame-' | append: forloop.index | append: '.jpg' -%}
-      {%- assign mf = 'm-frame-' | append: forloop.index | append: '.jpg' -%}
+    {%- for i in (0..5) -%}
+      {%- assign f = 'frame-' | append: i | append: '.jpg' -%}
+      {%- assign mf = 'm-frame-' | append: i | append: '.jpg' -%}
       <picture>
         <source media="(max-width: 820px)" srcset="{{ mf | asset_url }}">
-        <img class="still{% if forloop.first %} on{% endif %}" data-i="{{ forloop.index }}" src="{{ f | asset_url }}" alt="{{ block.settings.pool_alt | escape }}" width="1600" height="905"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+        <img class="still{% if i == 0 %} on{% endif %}" data-i="{{ i }}" src="{{ f | asset_url }}" alt="{{ slot_alts[i] }}" width="1600" height="905"{% if i < 2 %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
       </picture>
     {%- endfor -%}
     <canvas id="seq" aria-hidden="true"></canvas>
@@ -35,17 +33,28 @@
     <div class="cue" id="cue"><span></span><small class="mono">Scroll</small></div>
     <div class="chapter mono" id="chapter" style="opacity:0">
       <span id="chapterTxt"></span>
-      <div class="dots">{%- for block in section.blocks limit: 5 -%}<i data-label="0{{ forloop.index }} / {{ block.settings.label | escape }}"></i>{%- endfor -%}{%- if section.settings.show_bundle -%}<i data-label="0{{ section.blocks.size | at_most: 5 | plus: 1 }} / Best value"></i>{%- endif -%}</div>
+      <div class="dots">
+        {%- for i in (1..5) -%}
+          {%- assign lab = slot_labels[forloop.index0] -%}
+          {%- for block in section.blocks limit: 5 -%}
+            {%- capture bs -%}{% render 'renn-slot', block: block, fallback_slot: forloop.index %}{%- endcapture -%}
+            {%- assign bs = bs | strip | plus: 0 -%}
+            {%- if bs == i and block.settings.label != blank -%}{%- assign lab = block.settings.label -%}{%- endif -%}
+          {%- endfor -%}
+          <i data-label="0{{ i }} / {{ lab | escape }}"></i>
+        {%- endfor -%}
+        {%- if section.settings.show_bundle -%}<i data-label="06 / Best value"></i>{%- endif -%}
+      </div>
     </div>
     <div class="loader" id="loader" aria-hidden="true"><svg viewBox="0 0 26 26"><circle class="bg" cx="13" cy="13" r="11"/><circle class="fg" id="ring" cx="13" cy="13" r="11"/></svg></div>
     {%- for block in section.blocks limit: 5 -%}
-      {%- assign side = 'left' -%}{%- assign r = forloop.index | modulo: 2 -%}{%- if r == 0 -%}{%- assign side = 'right' -%}{%- endif -%}
-      {% render 'renn-pcard', block: block, index: forloop.index, side: side %}
+      {%- capture bs -%}{% render 'renn-slot', block: block, fallback_slot: forloop.index %}{%- endcapture -%}
+      {%- assign bs = bs | strip | plus: 0 -%}
+      {%- assign side = 'left' -%}{%- assign r = bs | modulo: 2 -%}{%- if r == 0 -%}{%- assign side = 'right' -%}{%- endif -%}
+      {% render 'renn-pcard', block: block, index: bs, side: side %}
     {%- endfor -%}
     {%- if section.settings.show_bundle -%}
-      {%- assign nb = section.blocks.size | at_most: 5 | plus: 1 -%}
-      {%- assign bside = 'left' -%}{%- assign r = nb | modulo: 2 -%}{%- if r == 0 -%}{%- assign bside = 'right' -%}{%- endif -%}
-      {% render 'renn-bundle-pcard', index: nb, side: bside %}
+      {% render 'renn-bundle-pcard', index: 6, side: 'right' %}
     {%- endif -%}
   </div>
   <div id="anchors"></div>
