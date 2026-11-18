@@ -32,7 +32,9 @@
             {%- assign n = n | plus: 1 -%}
             {%- assign p = block.settings.product -%}
             <div class="opt" data-for="{{ block.id }}"{% if n != 1 %} hidden{% endif %}>
+              {%- if p != blank -%}<a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{%- endif -%}
               {% render 'renn-tile', product: p, fallback: block.settings.fallback_image, fallback_title: block.settings.fallback_title %}
+              {%- if p != blank -%}</a>{%- endif -%}
               <div>
                 <h4>{% if p != blank %}<a href="{{ p.url }}">{{ p.title }}</a>{% else %}{{ block.settings.fallback_title }}{% endif %}</h4>
                 <p>{{ block.settings.line }}</p>

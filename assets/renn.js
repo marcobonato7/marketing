@@ -40,12 +40,32 @@
   });
 
   /* ---------- product page: variant price + thumbnails ---------- */
-  var vsel = document.getElementById("variant"), vprice = document.querySelector("[data-price]");
-  if (vsel && vprice) vsel.addEventListener("change", function () { vprice.textContent = vsel.options[vsel.selectedIndex].dataset.price; });
-  var main = document.querySelector(".main-img img");
-  document.querySelectorAll(".thumb").forEach(function (t) {
-    t.addEventListener("click", function () { if (main) { main.removeAttribute("srcset"); main.src = t.dataset.src; } });
+  var vsel = document.getElementById("variant"), vprices = document.querySelectorAll("[data-price]");
+  if (vsel) vsel.addEventListener("change", function () {
+    var pr = vsel.options[vsel.selectedIndex].dataset.price;
+    vprices.forEach(function (el) { el.textContent = pr; });
   });
+  var main = document.querySelector(".main-img img"), thumbs = document.querySelectorAll(".thumb");
+  thumbs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      if (main) { main.removeAttribute("srcset"); main.src = t.dataset.src; }
+      thumbs.forEach(function (o) { o.classList.toggle("on", o === t); });
+    });
+  });
+  document.querySelectorAll("[data-step]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var q = document.getElementById("qty"); if (!q) return;
+      q.value = Math.max(1, (parseInt(q.value, 10) || 1) + (+b.dataset.step));
+    });
+  });
+  var sticky = document.getElementById("stickyBuy"), pform = document.getElementById("renn-pform");
+  if (sticky && pform && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      var show = !es[0].isIntersecting && es[0].boundingClientRect.top < 0;
+      sticky.classList.toggle("on", show); sticky.setAttribute("aria-hidden", show ? "false" : "true");
+      var sb = sticky.querySelector("button"); if (sb) sb.tabIndex = show ? 0 : -1;
+    }).observe(pform);
+  }
 
   /* ---------- "Which mask tonight?" picker ---------- */
   var pick = document.getElementById("pick");

@@ -1,27 +1,107 @@
-{%- assign v = product.selected_or_first_available_variant -%}
-<section class="page pdp">
+{%- comment -%}
+  Product page. Photos, name, price and description come from the product in Shopify.
+  The Renn story (colour, pour image, benefits, how to use, ingredients) is matched automatically
+  from the product's name: mud / pore, collagen, PDRN / caffeine, kojic / turmeric.
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign t = product.title | downcase
+  assign key = ''
+  if t contains 'kojic' or t contains 'turmeric'
+    assign key = 'kojic'
+  elsif t contains 'pdrn' or t contains 'caffeine'
+    assign key = 'pdrn'
+  elsif t contains 'mud' or t contains 'pore' or t contains 'blackhead'
+    assign key = 'mud'
+  elsif t contains 'collagen'
+    assign key = 'collagen'
+  endif
+
+  assign night_how = 'Use it as the last step of your night routine.|Spread an even layer and let it set for 15 to 20 minutes before bed.|In the morning, peel it off and rinse with lukewarm water.'
+  case key
+    when 'mud'
+      assign n = 1
+      assign color = '#8FB4D9'
+      assign label = 'Pore care'
+      assign line = 'Clear pores in three minutes.'
+      assign kind = 'Wash-off clay mask · 1 to 2 times a week'
+      assign texture = 'A cool blue clay that smooths on easily and dries down in minutes.'
+      assign benefits = 'Draws out oil and buildup with 30% pore-purifying clay.|AHA, BHA and PHA loosen dead skin, so pores and blackheads look clearer.|Rinses clean in 3 to 5 minutes. No overnight wait.'
+      assign how = 'After cleansing, smooth an even layer over your face, avoiding the eyes.|Leave it on for 3 to 5 minutes.|Rinse off with water, using gentle circles.'
+      assign ings = 'Clay 30%::Kaolin and bentonite draw out oil and buildup from pores.|AHA, BHA, PHA::Three gentle acids that loosen dead skin for clearer-looking pores.'
+      assign note = 'Use it once or twice a week. Skip it on nights you use other exfoliating acids.'
+    when 'collagen'
+      assign n = 2
+      assign color = '#D9A5A0'
+      assign label = 'Moisture and firmness'
+      assign line = 'Sleep in moisture. Wake up smooth.'
+      assign kind = 'Overnight wrapping mask · peel off in the morning'
+      assign texture = 'A clear, glassy gel that sets into a light film while you sleep.'
+      assign benefits = 'Collagen extract fills skin with moisture overnight.|Niacinamide and ceramide NP help skin feel smooth and firm by morning.|Peels off in one go. No rinse-off mess at night.'
+      assign how = night_how
+      assign ings = 'Collagen extract::Holds water on the skin, so it feels plump and soft by morning.|Niacinamide::Vitamin B3. Supports the skin barrier and evens out tone.|Ceramide NP::A lipid your skin already makes. Helps seal moisture in.'
+      assign note = 'A slightly thicker layer peels off more easily in the morning.'
+    when 'pdrn'
+      assign n = 3
+      assign color = '#F2A7C3'
+      assign label = 'Soothing and glow'
+      assign line = 'Wake up looking rested.'
+      assign kind = 'Overnight wrapping mask · peel off in the morning'
+      assign texture = 'A pink pearl gel with a fine shimmer that sets clear.'
+      assign benefits = 'PDRN (sodium DNA) soothes skin and leaves a healthy-looking glow.|Caffeine and niacinamide help skin look lifted and fresh.|Made for mornings after short nights.'
+      assign how = night_how
+      assign ings = 'PDRN (sodium DNA)::A K-beauty favorite for calm, glowing-looking skin.|Caffeine::Helps skin look fresher and less puffy.|Niacinamide::Vitamin B3. Supports the skin barrier and evens out tone.'
+      assign note = 'New to PDRN? Try it on a small patch of skin first.'
+    when 'kojic'
+      assign n = 4
+      assign color = '#E8C46A'
+      assign label = 'Dullness care'
+      assign line = 'For dull mornings.'
+      assign kind = 'Overnight wrapping mask · peel off in the morning'
+      assign texture = 'A pale golden gel with tiny amber flecks of turmeric.'
+      assign benefits = 'Kojic acid and vitamin C target dullness for a brighter look.|Turmeric and collagen nourish skin overnight.|Retinol helps skin look smoother over time.'
+      assign how = night_how
+      assign ings = 'Kojic acid::Targets dullness and uneven tone for a brighter look.|Vitamin C::A brightening classic for a more even-looking tone.|Retinol::Helps skin look smoother over time.|Turmeric::A warm root extract for calm, radiant-looking skin.'
+      assign note = "Contains retinol: wear sunscreen the next day, and don't use it on the same night as strong acids."
+  endcase
+  assign color = color | default: '#D8C3AE'
+-%}
+
+<section class="page pdp" style="--c:{{ color }}">
+  <div class="wrap">
+    <nav class="crumbs mono" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a> <span aria-hidden="true">/</span>
+      <a href="{{ routes.root_url }}#shop">Shop</a> <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ label | default: product.type | default: product.title }}</span>
+    </nav>
+  </div>
+
   <div class="wrap pdp-grid">
     <div class="gallery">
       <div class="tile main-img">
         {%- if product.featured_media -%}
-          {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(max-width: 900px) 100vw, 55vw', alt: product.title, id: 'mainImg' }}
+          {%- assign alt = product.featured_media.alt | default: product.title | escape -%}
+          {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(max-width: 900px) 100vw, 55vw', alt: alt }}
         {%- endif -%}
       </div>
       {%- if product.media.size > 1 -%}
         <div class="thumbs">
           {%- for m in product.media -%}
             {%- if m.media_type == 'image' -%}
-              <button type="button" class="thumb" data-src="{{ m | image_url: width: 1200 }}" aria-label="Show photo {{ forloop.index }}">{{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: m.alt }}</button>
+              <button type="button" class="thumb{% if forloop.first %} on{% endif %}" data-src="{{ m | image_url: width: 1200 }}" aria-label="Show photo {{ forloop.index }}">{{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</button>
             {%- endif -%}
           {%- endfor -%}
         </div>
       {%- endif -%}
     </div>
+
     <div class="info">
-      <span class="kicker mono">{{ product.vendor }}</span>
+      <div class="mono kick"><i></i>{{ product.vendor | default: 'medicube' }}{% if label %} · {{ label }}{% endif %}</div>
       <h1 class="ptitle">{{ product.title }}</h1>
+      {%- if line -%}<p class="pline">{{ line }}</p>{%- endif -%}
       <p class="pprice"><span data-price>{{ v.price | money }}</span>{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</p>
-      {%- form 'product', product, class: 'pform add' -%}
+
+      {%- form 'product', product, id: 'renn-pform', class: 'pform add' -%}
         {%- unless product.has_only_default_variant -%}
           <label class="mono" for="variant">{{ product.options.first }}</label>
           <select id="variant" name="id" class="select">
@@ -33,26 +113,108 @@
           <input type="hidden" name="id" value="{{ v.id }}">
         {%- endunless -%}
         <div class="qty-row">
-          <label class="vh" for="qty">Quantity</label>
-          <input id="qty" class="qty" type="number" name="quantity" value="1" min="1">
+          <div class="stepper">
+            <button type="button" data-step="-1" aria-label="One less">−</button>
+            <label class="vh" for="qty">Quantity</label>
+            <input id="qty" class="qty" type="number" name="quantity" value="1" min="1" inputmode="numeric">
+            <button type="button" data-step="1" aria-label="One more">+</button>
+          </div>
           <button class="btn wide" type="submit"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold out{% endif %}</button>
         </div>
       {%- endform -%}
-      <div class="rte">{{ product.description }}</div>
-      <ul class="promises">
-        <li>Genuine {{ product.vendor | default: 'medicube' }}, in its original box.</li>
-        <li>Questions? <a href="mailto:{{ settings.contact_email | default: shop.email }}">Email us</a>.</li>
+
+      <ul class="trust">
+        <li>Genuine {{ product.vendor | default: 'medicube' }}, in its original box</li>
+        {%- if kind -%}<li>{{ kind }}</li>{%- endif -%}
       </ul>
+
+      {%- if product.description != blank -%}
+        <details class="pdesc" open><summary>Details</summary><div class="rte">{{ product.description }}</div></details>
+      {%- endif -%}
     </div>
   </div>
 </section>
+
+{%- if key != '' -%}
+  {%- assign frame = 'frame-' | append: n | append: '.jpg' -%}
+  <section class="pour reveal" style="--c:{{ color }}">
+    <img src="{{ frame | asset_url }}" alt="{{ texture | escape }}" loading="lazy" width="1600" height="905">
+    <div class="pour-edge" aria-hidden="true"></div>
+    <div class="pour-cap rise"><span class="mono">The texture</span><p>{{ texture }}</p></div>
+  </section>
+
+  <section class="blk pbody reveal" style="--c:{{ color }}">
+    <div class="wrap pcols">
+      <div>
+        <span class="kicker mono rise">What it does</span>
+        <ul class="ticks rise">
+          {%- assign bl = benefits | split: '|' -%}
+          {%- for b in bl -%}<li>{{ b }}</li>{%- endfor -%}
+        </ul>
+      </div>
+      <div>
+        <span class="kicker mono rise">How to use</span>
+        <ol class="howto rise">
+          {%- assign hl = how | split: '|' -%}
+          {%- for h in hl -%}<li><span class="num">0{{ forloop.index }}</span><p>{{ h }}</p></li>{%- endfor -%}
+        </ol>
+        {%- if note -%}<p class="note">{{ note }}</p>{%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  <section class="blk pings reveal" style="--c:{{ color }}">
+    <div class="wrap">
+      <span class="kicker mono rise">Key ingredients</span>
+      <div class="ings rise">
+        {%- assign il = ings | split: '|' -%}
+        {%- for item in il -%}
+          {%- assign parts = item | split: '::' -%}
+          <div class="ing"><div class="dot"><i style="background:var(--c)"></i></div><h3>{{ parts[0] }}</h3><p>{{ parts[1] }}</p></div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{%- liquid
+  assign shown = 0
+-%}
+{%- capture pairs -%}
+  {%- for p in collections.all.products limit: 12 -%}
+    {%- if p.id != product.id and shown < 3 -%}
+      {%- assign shown = shown | plus: 1 -%}
+      <article class="scard rise">
+        <a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a>
+        <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>
+        <div class="buy">{% render 'renn-buy', product: p, label: 'Add to Cart' %}</div>
+      </article>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- if shown > 0 -%}
+  <section class="blk pairs reveal">
+    <div class="wrap">
+      <span class="kicker mono rise">Pairs well with</span>
+      <h2 class="big rise">Build your routine.</h2>
+      <div class="grid g3">{{ pairs }}</div>
+    </div>
+  </section>
+{%- endif -%}
+
+<div class="sticky-buy" id="stickyBuy" aria-hidden="true">
+  <div class="sb-in">
+    <div class="sb-name"><span class="sb-t">{{ product.title }}</span><span class="sb-p" data-price>{{ v.price | money }}</span></div>
+    <button class="btn" type="submit" form="renn-pform" tabindex="-1"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to Cart{% else %}Sold out{% endif %}</button>
+  </div>
+</div>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": {{ product.title | json }},
-  "description": {{ product.description | strip_html | json }},
+  "description": {{ product.description | strip_html | default: line | json }},
   "url": {{ request.origin | append: product.url | json }},
   {%- if product.featured_media -%}"image": [{{ product.featured_media | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
   "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
@@ -71,6 +233,12 @@
     {%- endfor -%}
   ]
 }
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+  {"@type":"ListItem","position":1,"name":"Home","item":{{ request.origin | append: routes.root_url | json }}},
+  {"@type":"ListItem","position":2,"name":{{ product.title | json }},"item":{{ request.origin | append: product.url | json }}}
+]}
 </script>
 
 {% schema %}

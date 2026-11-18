@@ -3,7 +3,9 @@
 {%- if p != blank -%}{%- assign t = p.title -%}{%- else -%}{%- assign t = block.settings.fallback_title -%}{%- endif -%}
 <article class="pcard {{ side }}" style="--c:{{ block.settings.color }}" data-i="{{ index }}" aria-label="{{ t | escape }}" {{ block.shopify_attributes }}>
   <div class="inner">
+    {%- if p != blank -%}<a href="{{ p.url }}" class="tlink" aria-label="{{ t | escape }}">{%- endif -%}
     {% render 'renn-tile', product: p, fallback: block.settings.fallback_image, fallback_title: block.settings.fallback_title %}
+    {%- if p != blank -%}</a>{%- endif -%}
     <div>
       <div class="mono"><i></i>0{{ index }} · {{ block.settings.label }}</div>
       <h2>{% if p != blank %}<a href="{{ p.url }}">{{ t }}</a>{% else %}{{ t }}{% endif %}</h2>
