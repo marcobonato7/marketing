@@ -118,6 +118,7 @@ h2.big{font:300 clamp(40px,5.6vw,80px)/1 var(--display);letter-spacing:-.015em;m
 
 /* shop grid */
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media (min-width:1200px){.grid{grid-template-columns:repeat(5,1fr)}}
 @media (max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
 .scard{background:var(--milk);border-radius:var(--r);padding:14px 14px 20px;display:flex;flex-direction:column;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
@@ -154,10 +155,11 @@ h2.big{font:300 clamp(40px,5.6vw,80px)/1 var(--display);letter-spacing:-.015em;m
 .pick .result .btn{height:40px;padding:0 18px;font-size:14px}
 
 /* ingredients */
-.ings{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(42,36,33,.1);border-radius:var(--r);overflow:hidden}
+.ings{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid rgba(42,36,33,.12)}
+@media (min-width:1300px){.ings{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:1000px){.ings{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:480px){.ings{grid-template-columns:1fr}}
-.ing{background:var(--cream);padding:26px 22px 28px;transition:background .4s}
+.ing{background:transparent;padding:26px 22px 28px;border-bottom:1px solid rgba(42,36,33,.12);border-radius:14px;transition:background .4s}
 .ing:hover{background:var(--milk)}
 .ing .dot{display:flex;gap:5px;margin-bottom:22px}
 .ing .dot i{width:9px;height:9px;border-radius:50%}

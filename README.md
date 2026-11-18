@@ -1,4 +1,4 @@
-# Renn Shopify theme (v3.8)
+# Renn Shopify theme (v3.9)
 
 Online Store 2.0 theme for Renn. The page opens with the neck cream's pour, which plays by itself and lands on the gua sha tube. Scrolling then plays each mask's own pour and lands on its product card, ending on the bundle. The animation is a 362-frame sequence in `assets/seq-*.jpg` that ships inside the theme, so there is nothing to upload, and it works on phones. The page also has a shop grid, product pages, a routine picker, ingredients, reviews, FAQ and an email signup.
 
@@ -20,7 +20,7 @@ Each product is matched to its colour by its name, so the order of the film bloc
 4. Create the products in Shopify, then pick them in the five "Product pour" blocks. Pick the bundle in **Theme settings > Bundle**.
 
 ## Check which version is live
-Add `?renn-debug` to your store's address. The bar at the bottom should say **film 3.8**.
+Add `?renn-debug` to your store's address. The bar at the bottom should say **film 3.9**.
 
 ## Edit
 - Prices, photos, product names: in **Products** (the theme reads them from Shopify).

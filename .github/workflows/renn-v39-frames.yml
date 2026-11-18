@@ -1,0 +1,26 @@
+name: renn v3.9 frames (one time)
+on:
+  push:
+    branches: [renn-shopify-theme]
+    paths: ['.github/workflows/renn-v39-frames.yml']
+permissions:
+  contents: write
+jobs:
+  swap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: renn-shopify-theme }
+      - name: Fetch, verify, replace
+        run: |
+          curl -fsSL -o /tmp/f.zip https://d2ol7oe51mr4n9.cloudfront.net/user_3LIjwiDLDmGwMEJWDvsGfdWkoUt/19787390-886c-4e11-b047-658b05e65db3.zip
+          echo "72462ec09f7a6fa5b04cbbd9665406bfdfbff9050ed4596696ba24ffa5598924  /tmp/f.zip" | sha256sum -c -
+          rm -f assets/seq-*.jpg
+          unzip -o -q /tmp/f.zip -d assets
+          ls assets/seq-d-*.jpg | wc -l; ls assets/seq-m-*.jpg | wc -l
+          git rm -q .github/workflows/renn-v39-frames.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A assets
+          git commit -q -m "Renn v3.9: sharper film frames with the new blue mud pour"
+          git push origin HEAD:renn-shopify-theme

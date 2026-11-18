@@ -116,24 +116,27 @@
   var vh = stage.clientHeight || innerHeight, lastW = innerWidth, bg = "#F5EEE6", bgT = "rgba(245,238,230,0)";
 
   /* opening: 1 = waiting for the first pour's frames, 2 = playing it, 0 = done (scroll drives the film) */
-  var auto = (!reduce && !tiny && cx && scrollY < film.offsetTop + 30) ? 1 : 0, autoT0 = 0, AUTO_MS = 5200, scroll0 = scrollY;
+  var auto = (!reduce && !tiny && cx && scrollY < film.offsetTop + 30) ? 1 : 0, autoT0 = 0, AUTO_MS = 11000, scroll0 = scrollY;
 
   /* ---- frames ---- */
   var mobileSet = phone.matches;
   var base = (mobileSet ? film.dataset.m : film.dataset.d) || "";
-  var STEP = mobileSet ? 2 : 1, NEED = Math.ceil(COUNT / STEP);   /* phones load every second frame and blend between them */
+  var STEP = mobileSet ? 2 : 1;                                   /* phones load every second frame after the opening and blend between them */
+  var NEED = STOPS[0] + 1 + Math.ceil((COUNT - STOPS[0] - 1) / STEP);
   var imgs = [], ok = [], loaded = 0, failed = 0, retried = {}, introNeed = 0, introGot = 0;
   function pad(n) { return ("00" + n).slice(-3); }
   function url(i) { return base.replace(/001\.jpg/, pad(i + 1) + ".jpg"); }
   function isIntro(k) { return k <= STOPS[0]; }
+  function stepAt(f) { return f <= STOPS[0] ? 1 : STEP; }          /* the opening always uses every frame */
   function loadFrames() {
     var order = [], seen = {}, i, step, k;
-    for (k = 0; k <= STOPS[0]; k += STEP) { seen[k] = 1; order.push(k); }   /* the opening pour first */
+    for (k = 0; k <= STOPS[0]; k++) { seen[k] = 1; order.push(k); }       /* the opening pour first, every frame */
     introNeed = order.length;
     for (step = 8 * STEP; step >= STEP; step = step / 2 | 0) {           /* then the rest: coarse first, then fill in */
       for (i = STOPS[0]; i < COUNT; i += step) { k = i - (i % STEP); if (!seen[k]) { seen[k] = 1; order.push(k); } }
       if (step === STEP) break;
     }
+    NEED = order.length;                                              /* every frame this device will load */
     var next = 0, active = 0;
     function pump() {
       while (active < 6 && next < order.length) {
@@ -170,7 +173,7 @@
 
   /* ---- canvas ---- */
   function size() {
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
     cv.width = Math.round(stage.clientWidth * dpr); cv.height = Math.round(stage.clientHeight * dpr);
     drawnF = -1;
   }
@@ -180,12 +183,13 @@
     s = Math.max(W / iw, H / ih); dw = iw * s; dh = ih * s; return [(W - dw) / 2, (H - dh) / 2, dw, dh];
   }
   function draw(f) {
-    var i = Math.floor(f / STEP) * STEP, a = (f - i) / STEP, A = near(i);
+    var st = stepAt(f), i = Math.floor(f / st) * st, a = (f - i) / st, A = near(i);
     if (A < 0) return false;
     var r = place(imgs[A]);
+    cx.imageSmoothingEnabled = true; if ("imageSmoothingQuality" in cx) cx.imageSmoothingQuality = "high";
     cx.globalAlpha = 1; cx.fillStyle = bg; cx.fillRect(0, 0, cv.width, cv.height);
     cx.drawImage(imgs[A], r[0], r[1], r[2], r[3]);
-    if (A === i && a > 0.02 && ok[i + STEP]) { cx.globalAlpha = a; cx.drawImage(imgs[i + STEP], r[0], r[1], r[2], r[3]); cx.globalAlpha = 1; }
+    if (A === i && a > 0.02 && ok[i + st]) { cx.globalAlpha = a; cx.drawImage(imgs[i + st], r[0], r[1], r[2], r[3]); cx.globalAlpha = 1; }
     if (mobileSet) {                                          /* soften the frame's edges into the page */
       var e = r[3] * 0.26, gt = cx.createLinearGradient(0, r[1], 0, r[1] + e), gb = cx.createLinearGradient(0, r[1] + r[3] - e, 0, r[1] + r[3]);
       gt.addColorStop(0, bg); gt.addColorStop(1, bgT); gb.addColorStop(0, bgT); gb.addColorStop(1, bg);
@@ -269,7 +273,7 @@
   }
   function autoTick(now) {
     if (auto !== 2) return;
-    var p = Math.min(1, (now - autoT0) / AUTO_MS), e = -(Math.cos(Math.PI * p) - 1) / 2;
+    var p = Math.min(1, (now - autoT0) / AUTO_MS), e = p < 0.85 ? p * 0.9 / 0.85 : 0.9 + 0.1 * (1 - Math.pow(1 - (p - 0.85) / 0.15, 2));
     var f = e * STOPS[0];
     if (draw(f)) drawnF = f;
     shown = f / FPS;
@@ -307,7 +311,7 @@
     dbg.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99;background:#000;color:#fff;font:12px/1.4 monospace;padding:6px 8px;border-radius:8px;opacity:.85";
     document.body.appendChild(dbg);
     setInterval(function () {
-      dbg.textContent = "film 3.8 | set " + (mobileSet ? "phone" : "desktop") + " | frames " + loaded + "/" + NEED + " | failed " + failed + " | playing " + useSeq + " | intro " + auto + " | reduce-motion " + reduce + " | dpr " + (window.devicePixelRatio || 1);
+      dbg.textContent = "film 3.9 | set " + (mobileSet ? "phone" : "desktop") + " | frames " + loaded + "/" + NEED + " | failed " + failed + " | playing " + useSeq + " | intro " + auto + " | reduce-motion " + reduce + " | dpr " + (window.devicePixelRatio || 1);
     }, 500);
   }
 })();
