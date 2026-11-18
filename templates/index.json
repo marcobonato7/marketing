@@ -50,9 +50,23 @@
             "fallback_image": "kojic",
             "pool_alt": "A pale golden pool of kojic turmeric gel with amber flecks"
           }
+        },
+        "pour_neck": {
+          "type": "product",
+          "settings": {
+            "label": "Neck care",
+            "line": "Five minutes a day for your neck.",
+            "desc": "PDRN, collagen and 5% Volufiline, with a built-in gua sha head that massages as you apply.",
+            "color": "#F2C1D3",
+            "fallback_title": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
+            "fallback_image": "neck",
+            "fallback_price": "",
+            "pool_alt": "The pink neck cream tube standing on a blush-pink set with a swoosh of white cream"
+          }
         }
       },
       "block_order": [
+        "pour_neck",
         "pour_mud",
         "pour_collagen",
         "pour_pdrn",
@@ -185,7 +199,8 @@
             "mud": false,
             "collagen": true,
             "pdrn": false,
-            "kojic": true
+            "kojic": true,
+            "neck": true
           }
         },
         "ing4": {
@@ -196,7 +211,8 @@
             "mud": false,
             "collagen": true,
             "pdrn": true,
-            "kojic": false
+            "kojic": false,
+            "neck": true
           }
         },
         "ing5": {
@@ -218,7 +234,8 @@
             "mud": false,
             "collagen": false,
             "pdrn": true,
-            "kojic": false
+            "kojic": false,
+            "neck": true
           }
         },
         "ing7": {
@@ -264,9 +281,22 @@
             "pdrn": false,
             "kojic": true
           }
+        },
+        "ing_volu": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Volufiline 5%",
+            "text": "A plant-based ingredient used for a fuller, firmer-looking neck.",
+            "neck": true,
+            "mud": false,
+            "collagen": false,
+            "pdrn": false,
+            "kojic": false
+          }
         }
       },
       "block_order": [
+        "ing_volu",
         "ing1",
         "ing2",
         "ing3",

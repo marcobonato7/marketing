@@ -15,6 +15,6 @@
     <button class="btn" type="button" disabled>Sold out</button>
   {%- endif -%}
 {%- else -%}
-  <span class="price">{{ fallback_price | default: '$25.00' }}</span>
+  {%- unless fallback_price == 'none' -%}<span class="price">{{ fallback_price | default: '$25.00' }}</span>{%- endunless -%}
   <a class="btn" href="{{ routes.all_products_collection_url }}">Shop Now</a>
 {%- endif -%}

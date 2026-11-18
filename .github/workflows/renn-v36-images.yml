@@ -1,0 +1,26 @@
+name: renn v3.6 images (one time)
+on:
+  push:
+    branches: [renn-shopify-theme]
+    paths: ['.github/workflows/renn-v36-images.yml']
+permissions:
+  contents: write
+jobs:
+  swap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: renn-shopify-theme }
+      - name: Fetch, verify, replace
+        run: |
+          curl -fsSL -o /tmp/img.zip https://d2ol7oe51mr4n9.cloudfront.net/user_3LIjwiDLDmGwMEJWDvsGfdWkoUt/fc7b7dd1-680a-41bf-beee-3d05c67267ed.zip
+          echo "29b25865b584519d080e7986db928713327fbcb73ecb9a51c30cd6fa52970511  /tmp/img.zip" | sha256sum -c -
+          rm -f assets/seq-*.jpg
+          unzip -o -q /tmp/img.zip -d assets
+          ls assets/seq-d-*.jpg | wc -l; ls assets/seq-m-*.jpg | wc -l
+          git rm -q .github/workflows/renn-v36-images.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A assets
+          git commit -q -m "Renn v3.6: neck cream film frames and stills"
+          git push origin HEAD:renn-shopify-theme

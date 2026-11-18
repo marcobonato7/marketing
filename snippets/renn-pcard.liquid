@@ -12,6 +12,7 @@
       <p class="line">{{ block.settings.line }}</p>
       <p class="desc">{{ block.settings.desc }}</p>
     </div>
-    <div class="buy">{% render 'renn-buy', product: p, label: 'Add to Cart' %}</div>
+    {%- if block.settings.fallback_price == blank -%}{%- assign fp = 'none' -%}{%- else -%}{%- assign fp = block.settings.fallback_price -%}{%- endif -%}
+    <div class="buy">{% render 'renn-buy', product: p, label: 'Add to Cart', fallback_price: fp %}</div>
   </div>
 </article>

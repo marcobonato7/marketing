@@ -11,6 +11,8 @@
     assign key = 'bundle'
   elsif t contains 'bundle' or t contains 'full routine' or t contains 'routine set'
     assign key = 'bundle'
+  elsif t contains 'neck' or t contains 'gua sha'
+    assign key = 'neck'
   elsif t contains 'kojic' or t contains 'turmeric'
     assign key = 'kojic'
   elsif t contains 'pdrn' or t contains 'caffeine'
@@ -32,8 +34,19 @@
       assign benefits = 'All four Renn masks: Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric.|A full week covered: clear pores, then pick a night mask for how your skin feels.|Costs less than buying all four on their own.'
       assign how = 'Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Dry and tight: Collagen Night Wrapping Mask.|Tired-looking: PDRN Pink Caffeine Night Wrapping Mask.|Dull and uneven: Kojic Acid Turmeric Night Wrapping Mask.'
       assign note = 'Night masks go on last, set for 15 to 20 minutes, and peel off in the morning.'
+    when 'neck'
+      assign n = 0
+      assign color = '#F2C1D3'
+      assign label = 'Neck care'
+      assign line = 'Five minutes a day for your neck.'
+      assign kind = 'Neck cream with a built-in gua sha · daily'
+      assign texture = 'A rich, silky white cream that glides on under the cool gua sha head.'
+      assign benefits = '5% Volufiline helps the neck and décolleté look firmer and smoother.|PDRN and collagen nourish skin for a healthy-looking glow.|The built-in gua sha massages as you apply. No extra tool needed.'
+      assign how = 'Twist the gua sha head until the arrow lines up with ON.|Gently squeeze the tube to release a little cream.|Glide the gua sha up along your jawline, neck and décolleté until absorbed, then twist back to OFF.'
+      assign ings = 'Volufiline 5%::A plant-based ingredient used for a fuller, firmer-looking neck.|PDRN (sodium DNA)::A K-beauty favorite for calm, glowing-looking skin.|Collagen::Helps skin feel plump and smooth.|Niacinamide::Vitamin B3. Supports the skin barrier and evens out tone.'
+      assign note = 'Contains retinol: wear sunscreen during the day, and stop using it if irritation occurs.'
     when 'mud'
-      assign n = 1
+      assign n = 2
       assign color = '#8FB4D9'
       assign label = 'Pore care'
       assign line = 'Clear pores in three minutes.'
@@ -44,7 +57,7 @@
       assign ings = 'Clay 30%::Kaolin and bentonite draw out oil and buildup from pores.|AHA, BHA, PHA::Three gentle acids that loosen dead skin for clearer-looking pores.'
       assign note = 'Use it once or twice a week. Skip it on nights you use other exfoliating acids.'
     when 'collagen'
-      assign n = 2
+      assign n = 3
       assign color = '#D9A5A0'
       assign label = 'Moisture and firmness'
       assign line = 'Sleep in moisture. Wake up smooth.'
@@ -55,7 +68,7 @@
       assign ings = 'Collagen extract::Holds water on the skin, so it feels plump and soft by morning.|Niacinamide::Vitamin B3. Supports the skin barrier and evens out tone.|Ceramide NP::A lipid your skin already makes. Helps seal moisture in.'
       assign note = 'A slightly thicker layer peels off more easily in the morning.'
     when 'pdrn'
-      assign n = 3
+      assign n = 4
       assign color = '#F2A7C3'
       assign label = 'Soothing and glow'
       assign line = 'Wake up looking rested.'
@@ -66,7 +79,7 @@
       assign ings = 'PDRN (sodium DNA)::A K-beauty favorite for calm, glowing-looking skin.|Caffeine::Helps skin look fresher and less puffy.|Niacinamide::Vitamin B3. Supports the skin barrier and evens out tone.'
       assign note = 'New to PDRN? Try it on a small patch of skin first.'
     when 'kojic'
-      assign n = 4
+      assign n = 5
       assign color = '#E8C46A'
       assign label = 'Dullness care'
       assign line = 'For dull mornings.'
@@ -157,7 +170,7 @@
       <div class="four-grid rise">
         {%- assign tnames = 'Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}
         {%- for tn in tnames -%}
-          {%- assign f = 'm-frame-' | append: forloop.index | append: '.jpg' -%}
+          {%- assign fi = forloop.index | plus: 1 -%}{%- assign f = 'm-frame-' | append: fi | append: '.jpg' -%}
           <figure><img src="{{ f | asset_url }}" alt="{{ tn }}" loading="lazy" width="760" height="1013"><figcaption class="mono">{{ tn }}</figcaption></figure>
         {%- endfor -%}
       </div>

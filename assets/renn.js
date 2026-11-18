@@ -103,9 +103,13 @@
   var tiny = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "");
 
   var COUNT = +film.dataset.count || 242, FPS = +film.dataset.fps || 10;
-  var SEG = 6, NB = stage.querySelectorAll(".pcard.bundle").length;
-  var N = Math.max(1, pcards.length - NB);                  /* each product is a 6 second pour; the bundle is one extra stop */
-  var HOLD0 = 0.7, RAMP = 1.35, HOLD = 1.15;              /* in screen heights */
+  var NB = stage.querySelectorAll(".pcard.bundle").length;
+  /* the frame where each product's pour comes to rest, e.g. "120,180,240" */
+  var STOPS = (film.dataset.stops || "").split(",").map(Number).filter(function (n) { return n > 0; });
+  var N = Math.max(1, Math.min(pcards.length - NB, STOPS.length || 99));
+  if (!STOPS.length) for (var si = 1; si <= N; si++) STOPS.push(si * 60);
+  var HOLD0 = 0.7, RAMP = 1.35, HOLD = 1.15;              /* in screen heights; RAMP is per 6 seconds of pour */
+  function rampLen(i) { var prev = i ? STOPS[i - 1] : 0; return Math.max(0.8, RAMP * (STOPS[i] - prev) / 60); }
   var useSeq = false, target = 0, shown = -1, drawnF = -1, raf = 0, lastStill = -1, lastCard = -1;
   var vh = stage.clientHeight || innerHeight, lastW = innerWidth, bg = "#F5EEE6", bgT = "rgba(245,238,230,0)";
 
@@ -186,9 +190,10 @@
   /* ---- story position ---- */
   function layout() {
     vh = stage.clientHeight || innerHeight;
-    film.style.height = ((HOLD0 + N * (RAMP + HOLD) + NB * HOLD) * vh + vh) + "px";
-    var a = "", y = HOLD0 * vh;
-    for (var i = 1; i <= N; i++) { y += RAMP * vh; a += '<span class="anchor" id="pour-' + i + '" style="top:' + (y + 0.25 * vh) + 'px"></span>'; y += HOLD * vh; }
+    var total = HOLD0 + NB * HOLD, a = "", y = HOLD0 * vh, i;
+    for (i = 0; i < N; i++) total += rampLen(i) + HOLD;
+    film.style.height = (total * vh + vh) + "px";
+    for (i = 0; i < N; i++) { y += rampLen(i) * vh; a += '<span class="anchor" id="pour-' + (i + 1) + '" style="top:' + (y + 0.25 * vh) + 'px"></span>'; y += HOLD * vh; }
     if (NB) a += '<span class="anchor" id="bundle" style="top:' + (y + 0.25 * vh) + 'px"></span>';
     document.getElementById("anchors").innerHTML = a;
   }
@@ -197,11 +202,12 @@
     if (y < HOLD0) return { t: 0, hold: 0, k: Math.max(0, y / HOLD0), ramp: -1 };
     y -= HOLD0;
     for (var i = 0; i < N; i++) {
-      if (y < RAMP) { var k = y / RAMP; return { t: (i + k) * SEG, hold: -1, ramp: i, k: k }; }
-      y -= RAMP;
-      if (y < HOLD || (i === N - 1 && !NB)) return { t: (i + 1) * SEG, hold: i + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
+      var R = rampLen(i), prev = i ? STOPS[i - 1] : 0;
+      if (y < R) { var k = y / R; return { t: (prev + k * (STOPS[i] - prev)) / FPS, hold: -1, ramp: i, k: k }; }
+      y -= R;
+      if (y < HOLD || (i === N - 1 && !NB)) return { t: STOPS[i] / FPS, hold: i + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
       y -= HOLD;
-      if (i === N - 1) return { t: N * SEG, hold: N + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
+      if (i === N - 1) return { t: STOPS[i] / FPS, hold: N + 1, k: Math.min(y / HOLD, 1), ramp: -1 };
     }
   }
 
