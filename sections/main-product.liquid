@@ -11,7 +11,7 @@
     assign key = 'bundle'
   elsif settings.set_product != blank and product.id == settings.set_product.id
     assign key = 'set'
-  elsif t contains 'face to neck set' or t contains 'gift set'
+  elsif t contains 'pick three' or t contains 'face to neck set' or t contains 'gift set'
     assign key = 'set'
   elsif t contains 'bundle' or t contains 'full routine' or t contains 'routine set'
     assign key = 'bundle'
@@ -42,10 +42,10 @@
       assign n = 0
       assign color = '#F2C1D3'
       assign label = 'Best value'
-      assign line = 'The neck cream and all four masks.'
-      assign kind = 'Neck cream + four masks in one set'
-      assign benefits = 'Everything Renn sells: the gua sha neck cream plus the Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric masks.|Neck care every day, and a mask for every kind of night.|Costs less than buying all five on their own.'
-      assign how = 'Every day: the neck cream, glided upward with its gua sha head.|Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Most nights: pick the wrapping mask for how your skin feels, and peel it off in the morning.'
+      assign line = 'The gua sha neck cream plus three masks you choose.'
+      assign kind = 'Neck cream + three masks of your choice'
+      assign benefits = 'The gua sha neck cream plus the three masks you pick from Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric.|Neck care every day, and the masks that suit your skin.|Costs less than buying all four on their own.'
+      assign how = 'Choose your three masks from the menu above.|Every day: the neck cream, glided upward with its gua sha head.|Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Most nights: a wrapping mask for how your skin feels, peeled off in the morning.'
       assign note = 'Night masks go on last, set for 15 to 20 minutes, and peel off in the morning.'
     when 'neck'
       assign n = 0
@@ -184,7 +184,7 @@
 {%- if key == 'bundle' or key == 'set' -%}
   <section class="blk four reveal">
     <div class="wrap">
-      <span class="kicker mono rise">{% if key == 'set' %}Five textures{% else %}Four textures{% endif %}</span>
+      <span class="kicker mono rise">{% if key == 'set' %}The cream, and four masks to pick from{% else %}Four textures{% endif %}</span>
       <div class="four-grid{% if key == 'set' %} five{% endif %} rise">
         {%- if key == 'set' -%}{%- assign tnames = 'Silky cream|Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}{%- assign f0 = 0 -%}{%- else -%}{%- assign tnames = 'Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}{%- assign f0 = 1 -%}{%- endif -%}
         {%- for tn in tnames -%}
@@ -226,7 +226,7 @@
 {%- if key == 'bundle' or key == 'set' -%}
   <section class="blk pings reveal" style="--c:{{ color }}">
     <div class="wrap">
-      <span class="kicker mono rise">What's in the set</span>
+      <span class="kicker mono rise">{% if key == 'set' %}The neck cream + your pick of three{% else %}What's in the set{% endif %}</span>
       <div class="grid rise">
         {%- assign c = 0 -%}{%- if key == 'set' -%}{%- assign cmax = 5 -%}{%- else -%}{%- assign cmax = 4 -%}{%- endif -%}
         {%- for p in collections.all.products limit: 20 -%}

@@ -389,11 +389,11 @@
           "type": "deal",
           "settings": {
             "image": "set",
-            "badge": "Save $46",
-            "title": "The Face to Neck Set",
-            "line": "The neck cream and all four masks, for the whole routine.",
-            "price": "$89.00",
-            "was": "$135.00"
+            "badge": "Save $31",
+            "title": "The Pick Three Set",
+            "line": "The gua sha neck cream plus three masks you choose.",
+            "price": "$79.00",
+            "was": "$110.00"
           }
         },
         "bf_bundle": {
@@ -406,23 +406,11 @@
             "price": "$75.00",
             "was": "$100.00"
           }
-        },
-        "bf_code": {
-          "type": "deal",
-          "settings": {
-            "image": "code",
-            "badge": "20% off",
-            "title": "Everything else",
-            "line": "20% off every single product at checkout.",
-            "price": "20% off",
-            "was": ""
-          }
         }
       },
       "block_order": [
         "bf_set",
-        "bf_bundle",
-        "bf_code"
+        "bf_bundle"
       ]
     },
     "deals_xmas": {
@@ -439,11 +427,11 @@
           "type": "deal",
           "settings": {
             "image": "set",
-            "badge": "Save $46",
-            "title": "The Face to Neck Gift Set",
-            "line": "The neck cream and all four masks, for someone you love.",
-            "price": "$89.00",
-            "was": "$135.00"
+            "badge": "Save $31",
+            "title": "The Pick Three Gift Set",
+            "line": "The neck cream plus three masks you choose, ready to give.",
+            "price": "$79.00",
+            "was": "$110.00"
           }
         },
         "x_bundle": {

@@ -154,7 +154,7 @@
   if (!film) { addEventListener("scroll", hdrState, { passive: true }); hdrState(); return; }
 
   var stage = document.getElementById("stage"), cv = document.getElementById("seq"), cx = cv.getContext("2d");
-  var stills = stage.querySelectorAll(".still"), pcards = stage.querySelectorAll(".pcard");
+  var stills = stage.querySelectorAll(".still"), pcards = stage.querySelectorAll(".pcard"), lineup = stage.querySelector(".lineup");
   var intro = document.getElementById("intro"), cue = document.getElementById("cue"), chapter = document.getElementById("chapter");
   var chapterTxt = document.getElementById("chapterTxt"), dots = chapter.querySelectorAll(".dots i");
   var loader = document.getElementById("loader"), ring = document.getElementById("ring");
@@ -294,7 +294,7 @@
     dots.forEach(function (d, j) { d.classList.toggle("on", j === idx); });
 
     var c = s.hold > 0 ? s.hold : -1;
-    if (c !== lastCard) { pcards.forEach(function (el) { el.classList.toggle("on", +el.dataset.i === c); }); lastCard = c; }
+    if (c !== lastCard) { pcards.forEach(function (el) { el.classList.toggle("on", +el.dataset.i === c); }); if (lineup) lineup.classList.toggle("on", c === N + 1); lastCard = c; }
 
     target = Math.min(s.t, (COUNT - 1) / FPS);
     if (!useSeq) {                                            /* still images until frames arrive */

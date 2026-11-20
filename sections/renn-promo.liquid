@@ -48,7 +48,11 @@
                 <span class="price">{{ v.price | money }}{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
                 {%- if p.available -%}
                   <form method="post" action="{{ routes.cart_add_url }}" class="add">
-                    <input type="hidden" name="id" value="{{ v.id }}"><input type="hidden" name="quantity" value="1">
+                    {%- if p.has_only_default_variant -%}<input type="hidden" name="id" value="{{ v.id }}">{%- else -%}
+                    <label class="mono pick" for="pick-{{ block.id }}">{{ p.options.first }}</label>
+                    <select class="select pick" id="pick-{{ block.id }}" name="id">
+                      {%- for x in p.variants -%}<option value="{{ x.id }}"{% unless x.available %} disabled{% endunless %}>{{ x.title }}</option>{%- endfor -%}
+                    </select>{%- endif -%}<input type="hidden" name="quantity" value="1">
                     <button class="btn" type="submit">Add to Cart</button>
                   </form>
                 {%- else -%}<button class="btn" type="button" disabled>Sold out</button>{%- endif -%}
@@ -82,12 +86,12 @@
       "settings": [
         { "type": "product", "id": "product", "label": "Product", "info": "Optional. Its price and Add to Cart are used. For the five-product set and the four-mask bundle, the products picked in Theme settings are used." },
         { "type": "select", "id": "image", "label": "Picture", "default": "set",
-          "options": [ { "value": "set", "label": "Face to Neck Set (all five)" }, { "value": "bundle", "label": "The Full Routine (four masks)" }, { "value": "code", "label": "Discount code card" },
+          "options": [ { "value": "set", "label": "Pick Three Set (neck cream + 3 masks)" }, { "value": "bundle", "label": "The Full Routine (four masks)" }, { "value": "code", "label": "Discount code card" },
                        { "value": "neck", "label": "Neck cream" }, { "value": "mud", "label": "Mud mask" }, { "value": "collagen", "label": "Collagen mask" }, { "value": "pdrn", "label": "PDRN mask" }, { "value": "kojic", "label": "Kojic mask" } ] },
         { "type": "checkbox", "id": "use_product_photo", "label": "Use the product's own photo instead", "default": false },
         { "type": "text", "id": "badge", "label": "Badge", "default": "Save $46" },
-        { "type": "text", "id": "title", "label": "Title", "default": "The Face to Neck Set" },
-        { "type": "text", "id": "line", "label": "One line", "default": "The neck cream and all four masks." },
+        { "type": "text", "id": "title", "label": "Title", "default": "The Pick Three Set" },
+        { "type": "text", "id": "line", "label": "One line", "default": "The gua sha neck cream plus three masks you choose." },
         { "type": "text", "id": "price", "label": "Price shown before a product is picked", "default": "$89.00" },
         { "type": "text", "id": "was", "label": "Was-price shown before a product is picked", "default": "$135.00" }
       ]
