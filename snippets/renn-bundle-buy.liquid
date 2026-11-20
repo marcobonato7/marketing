@@ -13,6 +13,6 @@
     <button class="btn" type="button" disabled>Sold out</button>
   {%- endif -%}
 {%- else -%}
-  <span class="price">{{ settings.bundle_price | default: '$82.50' }} <s>{{ settings.bundle_compare | default: '$130.00' }}</s></span>
+  <span class="price">{{ settings.bundle_price | default: '$82.50' }} <s>{{ settings.bundle_compare | default: '$94.00' }}</s></span>
   <a class="btn" href="{{ routes.all_products_collection_url }}">Shop Now</a>
 {%- endif -%}

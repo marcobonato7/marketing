@@ -48,7 +48,7 @@
         "type": "product",
         "id": "bundle_product",
         "label": "Bundle product",
-        "info": "Create a product with all four masks (for example The Full Routine, $82.50, compare-at price $130), then pick it here."
+        "info": "Create a product with all four masks (for example The Full Routine, $82.50, compare-at price $94), then pick it here."
       },
       {
         "type": "text",
@@ -72,13 +72,13 @@
         "type": "text",
         "id": "bundle_compare",
         "label": "Was-price shown before a product is picked",
-        "default": "$130.00"
+        "default": "$94.00"
       },
       {
         "type": "text",
         "id": "bundle_save",
         "label": "Savings label shown before a product is picked",
-        "default": "Save $47.50"
+        "default": "Save $11.50"
       }
     ]
   },
@@ -190,7 +190,7 @@
         "type": "product",
         "id": "set_product",
         "label": "Five-product set",
-        "info": "Create a product with the neck cream and all four masks (for example $86.50, compare-at price $140), then pick it here. It is used in the deals."
+        "info": "Create a product with the neck cream and all four masks (for example $86.50, compare-at price $109.50), then pick it here. It is used in the deals."
       }
     ]
   }
