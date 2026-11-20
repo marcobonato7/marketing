@@ -19,12 +19,6 @@
       </picture>
     {%- endfor -%}
     <canvas id="seq" aria-hidden="true"></canvas>
-    {%- if section.settings.show_bundle -%}
-      <picture class="lineup" aria-hidden="true">
-        <source media="(max-width: 820px)" srcset="{{ 'bundle-bg-m.jpg' | asset_url }}">
-        <img src="{{ 'bundle-bg-d.jpg' | asset_url }}" alt="" loading="lazy" width="1920" height="1080">
-      </picture>
-    {%- endif -%}
     <div class="edge" aria-hidden="true"></div>
     <div class="glints" aria-hidden="true">
       <i style="left:58%;top:30%;animation-delay:0s"></i><i style="left:66%;top:62%;animation-delay:2.2s"></i>

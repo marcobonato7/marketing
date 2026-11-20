@@ -601,11 +601,6 @@ section.promo h2.big{color:var(--milk)}
 .cform-ok{padding:16px 18px;border-radius:14px;background:#E3EAE4}
 .cform-err{padding:12px 16px;border-radius:14px;background:#F6E1DE}
 
-/* v46: the bundle stop shows the four masks together, not the last pour */
-.lineup{position:absolute;inset:0;opacity:0;transition:opacity .8s var(--ease);pointer-events:none}
-.lineup.on{opacity:1}
-.lineup img{width:100%;height:100%;object-fit:cover;display:block}
-@media (max-width:820px){.lineup{background:#F5EEE6}.lineup img{position:absolute;left:50%;top:40%;width:min(100%,70svh);height:auto;aspect-ratio:1;transform:translate(-50%,-50%)}}
 /* deals: two cards fill the row; a mask picker when a set has choices */
 @media (min-width:1001px){.deals:has(> .deal:nth-child(2):last-child){grid-template-columns:1.2fr 1fr}}
 .deal .add:has(select){flex:1 1 100%;display:grid;grid-template-columns:1fr auto;gap:8px 10px;align-items:end}
