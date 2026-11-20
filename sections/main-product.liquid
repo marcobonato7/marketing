@@ -45,7 +45,7 @@
       assign line = 'The gua sha neck cream plus three masks you choose.'
       assign kind = 'Neck cream + three masks of your choice'
       assign benefits = 'The gua sha neck cream plus the three masks you pick from Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric.|Neck care every day, and the masks that suit your skin.|Costs less than buying all four on their own.'
-      assign how = 'Choose your three masks from the menu above.|Every day: the neck cream, glided upward with its gua sha head.|Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Most nights: a wrapping mask for how your skin feels, peeled off in the morning.'
+      assign how = 'Tap the three masks you want, above the Add to Cart button.|Every day: the neck cream, glided upward with its gua sha head.|Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Most nights: a wrapping mask for how your skin feels, peeled off in the morning.'
       assign note = 'Night masks go on last, set for 15 to 20 minutes, and peel off in the morning.'
     when 'neck'
       assign n = 0
@@ -148,7 +148,10 @@
       {%- unless key == 'bundle' or key == 'set' -%}{% render 'renn-promo-strip' %}{%- endunless -%}
 
       {%- form 'product', product, id: 'renn-pform', class: 'pform add' -%}
-        {%- unless product.has_only_default_variant -%}
+        {%- assign o1 = product.options.first | downcase -%}
+        {%- if key == 'set' and o1 contains 'mask' -%}
+          {% render 'renn-mask-picker', product: product, uid: 'pp' %}
+        {%- elsif product.has_only_default_variant == false -%}
           <label class="mono" for="variant">{{ product.options.first }}</label>
           <select id="variant" name="id" class="select">
             {%- for variant in product.variants -%}
@@ -157,7 +160,7 @@
           </select>
         {%- else -%}
           <input type="hidden" name="id" value="{{ v.id }}">
-        {%- endunless -%}
+        {%- endif -%}
         <div class="qty-row">
           <div class="stepper">
             <button type="button" data-step="-1" aria-label="One less">−</button>

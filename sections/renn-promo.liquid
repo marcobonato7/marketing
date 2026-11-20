@@ -48,7 +48,9 @@
                 <span class="price">{{ v.price | money }}{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
                 {%- if p.available -%}
                   <form method="post" action="{{ routes.cart_add_url }}" class="add">
-                    {%- if p.has_only_default_variant -%}<input type="hidden" name="id" value="{{ v.id }}">{%- else -%}
+                    {%- assign o1 = p.options.first | downcase -%}
+                    {%- if p.has_only_default_variant -%}<input type="hidden" name="id" value="{{ v.id }}">
+                    {%- elsif o1 contains 'mask' -%}{% render 'renn-mask-picker', product: p, uid: block.id %}{%- else -%}
                     <label class="mono pick" for="pick-{{ block.id }}">{{ p.options.first }}</label>
                     <select class="select pick" id="pick-{{ block.id }}" name="id">
                       {%- for x in p.variants -%}<option value="{{ x.id }}"{% unless x.available %} disabled{% endunless %}>{{ x.title }}</option>{%- endfor -%}

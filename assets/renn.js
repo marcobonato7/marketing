@@ -77,16 +77,33 @@
   function setCount(n) {
     document.querySelectorAll("[data-cart-count]").forEach(function (el) { el.textContent = n; el.hidden = !n; });
   }
+  /* ---------- pick-three mask picker ---------- */
+  document.querySelectorAll("[data-mpick]").forEach(function (fs) {
+    var vars = []; try { vars = JSON.parse(fs.querySelector("script").textContent); } catch (x) {}
+    var boxes = [].slice.call(fs.querySelectorAll("input[type=checkbox]")), out = fs.querySelector("input[name=id]"), cnt = fs.querySelector("[data-mcount]");
+    function sync() {
+      var on = boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; }), hit = null;
+      boxes.forEach(function (b) { b.disabled = !b.checked && on.length >= 3; b.closest(".mopt").classList.toggle("on", b.checked); });
+      if (on.length === 3) vars.forEach(function (v) { var t = v.t.split(", "); if (v.a && on.every(function (n) { return t.indexOf(n) > -1; })) hit = v; });
+      if (hit) out.value = hit.id;
+      fs.dataset.ok = hit ? "1" : "0"; fs.classList.toggle("short", !hit);
+      cnt.textContent = on.length === 3 ? (hit ? "3 of 3 chosen" : "That set is sold out") : "Pick " + (3 - on.length) + " more";
+    }
+    boxes.forEach(function (b) { b.addEventListener("change", sync); }); sync();
+  });
+
   document.addEventListener("submit", function (e) {
     var f = e.target;
     if (!f.classList || !f.classList.contains("add") || !window.fetch) return;
     e.preventDefault();
+    var mp = f.querySelector("[data-mpick]");
+    if (mp && mp.dataset.ok !== "1") { showToast("<span>Choose 3 masks first.</span>"); mp.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
     var btn = f.querySelector("[type=submit]"), label = btn ? btn.textContent : "";
     if (btn) { btn.disabled = true; btn.classList.add("busy"); btn.textContent = "Adding..."; }
     fetch(R.cartAdd, { method: "POST", headers: { "Accept": "application/json", "X-Requested-With": "XMLHttpRequest" }, body: new FormData(f) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
       .then(function (item) {
-        var nm = String(item.product_title || "item").replace(/</g, "&lt;");
+        var nm = String((item.product_title || "item") + (item.variant_title && item.variant_title !== "Default Title" ? " · " + item.variant_title : "")).replace(/</g, "&lt;");
         var img = item.image ? "<img src=\"" + item.image + (item.image.indexOf("?") < 0 ? "?" : "&") + "width=120\" alt=\"\">" : "";
         showToast(img + "<span class=\"t-txt\"><small>Added to your cart</small><b>" + nm + "</b></span><a href=\"" + R.cart + "\">View cart</a>");
         return fetch(R.cartJs, { headers: { "Accept": "application/json" } }).then(function (r) { return r.json(); }).then(function (c) { setCount(c.item_count); });
