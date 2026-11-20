@@ -27,6 +27,7 @@
       b.addEventListener("click", function () {
         try { sessionStorage.setItem("renn-bar-" + s, "1"); } catch (e) {}
         b.parentNode.hidden = true; document.documentElement.classList.remove("has-bar");
+        if (window.RENN_RELAYOUT) window.RENN_RELAYOUT();
       });
     });
     function ends() {
@@ -332,6 +333,7 @@
     if (mobileSet && innerWidth === lastW) return;            /* phone toolbars resizing: ignore */
     lastW = innerWidth; layout(); if (useSeq) size(); drawnF = -1; onScroll();
   });
+  window.RENN_RELAYOUT = function () { layout(); if (useSeq) size(); drawnF = -1; onScroll(); };   /* the promotion bar was closed */
   hdrState();
   /* The film only moves when the visitor scrolls (and once on arrival), so it also runs with Reduce Motion on. */
   if (tiny || !cx || !base) { auto = 0; paint(); loader.classList.add("done"); return; }   /* stills only */
