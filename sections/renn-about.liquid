@@ -14,7 +14,7 @@
       <ul class="promises rise">
         {%- if section.settings.p1 != blank -%}<li>{{ section.settings.p1 }}</li>{%- endif -%}
         {%- if section.settings.p2 != blank -%}<li>{{ section.settings.p2 }}</li>{%- endif -%}
-        <li>Real answers from real people at <a href="mailto:{{ settings.contact_email | default: shop.email }}">{{ settings.contact_email | default: shop.email }}</a>.</li>
+        <li>Real answers from real people at <a href="mailto:{{ settings.contact_email | default: 'info@rennskin.store' }}">{{ settings.contact_email | default: 'info@rennskin.store' }}</a>.</li>
       </ul>
     </div>
   </div>

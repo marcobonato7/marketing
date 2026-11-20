@@ -402,7 +402,7 @@ h2.big{font:300 clamp(40px,5.6vw,80px)/1 var(--display);letter-spacing:-.015em;m
 
 /* ---------- bundle ---------- */
 .collage{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--milk)}
-.collage img{width:100%;height:100%;object-fit:cover;background:#fff}
+.collage img{width:100%;height:100%;object-fit:contain;background:#fff;min-width:0;min-height:0}
 .save{display:inline-block;margin-left:10px;padding:4px 9px;border-radius:999px;background:var(--ink);color:var(--milk);font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
 .pcard.bundle .mono i{background:linear-gradient(90deg,var(--clay),var(--glass),var(--pearl),var(--honey))}
 .pcard.bundle .inner{box-shadow:0 30px 60px -30px rgba(42,36,33,.3)}
@@ -502,7 +502,7 @@ section.promo h2.big{color:var(--milk)}
 .collage5 img{width:100%;height:100%;object-fit:cover;background:#fff;min-height:0;min-width:0}
 .collage5 .big{grid-row:1/3;object-position:62% 50%}
 .deal-img .tile{aspect-ratio:4/3}
-.deal-img .tile.collage img{object-fit:cover}
+.deal-img .tile.collage img{object-fit:contain}
 
 /* ---------- five textures (set page) ---------- */
 .four-grid.five{grid-template-columns:repeat(5,1fr)}
@@ -627,3 +627,8 @@ section.promo h2.big{color:var(--milk)}
 .deal .add:has(.mpick){flex:1 1 100%;display:grid;grid-template-columns:1fr;gap:12px}
 .deal .add:has(.mpick) .btn{width:100%}
 @media (max-width:420px){.mname{font-size:11px}}
+
+/* Full Routine photos: show every tube whole; the saving badge sits under the photo, not on it */
+.collage{background:#fff;gap:0}
+.deal-img:has(.collage) .badge,.deal-img:has(.collage5) .badge{position:static;display:inline-block;margin:12px 0 0 8px}
+.deal-img .tile.collage{aspect-ratio:1}
