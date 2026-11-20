@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "film": {
@@ -6,67 +15,67 @@
         "pour_mud": {
           "type": "product",
           "settings": {
+            "product": "zero-pore-blackhead-mud-mask",
             "label": "Pore care",
             "line": "Clear pores in three minutes.",
             "desc": "30% pore-purifying clay with AHA, BHA and PHA. Smooth on, wait three to five minutes, rinse.",
             "color": "#8FB4D9",
             "fallback_title": "Zero Pore Blackhead Mud Mask",
             "fallback_image": "mud",
-            "pool_alt": "A smooth round pool of blue clay mud mask",
-            "product": "zero-pore-blackhead-mud-mask"
+            "pool_alt": "A smooth round pool of blue clay mud mask"
           }
         },
         "pour_collagen": {
           "type": "product",
           "settings": {
+            "product": "collagen-night-wrapping-mask",
             "label": "Moisture and firmness",
             "line": "Sleep in moisture. Wake up smooth.",
             "desc": "Collagen, niacinamide and ceramide NP seal in hydration overnight, so skin feels smooth and firm by morning.",
             "color": "#D9A5A0",
             "fallback_title": "Collagen Night Wrapping Mask",
             "fallback_image": "collagen",
-            "pool_alt": "A clear glassy pool of collagen gel",
-            "product": "collagen-night-wrapping-mask"
+            "pool_alt": "A clear glassy pool of collagen gel"
           }
         },
         "pour_pdrn": {
           "type": "product",
           "settings": {
+            "product": "pdrn-pink-caffeine-night-wrapping-mask",
             "label": "Soothing and glow",
             "line": "Wake up looking rested.",
             "desc": "PDRN soothes and adds glow. Caffeine and niacinamide help skin look lifted and fresh.",
             "color": "#F2A7C3",
             "fallback_title": "PDRN Pink Caffeine Night Wrapping Mask",
             "fallback_image": "pdrn",
-            "pool_alt": "A shimmering pink pool of PDRN gel with glitter",
-            "product": "pdrn-pink-caffeine-night-wrapping-mask"
+            "pool_alt": "A shimmering pink pool of PDRN gel with glitter"
           }
         },
         "pour_kojic": {
           "type": "product",
           "settings": {
+            "product": "kojic-acid-turmeric-night-wrapping-mask",
             "label": "Dullness care",
             "line": "For dull mornings.",
             "desc": "Kojic acid, vitamin C and turmeric brighten tone while collagen nourishes skin overnight.",
             "color": "#E8C46A",
             "fallback_title": "Kojic Acid Turmeric Night Wrapping Mask",
             "fallback_image": "kojic",
-            "pool_alt": "A pale golden pool of kojic turmeric gel with amber flecks",
-            "product": "kojic-acid-turmeric-night-wrapping-mask"
+            "pool_alt": "A pale golden pool of kojic turmeric gel with amber flecks"
           }
         },
         "pour_neck": {
           "type": "product",
           "settings": {
+            "product": "pdrn-collagen-gua-sha-neck-wrinkle-cream",
             "label": "Neck care",
             "line": "Five minutes a day for your neck.",
             "desc": "PDRN, collagen and 5% Volufiline, with a built-in gua sha head that massages as you apply.",
             "color": "#F2C1D3",
             "fallback_title": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
-            "fallback_image": "neck",
             "fallback_price": "$35.00",
-            "pool_alt": "The pink neck cream tube standing on a blush-pink set with a swoosh of white cream",
-            "product": "pdrn-collagen-gua-sha-neck-wrinkle-cream"
+            "fallback_image": "neck",
+            "pool_alt": "The pink neck cream tube standing on a blush-pink set with a swoosh of white cream"
           }
         }
       },
@@ -201,11 +210,11 @@
           "settings": {
             "title": "Collagen",
             "text": "Holds water on the skin's surface, so skin feels plump and soft by morning.",
+            "neck": true,
             "mud": false,
             "collagen": true,
             "pdrn": false,
-            "kojic": true,
-            "neck": true
+            "kojic": true
           }
         },
         "ing4": {
@@ -213,11 +222,11 @@
           "settings": {
             "title": "Niacinamide",
             "text": "Vitamin B3. Supports the skin barrier and helps tone look more even.",
+            "neck": false,
             "mud": false,
             "collagen": true,
             "pdrn": true,
-            "kojic": false,
-            "neck": false
+            "kojic": false
           }
         },
         "ing5": {
@@ -236,11 +245,11 @@
           "settings": {
             "title": "PDRN",
             "text": "Sodium DNA, a K-beauty favorite for calming skin and a healthy-looking glow.",
+            "neck": true,
             "mud": false,
             "collagen": false,
             "pdrn": true,
-            "kojic": false,
-            "neck": true
+            "kojic": false
           }
         },
         "ing7": {
@@ -377,13 +386,6 @@
     },
     "deals_bf": {
       "type": "renn-promo",
-      "settings": {
-        "season": "bf",
-        "kicker": "Black Friday week",
-        "heading": "Black Friday",
-        "text": "Our best prices of the year, through Cyber Monday. Bundles are already marked down, and the code takes 20% off everything else.",
-        "note": "Bundle prices are final, so the code doesn't stack on them. While stocks last."
-      },
       "blocks": {
         "bf_set": {
           "type": "deal",
@@ -415,13 +417,6 @@
     },
     "deals_xmas": {
       "type": "renn-promo",
-      "settings": {
-        "season": "xmas",
-        "kicker": "Christmas",
-        "heading": "The Gift Edit",
-        "text": "Calm skincare sets, ready to give. Order early for delivery before Christmas.",
-        "note": "Gift sets are already marked down, so the code doesn't stack on them."
-      },
       "blocks": {
         "x_set": {
           "type": "deal",
@@ -461,26 +456,30 @@
         "x_set",
         "x_bundle",
         "x_code"
-      ]
+      ],
+      "settings": {
+        "season": "xmas",
+        "kicker": "Christmas",
+        "heading": "The Gift Edit",
+        "text": "Calm skincare sets, ready to give. Order early for delivery before Christmas.",
+        "note": "Gift sets are already marked down, so the code doesn't stack on them."
+      }
     },
     "reviewbar": {
       "type": "renn-reviewbar",
-      "settings": {},
-      "blocks": {},
-      "block_order": []
+      "settings": {}
     },
     "reels": {
       "type": "renn-reels",
-      "settings": {},
       "blocks": {
         "reel_neck": {
           "type": "reel",
           "settings": {
             "look": "neck",
             "caption": "The gua sha glide. Five minutes a day.",
+            "product": "pdrn-collagen-gua-sha-neck-wrinkle-cream",
             "product_name": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
-            "product_price": "$35.00",
-            "product": "pdrn-collagen-gua-sha-neck-wrinkle-cream"
+            "product_price": "$35.00"
           }
         },
         "reel_mud": {
@@ -488,9 +487,9 @@
           "settings": {
             "look": "mud",
             "caption": "Blue clay, three minutes, clearer-looking pores.",
+            "product": "zero-pore-blackhead-mud-mask",
             "product_name": "Zero Pore Blackhead Mud Mask",
-            "product_price": "$25.00",
-            "product": "zero-pore-blackhead-mud-mask"
+            "product_price": "$25.00"
           }
         },
         "reel_collagen": {
@@ -498,9 +497,9 @@
           "settings": {
             "look": "collagen",
             "caption": "A glassy gel that works while you sleep.",
+            "product": "collagen-night-wrapping-mask",
             "product_name": "Collagen Night Wrapping Mask",
-            "product_price": "$25.00",
-            "product": "collagen-night-wrapping-mask"
+            "product_price": "$25.00"
           }
         },
         "reel_pdrn": {
@@ -508,9 +507,9 @@
           "settings": {
             "look": "pdrn",
             "caption": "Pink shimmer for rested-looking mornings.",
+            "product": "pdrn-pink-caffeine-night-wrapping-mask",
             "product_name": "PDRN Pink Caffeine Night Wrapping Mask",
-            "product_price": "$25.00",
-            "product": "pdrn-pink-caffeine-night-wrapping-mask"
+            "product_price": "$25.00"
           }
         },
         "reel_kojic": {
@@ -518,9 +517,9 @@
           "settings": {
             "look": "kojic",
             "caption": "Golden gel for dull mornings.",
+            "product": "kojic-acid-turmeric-night-wrapping-mask",
             "product_name": "Kojic Acid Turmeric Night Wrapping Mask",
-            "product_price": "$25.00",
-            "product": "kojic-acid-turmeric-night-wrapping-mask"
+            "product_price": "$25.00"
           }
         }
       },
@@ -530,7 +529,8 @@
         "reel_collagen",
         "reel_pdrn",
         "reel_kojic"
-      ]
+      ],
+      "settings": {}
     }
   },
   "order": [
