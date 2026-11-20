@@ -1,1 +1,9 @@
-{ "current": "Default", "presets": { "Default": {} } }
+{
+  "current": {
+    "bundle_product": "the-full-routine",
+    "set_product": "the-face-to-neck-set"
+  },
+  "presets": {
+    "Default": {}
+  }
+}

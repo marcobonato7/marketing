@@ -12,7 +12,8 @@
             "color": "#8FB4D9",
             "fallback_title": "Zero Pore Blackhead Mud Mask",
             "fallback_image": "mud",
-            "pool_alt": "A smooth round pool of blue clay mud mask"
+            "pool_alt": "A smooth round pool of blue clay mud mask",
+            "product": "zero-pore-blackhead-mud-mask"
           }
         },
         "pour_collagen": {
@@ -24,7 +25,8 @@
             "color": "#D9A5A0",
             "fallback_title": "Collagen Night Wrapping Mask",
             "fallback_image": "collagen",
-            "pool_alt": "A clear glassy pool of collagen gel"
+            "pool_alt": "A clear glassy pool of collagen gel",
+            "product": "collagen-night-wrapping-mask"
           }
         },
         "pour_pdrn": {
@@ -36,7 +38,8 @@
             "color": "#F2A7C3",
             "fallback_title": "PDRN Pink Caffeine Night Wrapping Mask",
             "fallback_image": "pdrn",
-            "pool_alt": "A shimmering pink pool of PDRN gel with glitter"
+            "pool_alt": "A shimmering pink pool of PDRN gel with glitter",
+            "product": "pdrn-pink-caffeine-night-wrapping-mask"
           }
         },
         "pour_kojic": {
@@ -48,7 +51,8 @@
             "color": "#E8C46A",
             "fallback_title": "Kojic Acid Turmeric Night Wrapping Mask",
             "fallback_image": "kojic",
-            "pool_alt": "A pale golden pool of kojic turmeric gel with amber flecks"
+            "pool_alt": "A pale golden pool of kojic turmeric gel with amber flecks",
+            "product": "kojic-acid-turmeric-night-wrapping-mask"
           }
         },
         "pour_neck": {
@@ -61,7 +65,8 @@
             "fallback_title": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
             "fallback_image": "neck",
             "fallback_price": "$35.00",
-            "pool_alt": "The pink neck cream tube standing on a blush-pink set with a swoosh of white cream"
+            "pool_alt": "The pink neck cream tube standing on a blush-pink set with a swoosh of white cream",
+            "product": "pdrn-collagen-gua-sha-neck-wrinkle-cream"
           }
         }
       },
@@ -486,7 +491,8 @@
             "look": "neck",
             "caption": "The gua sha glide. Five minutes a day.",
             "product_name": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
-            "product_price": "$35.00"
+            "product_price": "$35.00",
+            "product": "pdrn-collagen-gua-sha-neck-wrinkle-cream"
           }
         },
         "reel_mud": {
@@ -495,7 +501,8 @@
             "look": "mud",
             "caption": "Blue clay, three minutes, clearer-looking pores.",
             "product_name": "Zero Pore Blackhead Mud Mask",
-            "product_price": "$25.00"
+            "product_price": "$25.00",
+            "product": "zero-pore-blackhead-mud-mask"
           }
         },
         "reel_collagen": {
@@ -504,7 +511,8 @@
             "look": "collagen",
             "caption": "A glassy gel that works while you sleep.",
             "product_name": "Collagen Night Wrapping Mask",
-            "product_price": "$25.00"
+            "product_price": "$25.00",
+            "product": "collagen-night-wrapping-mask"
           }
         },
         "reel_pdrn": {
@@ -513,7 +521,8 @@
             "look": "pdrn",
             "caption": "Pink shimmer for rested-looking mornings.",
             "product_name": "PDRN Pink Caffeine Night Wrapping Mask",
-            "product_price": "$25.00"
+            "product_price": "$25.00",
+            "product": "pdrn-pink-caffeine-night-wrapping-mask"
           }
         },
         "reel_kojic": {
@@ -522,7 +531,8 @@
             "look": "kojic",
             "caption": "Golden gel for dull mornings.",
             "product_name": "Kojic Acid Turmeric Night Wrapping Mask",
-            "product_price": "$25.00"
+            "product_price": "$25.00",
+            "product": "kojic-acid-turmeric-night-wrapping-mask"
           }
         }
       },
