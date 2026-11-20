@@ -85,7 +85,9 @@
     fetch(R.cartAdd, { method: "POST", headers: { "Accept": "application/json", "X-Requested-With": "XMLHttpRequest" }, body: new FormData(f) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw j; return j; }); })
       .then(function (item) {
-        showToast("<span>Added: " + String(item.product_title || "item").replace(/</g, "&lt;") + "</span><a href=\"" + R.cart + "\">View cart</a>");
+        var nm = String(item.product_title || "item").replace(/</g, "&lt;");
+        var img = item.image ? "<img src=\"" + item.image + (item.image.indexOf("?") < 0 ? "?" : "&") + "width=120\" alt=\"\">" : "";
+        showToast(img + "<span class=\"t-txt\"><small>Added to your cart</small><b>" + nm + "</b></span><a href=\"" + R.cart + "\">View cart</a>");
         return fetch(R.cartJs, { headers: { "Accept": "application/json" } }).then(function (r) { return r.json(); }).then(function (c) { setCount(c.item_count); });
       })
       .catch(function (err) {
