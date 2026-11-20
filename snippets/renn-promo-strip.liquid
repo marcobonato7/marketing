@@ -2,6 +2,6 @@
 {%- capture season -%}{% render 'renn-promo-season' %}{%- endcapture -%}
 {%- assign season = season | strip -%}
 {%- if settings.promo_mode != 'off' -%}
-  <p class="pstrip bf" data-season="bf"{% unless season == 'bf' %} hidden{% endunless %}><span class="tag">Black Friday</span>{{ settings.bf_bar }}{%- if settings.bf_code != blank -%}: code <button type="button" class="code" data-copy="{{ settings.bf_code | escape }}">{{ settings.bf_code }}</button>{%- endif -%}</p>
-  <p class="pstrip xmas" data-season="xmas"{% unless season == 'xmas' %} hidden{% endunless %}><span class="tag">Christmas</span>{{ settings.xmas_bar }}{%- if settings.xmas_code != blank -%}: code <button type="button" class="code" data-copy="{{ settings.xmas_code | escape }}">{{ settings.xmas_code }}</button>{%- endif -%}</p>
+  <p class="pstrip bf" data-season="bf"{% unless season == 'bf' %} hidden{% endunless %}><span class="tag">Black Friday</span>{{ settings.bf_strip }}{%- if settings.bf_code != blank -%} <button type="button" class="code" data-copy="{{ settings.bf_code | escape }}">{{ settings.bf_code }}</button>{%- endif -%}</p>
+  <p class="pstrip xmas" data-season="xmas"{% unless season == 'xmas' %} hidden{% endunless %}><span class="tag">Christmas</span>{{ settings.xmas_strip }}{%- if settings.xmas_code != blank -%} <button type="button" class="code" data-copy="{{ settings.xmas_code | escape }}">{{ settings.xmas_code }}</button>{%- endif -%}</p>
 {%- endif -%}

@@ -143,6 +143,12 @@
         "default": "Black Friday: 20% off every single product"
       },
       {
+        "type": "text",
+        "id": "bf_strip",
+        "label": "Line on product pages",
+        "default": "20% off this product with code"
+      },
+      {
         "type": "header",
         "content": "Christmas"
       },
@@ -169,6 +175,12 @@
         "id": "xmas_bar",
         "label": "Top bar message",
         "default": "The Gift Edit: holiday sets from $75"
+      },
+      {
+        "type": "text",
+        "id": "xmas_strip",
+        "label": "Line on product pages",
+        "default": "15% off this product with code"
       },
       {
         "type": "header",
