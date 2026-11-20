@@ -145,7 +145,7 @@
       <h1 class="ptitle">{{ product.title }}</h1>
       {%- if line -%}<p class="pline">{{ line }}</p>{%- endif -%}
       <p class="pprice"><span data-price>{{ v.price | money }}</span>{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</p>
-      {% render 'renn-promo-strip' %}
+      {%- unless key == 'bundle' or key == 'set' -%}{% render 'renn-promo-strip' %}{%- endunless -%}
 
       {%- form 'product', product, id: 'renn-pform', class: 'pform add' -%}
         {%- unless product.has_only_default_variant -%}

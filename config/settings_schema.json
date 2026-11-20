@@ -133,7 +133,7 @@
         "type": "text",
         "id": "bf_bar",
         "label": "Top bar message",
-        "default": "Black Friday: 20% off everything"
+        "default": "Black Friday: 20% off every single product"
       },
       {
         "type": "header",
