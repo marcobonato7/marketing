@@ -395,10 +395,10 @@
           "type": "deal",
           "settings": {
             "image": "bundle",
-            "badge": "Save $40",
+            "badge": "Save $25",
             "title": "The Full Routine",
             "line": "All four masks. One clean routine.",
-            "price": "$60.00",
+            "price": "$75.00",
             "was": "$100.00"
           }
         },
@@ -434,10 +434,10 @@
           "type": "deal",
           "settings": {
             "image": "set",
-            "badge": "Save $36",
+            "badge": "Save $46",
             "title": "The Face to Neck Gift Set",
             "line": "The neck cream and all four masks, for someone you love.",
-            "price": "$99.00",
+            "price": "$89.00",
             "was": "$135.00"
           }
         },
@@ -445,10 +445,10 @@
           "type": "deal",
           "settings": {
             "image": "bundle",
-            "badge": "Save $35",
+            "badge": "Save $25",
             "title": "The Full Routine",
             "line": "All four masks for a month of calm nights.",
-            "price": "$65.00",
+            "price": "$75.00",
             "was": "$100.00"
           }
         },
@@ -469,13 +469,79 @@
         "x_bundle",
         "x_code"
       ]
+    },
+    "reviewbar": {
+      "type": "renn-reviewbar",
+      "settings": {},
+      "blocks": {},
+      "block_order": []
+    },
+    "reels": {
+      "type": "renn-reels",
+      "settings": {},
+      "blocks": {
+        "reel_neck": {
+          "type": "reel",
+          "settings": {
+            "look": "neck",
+            "caption": "The gua sha glide. Five minutes a day.",
+            "product_name": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
+            "product_price": "$35.00"
+          }
+        },
+        "reel_mud": {
+          "type": "reel",
+          "settings": {
+            "look": "mud",
+            "caption": "Blue clay, three minutes, clearer-looking pores.",
+            "product_name": "Zero Pore Blackhead Mud Mask",
+            "product_price": "$25.00"
+          }
+        },
+        "reel_collagen": {
+          "type": "reel",
+          "settings": {
+            "look": "collagen",
+            "caption": "A glassy gel that works while you sleep.",
+            "product_name": "Collagen Night Wrapping Mask",
+            "product_price": "$25.00"
+          }
+        },
+        "reel_pdrn": {
+          "type": "reel",
+          "settings": {
+            "look": "pdrn",
+            "caption": "Pink shimmer for rested-looking mornings.",
+            "product_name": "PDRN Pink Caffeine Night Wrapping Mask",
+            "product_price": "$25.00"
+          }
+        },
+        "reel_kojic": {
+          "type": "reel",
+          "settings": {
+            "look": "kojic",
+            "caption": "Golden gel for dull mornings.",
+            "product_name": "Kojic Acid Turmeric Night Wrapping Mask",
+            "product_price": "$25.00"
+          }
+        }
+      },
+      "block_order": [
+        "reel_neck",
+        "reel_mud",
+        "reel_collagen",
+        "reel_pdrn",
+        "reel_kojic"
+      ]
     }
   },
   "order": [
     "film",
     "deals_bf",
     "deals_xmas",
+    "reviewbar",
     "shop",
+    "reels",
     "routine",
     "inside",
     "about",

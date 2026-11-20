@@ -12,6 +12,7 @@
     <div class="grid">
       {%- for p in list limit: 9 -%}
         {%- if settings.bundle_product != blank and p.id == settings.bundle_product.id -%}{%- continue -%}{%- endif -%}
+        {%- if settings.set_product != blank and p.id == settings.set_product.id -%}{%- continue -%}{%- endif -%}
         <article class="scard rise" id="shop-{{ p.handle }}" style="transition-delay:{{ forloop.index0 | times: 90 }}ms">
           <a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a>
           <h3><a href="{{ p.url }}">{{ p.title }}</a></h3>

@@ -161,7 +161,7 @@
         "type": "text",
         "id": "xmas_bar",
         "label": "Top bar message",
-        "default": "The Gift Edit: holiday sets from $65"
+        "default": "The Gift Edit: holiday sets from $75"
       },
       {
         "type": "header",

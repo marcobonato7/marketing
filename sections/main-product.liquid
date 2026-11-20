@@ -9,6 +9,10 @@
   assign key = ''
   if settings.bundle_product != blank and product.id == settings.bundle_product.id
     assign key = 'bundle'
+  elsif settings.set_product != blank and product.id == settings.set_product.id
+    assign key = 'set'
+  elsif t contains 'face to neck set' or t contains 'gift set'
+    assign key = 'set'
   elsif t contains 'bundle' or t contains 'full routine' or t contains 'routine set'
     assign key = 'bundle'
   elsif t contains 'neck' or t contains 'gua sha'
@@ -33,6 +37,15 @@
       assign kind = 'All four masks in one set'
       assign benefits = 'All four Renn masks: Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric.|A full week covered: clear pores, then pick a night mask for how your skin feels.|Costs less than buying all four on their own.'
       assign how = 'Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Dry and tight: Collagen Night Wrapping Mask.|Tired-looking: PDRN Pink Caffeine Night Wrapping Mask.|Dull and uneven: Kojic Acid Turmeric Night Wrapping Mask.'
+      assign note = 'Night masks go on last, set for 15 to 20 minutes, and peel off in the morning.'
+    when 'set'
+      assign n = 0
+      assign color = '#F2C1D3'
+      assign label = 'Best value'
+      assign line = 'The neck cream and all four masks.'
+      assign kind = 'Neck cream + four masks in one set'
+      assign benefits = 'Everything Renn sells: the gua sha neck cream plus the Zero Pore Mud, Collagen, PDRN Pink Caffeine and Kojic Turmeric masks.|Neck care every day, and a mask for every kind of night.|Costs less than buying all five on their own.'
+      assign how = 'Every day: the neck cream, glided upward with its gua sha head.|Once or twice a week: Zero Pore Mud Mask for 3 to 5 minutes, then rinse.|Most nights: pick the wrapping mask for how your skin feels, and peel it off in the morning.'
       assign note = 'Night masks go on last, set for 15 to 20 minutes, and peel off in the morning.'
     when 'neck'
       assign n = 0
@@ -110,6 +123,8 @@
           {{ product.featured_media | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600', sizes: '(max-width: 900px) 100vw, 55vw', alt: alt }}
         {%- elsif key == 'bundle' -%}
           {% render 'renn-bundle-collage' %}
+        {%- elsif key == 'set' -%}
+          {% render 'renn-set-collage' %}
         {%- elsif key != blank -%}
           <img src="{{ key | append: '.jpg' | asset_url }}" alt="{{ product.title | escape }}" width="720" height="720" fetchpriority="high">
         {%- endif -%}
@@ -166,14 +181,14 @@
   </div>
 </section>
 
-{%- if key == 'bundle' -%}
+{%- if key == 'bundle' or key == 'set' -%}
   <section class="blk four reveal">
     <div class="wrap">
-      <span class="kicker mono rise">Four textures</span>
-      <div class="four-grid rise">
-        {%- assign tnames = 'Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}
+      <span class="kicker mono rise">{% if key == 'set' %}Five textures{% else %}Four textures{% endif %}</span>
+      <div class="four-grid{% if key == 'set' %} five{% endif %} rise">
+        {%- if key == 'set' -%}{%- assign tnames = 'Silky cream|Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}{%- assign f0 = 0 -%}{%- else -%}{%- assign tnames = 'Blue clay|Clear gel|Pink shimmer|Golden gel' | split: '|' -%}{%- assign f0 = 1 -%}{%- endif -%}
         {%- for tn in tnames -%}
-          {%- assign fi = forloop.index | plus: 1 -%}{%- assign f = 'm-frame-' | append: fi | append: '.jpg' -%}
+          {%- assign fi = forloop.index | plus: f0 -%}{%- assign f = 'm-frame-' | append: fi | append: '.jpg' -%}
           <figure><img src="{{ f | asset_url }}" alt="{{ tn }}" loading="lazy" width="760" height="1013"><figcaption class="mono">{{ tn }}</figcaption></figure>
         {%- endfor -%}
       </div>
@@ -208,14 +223,18 @@
     </div>
   </section>
 {%- endif -%}
-{%- if key == 'bundle' -%}
+{%- if key == 'bundle' or key == 'set' -%}
   <section class="blk pings reveal" style="--c:{{ color }}">
     <div class="wrap">
       <span class="kicker mono rise">What's in the set</span>
       <div class="grid rise">
-        {%- assign c = 0 -%}
-        {%- for p in collections.all.products limit: 12 -%}
-          {%- if p.id != product.id and c < 4 -%}
+        {%- assign c = 0 -%}{%- if key == 'set' -%}{%- assign cmax = 5 -%}{%- else -%}{%- assign cmax = 4 -%}{%- endif -%}
+        {%- for p in collections.all.products limit: 20 -%}
+          {%- assign pt = p.title | downcase -%}
+          {%- assign skip = false -%}
+          {%- if pt contains 'routine' or pt contains ' set' or pt contains 'bundle' -%}{%- assign skip = true -%}{%- endif -%}
+          {%- if key == 'bundle' and pt contains 'neck' -%}{%- assign skip = true -%}{%- endif -%}
+          {%- if p.id != product.id and c < cmax and skip == false -%}
             {%- assign c = c | plus: 1 -%}
             <article class="scard"><a href="{{ p.url }}" class="tlink" aria-label="{{ p.title | escape }}">{% render 'renn-tile', product: p %}</a><h3><a href="{{ p.url }}">{{ p.title }}</a></h3></article>
           {%- endif -%}
@@ -238,7 +257,7 @@
   </section>
 {%- endif -%}
 
-{%- if key != '' and key != 'bundle' and settings.bundle_product != blank -%}
+{%- if key != '' and key != 'bundle' and key != 'set' and settings.bundle_product != blank -%}
   <section class="blk upsell reveal">
     <div class="wrap">{% render 'renn-bundle-card', kicker: 'Get all four' %}</div>
   </section>
@@ -258,7 +277,7 @@
     {%- endif -%}
   {%- endfor -%}
 {%- endcapture -%}
-{%- if shown > 0 and key != 'bundle' -%}
+{%- if shown > 0 and key != 'bundle' and key != 'set' -%}
   <section class="blk pairs reveal">
     <div class="wrap">
       <span class="kicker mono rise">Pairs well with</span>

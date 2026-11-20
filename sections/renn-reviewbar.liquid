@@ -1,0 +1,43 @@
+{%- comment -%}
+  A slim strip that scrolls on its own. Add Review blocks with real customer quotes and they take over;
+  until then it shows the shop's promises. No made-up reviews.
+{%- endcomment -%}
+{%- capture items -%}
+  {%- assign has_reviews = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'review' and block.settings.quote != blank -%}
+      {%- assign has_reviews = true -%}
+      <span class="ri" {{ block.shopify_attributes }}><i class="stars" aria-label="{{ block.settings.stars }} out of 5 stars">{%- for i in (1..5) -%}<b{% if i > block.settings.stars %} class="off"{% endif %}>&#9733;</b>{%- endfor -%}</i>&ldquo;{{ block.settings.quote }}&rdquo;{%- if block.settings.name != blank -%}<em>{{ block.settings.name }}</em>{%- endif -%}</span>
+    {%- endif -%}
+  {%- endfor -%}
+  {%- unless has_reviews -%}
+    {%- assign facts = section.settings.facts | split: '|' -%}
+    {%- for f in facts -%}<span class="ri"><i class="dot" aria-hidden="true"></i>{{ f | strip }}</span>{%- endfor -%}
+  {%- endunless -%}
+{%- endcapture -%}
+<section class="rbar{% if section.settings.dark %} dark{% endif %}" aria-label="{{ section.settings.label | escape }}">
+  <div class="rbar-track" style="--rb-speed:{{ section.settings.speed }}s">
+    <div class="rbar-set">{{ items }}</div>
+    <div class="rbar-set" aria-hidden="true">{{ items }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Review bar",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label for screen readers", "default": "What people say about Renn" },
+    { "type": "textarea", "id": "facts", "label": "Shown until you add reviews (separate with |)", "default": "Genuine medicube, in the original box|Five products. One calm routine.|Less effort. More glow.|Real answers from real people|Korean skincare, picked with care" },
+    { "type": "range", "id": "speed", "label": "Seconds per loop", "min": 20, "max": 90, "step": 5, "default": 45 },
+    { "type": "checkbox", "id": "dark", "label": "Dark strip", "default": false }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "text", "id": "quote", "label": "Quote", "info": "Only real reviews from real customers." },
+      { "type": "text", "id": "name", "label": "Name", "info": "For example: Jess, verified buyer" },
+      { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 }
+    ] }
+  ],
+  "presets": [ { "name": "Review bar" } ]
+}
+{% endschema %}

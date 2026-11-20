@@ -1,0 +1,97 @@
+{%- comment -%}
+  TikTok-style reels: a row of vertical clips you swipe through. Each reel can show a TikTok video (paste its link),
+  a video uploaded to Shopify, or a still that slowly zooms. A product tag sits on each one.
+{%- endcomment -%}
+{%- assign stills = 'neck,mud,collagen,pdrn,kojic' | split: ',' -%}
+<section class="blk reels reveal" id="reels">
+  <div class="wrap">
+    <div class="reels-head">
+      <div>
+        <span class="kicker mono rise">{{ section.settings.kicker }}</span>
+        <h2 class="big rise">{{ section.settings.heading }}</h2>
+        <p class="lede rise">{{ section.settings.text }}</p>
+      </div>
+      <div class="reels-nav">
+        {%- if settings.tiktok != blank -%}<a class="btn ghost" href="{{ settings.tiktok }}" target="_blank" rel="noopener">{% render 'renn-tt-icon' %} Follow on TikTok</a>{%- endif -%}
+        <button type="button" class="arrow" data-reels="-1" aria-label="Previous">&larr;</button>
+        <button type="button" class="arrow" data-reels="1" aria-label="Next">&rarr;</button>
+      </div>
+    </div>
+  </div>
+  <div class="reel-row" data-reel-row>
+    {%- for block in section.blocks -%}
+      {%- assign s = block.settings -%}
+      {%- assign tid = '' -%}
+      {%- if s.tiktok_url contains '/video/' -%}{%- assign tid = s.tiktok_url | split: '/video/' | last | split: '?' | first | split: '/' | first -%}{%- endif -%}
+      {%- assign fi = 1 -%}{%- for k in stills -%}{%- if k == s.look -%}{%- assign fi = forloop.index -%}{%- endif -%}{%- endfor -%}
+      {%- assign p = s.product -%}
+      <article class="reel" {{ block.shopify_attributes }}>
+        <div class="reel-media">
+          {%- if s.video != blank -%}
+            {{ s.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, image_size: '720x' }}
+          {%- elsif s.poster != blank -%}
+            {{ s.poster | image_url: width: 720 | image_tag: loading: 'lazy', class: 'kb', alt: s.caption }}
+          {%- else -%}
+            <img class="kb" src="{{ 'm-frame-' | append: fi | append: '.jpg' | asset_url }}" alt="{{ s.caption | escape }}" loading="lazy" width="760" height="1013">
+          {%- endif -%}
+        </div>
+        <span class="reel-tt" aria-hidden="true">{% render 'renn-tt-icon' %}</span>
+        {%- if tid != blank -%}
+          <button type="button" class="reel-play" data-tt-open="{{ tid }}" aria-label="Play this TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button>
+        {%- elsif settings.tiktok != blank -%}
+          <a class="reel-play" href="{{ settings.tiktok }}" target="_blank" rel="noopener" aria-label="Watch on TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></a>
+        {%- endif -%}
+        <div class="reel-cap">
+          <b>{{ s.handle | default: settings.wordmark | default: 'renn' }}{% if s.handle == blank %}.{% endif %}</b>
+          <p>{{ s.caption }}</p>
+        </div>
+        {%- if p != blank -%}
+          {%- assign v = p.selected_or_first_available_variant -%}
+          <a class="reel-chip" href="{{ p.url }}">
+            {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}<img src="{{ s.look | append: '.jpg' | asset_url }}" alt="" loading="lazy" width="120" height="120">{%- endif -%}
+            <span><em>{{ p.title }}</em><b>{{ v.price | money }}</b></span>
+          </a>
+        {%- elsif s.product_name != blank -%}
+          <a class="reel-chip" href="{{ routes.root_url }}#shop">
+            <img src="{{ s.look | append: '.jpg' | asset_url }}" alt="" loading="lazy" width="120" height="120">
+            <span><em>{{ s.product_name }}</em><b>{{ s.product_price }}</b></span>
+          </a>
+        {%- endif -%}
+      </article>
+    {%- endfor -%}
+  </div>
+  <dialog class="tt-modal" data-tt-modal aria-label="TikTok video">
+    <button type="button" class="x" data-tt-close aria-label="Close">&times;</button>
+    <iframe title="TikTok video" allow="encrypted-media; fullscreen; autoplay" loading="lazy"></iframe>
+  </dialog>
+</section>
+
+{% schema %}
+{
+  "name": "TikTok reels",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small label", "default": "On TikTok" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Watch it glow." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Textures, pours and five-minute routines. Swipe through, then shop what you see." },
+    { "type": "paragraph", "content": "Add your TikTok profile link in Theme settings > Renn for the Follow button." }
+  ],
+  "blocks": [
+    {
+      "type": "reel", "name": "Reel",
+      "settings": [
+        { "type": "url", "id": "tiktok_url", "label": "TikTok video link", "info": "Paste the link of a TikTok video. It plays right on the page." },
+        { "type": "video", "id": "video", "label": "Or a video uploaded to Shopify", "info": "Vertical (9:16), muted and looping." },
+        { "type": "image_picker", "id": "poster", "label": "Or a picture" },
+        { "type": "select", "id": "look", "label": "Picture to use when nothing is added", "default": "neck",
+          "options": [ { "value": "neck", "label": "Neck cream" }, { "value": "mud", "label": "Mud mask" }, { "value": "collagen", "label": "Collagen mask" }, { "value": "pdrn", "label": "PDRN mask" }, { "value": "kojic", "label": "Kojic mask" } ] },
+        { "type": "text", "id": "handle", "label": "Account name", "info": "For example @renn.skin. Leave empty to show your wordmark." },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "The gua sha glide. Five minutes a day." },
+        { "type": "product", "id": "product", "label": "Product tag" },
+        { "type": "text", "id": "product_name", "label": "Product name shown before a product is picked" },
+        { "type": "text", "id": "product_price", "label": "Price shown before a product is picked" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "TikTok reels" } ]
+}
+{% endschema %}

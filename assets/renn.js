@@ -11,6 +11,26 @@
   }, { threshold: 0.18 }) : null;
   document.querySelectorAll(".reveal").forEach(function (el) { io ? io.observe(el) : el.classList.add("in"); });
 
+  /* ---------- TikTok reels: arrows and the in-page player ---------- */
+  document.querySelectorAll("[data-reels]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var row = document.querySelector("[data-reel-row]"); if (!row) return;
+      var card = row.querySelector(".reel"); var w = card ? card.getBoundingClientRect().width + 16 : 300;
+      row.scrollBy({ left: +b.dataset.reels * w * 2, behavior: reduce ? "auto" : "smooth" });
+    });
+  });
+  var ttm = document.querySelector("[data-tt-modal]");
+  if (ttm) {
+    var ttf = ttm.querySelector("iframe");
+    var ttClose = function () { ttf.src = "about:blank"; if (ttm.open) ttm.close(); };
+    document.addEventListener("click", function (e) {
+      var o = e.target.closest && e.target.closest("[data-tt-open]");
+      if (o) { ttf.src = "https://www.tiktok.com/embed/v2/" + o.dataset.ttOpen; if (ttm.showModal) ttm.showModal(); else ttm.setAttribute("open", ""); return; }
+      if (e.target === ttm || (e.target.closest && e.target.closest("[data-tt-close]"))) ttClose();
+    });
+    ttm.addEventListener("close", function () { ttf.src = "about:blank"; });
+  }
+
   /* ---------- Black Friday / Christmas: show the running promotion, count down, copy codes ---------- */
   (function () {
     var P = window.RENN_PROMO; if (!P) return;
