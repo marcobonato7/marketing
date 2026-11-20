@@ -2,4 +2,4 @@
 {%- if b != blank -%}
   {%- assign v = b.selected_or_first_available_variant -%}
   {%- if v.compare_at_price > v.price -%}Save {{ v.compare_at_price | minus: v.price | money_without_trailing_zeros }}{%- endif -%}
-{%- else -%}{{ settings.bundle_save | default: 'Save $25' }}{%- endif -%}
+{%- else -%}{{ settings.bundle_save | default: 'Save $47.50' }}{%- endif -%}

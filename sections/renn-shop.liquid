@@ -23,7 +23,7 @@
         {%- assign fb_names = 'PDRN Collagen Gua Sha Neck Wrinkle Cream|Zero Pore Blackhead Mud Mask|Collagen Night Wrapping Mask|PDRN Pink Caffeine Night Wrapping Mask|Kojic Acid Turmeric Night Wrapping Mask' | split: '|' -%}
         {%- assign fb_lines = 'PDRN, collagen and 5% Volufiline, with a built-in gua sha head that massages as you apply.|A 30% clay wash-off mask with AHA, BHA and PHA. Clears pores in three minutes.|An overnight wrapping mask that seals in moisture. Wake up smooth.|PDRN and caffeine for a rested, calm-looking face by morning.|Kojic acid and turmeric for a brighter, more even tone.' | split: '|' -%}
         {%- assign fb_imgs = 'neck|mud|collagen|pdrn|kojic' | split: '|' -%}
-        {%- assign fb_prices = '$35.00|$25.00|$25.00|$25.00|$25.00' | split: '|' -%}
+        {%- assign fb_prices = '$42.50|$32.50|$32.50|$32.50|$32.50' | split: '|' -%}
         {%- for n in fb_names -%}
           <article class="scard rise" style="transition-delay:{{ forloop.index0 | times: 90 }}ms">
             <a href="#pour-{{ forloop.index }}" class="tlink" aria-label="{{ n | escape }}">{% render 'renn-tile', fallback: fb_imgs[forloop.index0], fallback_title: n %}</a>
@@ -47,7 +47,7 @@
   "settings": [
     { "type": "text", "id": "kicker", "label": "Small label", "default": "The edit" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Pick what your skin needs." },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Genuine medicube skincare: a $35 neck cream with a built-in gua sha, plus four masks at $25 each. One clears pores in minutes. Three work while you sleep." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Genuine medicube skincare: a $42.50 neck cream with a built-in gua sha, plus four masks at $32.50 each. One clears pores in minutes. Three work while you sleep." },
     { "type": "checkbox", "id": "show_bundle", "label": "Show the bundle after the products", "default": true },
     { "type": "product_list", "id": "products", "label": "Products", "limit": 8, "info": "Leave empty to show all products." }
   ],
