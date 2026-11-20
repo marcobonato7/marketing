@@ -17,11 +17,12 @@
     <div>
       <h4>Help</h4>
       <ul>
-        {%- if shop.shipping_policy -%}<li><a href="{{ shop.shipping_policy.url }}">Shipping</a></li>{%- endif -%}
+        <li><a href="/pages/shipping">Shipping</a></li>
         {%- if shop.refund_policy -%}<li><a href="{{ shop.refund_policy.url }}">Returns</a></li>{%- endif -%}
         {%- if shop.privacy_policy -%}<li><a href="{{ shop.privacy_policy.url }}">Privacy</a></li>{%- endif -%}
         {%- if shop.terms_of_service -%}<li><a href="{{ shop.terms_of_service.url }}">Terms</a></li>{%- endif -%}
-        <li><a href="mailto:{{ settings.contact_email | default: 'info@rennskin.store' }}">Contact</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+        <li><a href="mailto:{{ settings.contact_email | default: 'info@rennskin.store' }}">{{ settings.contact_email | default: 'info@rennskin.store' }}</a></li>
         <li><a href="{{ routes.root_url }}#faq">Questions</a></li>
       </ul>
     </div>

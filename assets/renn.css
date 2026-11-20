@@ -632,3 +632,7 @@ section.promo h2.big{color:var(--milk)}
 .collage{background:#fff;gap:0}
 .deal-img:has(.collage) .badge,.deal-img:has(.collage5) .badge{position:static;display:inline-block;margin:12px 0 0 8px}
 .deal-img .tile.collage{aspect-ratio:1}
+
+.cinfo{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px;font-size:15px}
+.cinfo li{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:baseline}
+.cinfo .mono{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}

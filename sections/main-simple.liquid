@@ -12,6 +12,11 @@
             {%- else -%}
               {%- if form.errors -%}<p class="cform-err">{{ form.errors | default_errors }}</p>{%- endif -%}
               <p class="lede">Questions about an order or a product? Send us a note and a real person will reply.</p>
+              <ul class="cinfo">
+                <li><span class="mono">Email</span><a href="mailto:{{ settings.contact_email | default: 'info@rennskin.store' }}">{{ settings.contact_email | default: 'info@rennskin.store' }}</a></li>
+                <li><span class="mono">Tracking</span>Sent by email within 2 business days of your order</li>
+                <li><span class="mono">Orders</span>Please include your order number</li>
+              </ul>
               <label for="c-name">Name</label>
               <input id="c-name" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
               <label for="c-email">Email</label>
