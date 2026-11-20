@@ -1,4 +1,4 @@
-# Renn Shopify theme (v3.9)
+# Renn Shopify theme (v4.0)
 
 Online Store 2.0 theme for Renn. The page opens with the neck cream's pour, which plays by itself and lands on the gua sha tube. Scrolling then plays each mask's own pour and lands on its product card, ending on the bundle. The animation is a 362-frame sequence in `assets/seq-*.jpg` that ships inside the theme, so there is nothing to upload, and it works on phones. The page also has a shop grid, product pages, a routine picker, ingredients, reviews, FAQ and an email signup.
 
@@ -26,3 +26,9 @@ Add `?renn-debug` to your store's address. The bar at the bottom should say **fi
 - Prices, photos, product names: in **Products** (the theme reads them from Shopify).
 - Text: in **Customize**, click any section.
 - Social links and contact email: **Theme settings > Renn**.
+
+## Black Friday and Christmas
+**Theme settings > Promotions** controls the top bar, the deals section on the home page and the line under prices on product pages.
+- **Automatic** mode shows Black Friday from 2026-11-19 until Dec 1, then Christmas until Dec 26. Change the dates there, or force one promotion or none.
+- The theme only *shows* deals. Create the codes (`RENNBF20`, `RENNGIFT`) in **Discounts**, and create the bundle products (The Full Routine, Face to Neck Set) in **Products**, then pick them in Theme settings.
+- Deal cards, prices and text: **Customize > Home page > Seasonal deals**.

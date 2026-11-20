@@ -1,0 +1,24 @@
+{%- comment -%} Prints bf, xmas or nothing: the promotion running today. {%- endcomment -%}
+{%- liquid
+  assign today = 'now' | date: '%Y%m%d' | plus: 0
+  assign bf_a = settings.bf_start | remove: '-' | plus: 0
+  assign bf_b = settings.bf_end | remove: '-' | plus: 0
+  assign x_a = settings.xmas_start | remove: '-' | plus: 0
+  assign x_b = settings.xmas_end | remove: '-' | plus: 0
+  assign s = ''
+  case settings.promo_mode
+    when 'bf'
+      assign s = 'bf'
+    when 'xmas'
+      assign s = 'xmas'
+    when 'off'
+      assign s = ''
+    else
+      if today >= bf_a and today < bf_b
+        assign s = 'bf'
+      elsif today >= x_a and today < x_b
+        assign s = 'xmas'
+      endif
+  endcase
+  echo s
+-%}

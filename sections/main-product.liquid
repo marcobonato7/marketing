@@ -107,7 +107,7 @@
       <div class="tile main-img">
         {%- if product.featured_media -%}
           {%- assign alt = product.featured_media.alt | default: product.title | escape -%}
-          {{ product.featured_media | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(max-width: 900px) 100vw, 55vw', alt: alt }}
+          {{ product.featured_media | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600', sizes: '(max-width: 900px) 100vw, 55vw', alt: alt }}
         {%- elsif key == 'bundle' -%}
           {% render 'renn-bundle-collage' %}
         {%- elsif key != blank -%}
@@ -118,7 +118,7 @@
         <div class="thumbs">
           {%- for m in product.media -%}
             {%- if m.media_type == 'image' -%}
-              <button type="button" class="thumb{% if forloop.first %} on{% endif %}" data-src="{{ m | image_url: width: 1200 }}" aria-label="Show photo {{ forloop.index }}">{{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</button>
+              <button type="button" class="thumb{% if forloop.first %} on{% endif %}" data-src="{{ m | image_url: width: 1600 }}" aria-label="Show photo {{ forloop.index }}">{{ m | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</button>
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -130,6 +130,7 @@
       <h1 class="ptitle">{{ product.title }}</h1>
       {%- if line -%}<p class="pline">{{ line }}</p>{%- endif -%}
       <p class="pprice"><span data-price>{{ v.price | money }}</span>{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</p>
+      {% render 'renn-promo-strip' %}
 
       {%- form 'product', product, id: 'renn-pform', class: 'pform add' -%}
         {%- unless product.has_only_default_variant -%}

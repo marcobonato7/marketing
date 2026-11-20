@@ -1,0 +1,6 @@
+{%- comment -%} The neck cream and the four masks: one large photo and a 2 x 2 grid. {%- endcomment -%}
+<div class="tile collage5">
+  <img class="big" src="{{ 'neck.jpg' | asset_url }}" alt="" loading="lazy" width="1440" height="1440">
+  {%- assign names = 'mud,collagen,pdrn,kojic' | split: ',' -%}
+  {%- for k in names -%}<img src="{{ k | append: '.jpg' | asset_url }}" alt="" loading="lazy" width="1440" height="1440">{%- endfor -%}
+</div>

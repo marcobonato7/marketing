@@ -74,5 +74,105 @@
         "default": "Save $25"
       }
     ]
+  },
+  {
+    "name": "Promotions",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Black Friday and Christmas deals switch on and off by themselves on the dates below. Create the matching discount codes and bundle products in Shopify (Discounts, Products): the theme only shows them."
+      },
+      {
+        "type": "select",
+        "id": "promo_mode",
+        "label": "Which promotion to show",
+        "default": "auto",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Automatic, by date"
+          },
+          {
+            "value": "bf",
+            "label": "Always Black Friday"
+          },
+          {
+            "value": "xmas",
+            "label": "Always Christmas"
+          },
+          {
+            "value": "off",
+            "label": "None"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Black Friday"
+      },
+      {
+        "type": "text",
+        "id": "bf_start",
+        "label": "Starts (YYYY-MM-DD)",
+        "default": "2026-11-19"
+      },
+      {
+        "type": "text",
+        "id": "bf_end",
+        "label": "Ends before (YYYY-MM-DD)",
+        "default": "2026-12-01",
+        "info": "The sale runs until the start of this day."
+      },
+      {
+        "type": "text",
+        "id": "bf_code",
+        "label": "Discount code",
+        "default": "RENNBF20"
+      },
+      {
+        "type": "text",
+        "id": "bf_bar",
+        "label": "Top bar message",
+        "default": "Black Friday: 20% off everything"
+      },
+      {
+        "type": "header",
+        "content": "Christmas"
+      },
+      {
+        "type": "text",
+        "id": "xmas_start",
+        "label": "Starts (YYYY-MM-DD)",
+        "default": "2026-12-01"
+      },
+      {
+        "type": "text",
+        "id": "xmas_end",
+        "label": "Ends before (YYYY-MM-DD)",
+        "default": "2026-12-26"
+      },
+      {
+        "type": "text",
+        "id": "xmas_code",
+        "label": "Discount code",
+        "default": "RENNGIFT"
+      },
+      {
+        "type": "text",
+        "id": "xmas_bar",
+        "label": "Top bar message",
+        "default": "The Gift Edit: holiday sets from $65"
+      },
+      {
+        "type": "header",
+        "content": "Face to Neck Set"
+      },
+      {
+        "type": "product",
+        "id": "set_product",
+        "label": "Five-product set",
+        "info": "Create a product with the neck cream and all four masks (for example $89, compare-at price $135), then pick it here. It is used in the deals."
+      }
+    ]
   }
 ]

@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+{%- capture season -%}{% render 'renn-promo-season' %}{%- endcapture -%}
+<html lang="{{ request.locale.iso_code }}"{% if season != blank %} class="has-bar"{% endif %}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -23,6 +24,7 @@
 </head>
 <body class="tpl-{{ template.name }}">
   <a class="skip" href="#main">Skip to content</a>
+  {% render 'renn-promo-bar' %}
   {% section 'renn-header' %}
   <main id="main" role="main">
     {{ content_for_layout }}
@@ -30,6 +32,7 @@
   {% section 'renn-footer' %}
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
+    window.RENN_PROMO = { mode: {{ settings.promo_mode | json }}, bf: [{{ settings.bf_start | remove: '-' | plus: 0 }}, {{ settings.bf_end | remove: '-' | plus: 0 }}], xmas: [{{ settings.xmas_start | remove: '-' | plus: 0 }}, {{ settings.xmas_end | remove: '-' | plus: 0 }}] };
     window.RENN_ROUTES = { cartAdd: {{ routes.cart_add_url | append: '.js' | json }}, cart: {{ routes.cart_url | json }}, cartJs: {{ routes.cart_url | append: '.js' | json }} };
   </script>
   <script src="{{ 'renn.js' | asset_url }}" defer></script>

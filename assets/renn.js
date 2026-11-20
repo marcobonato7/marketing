@@ -11,6 +11,40 @@
   }, { threshold: 0.18 }) : null;
   document.querySelectorAll(".reveal").forEach(function (el) { io ? io.observe(el) : el.classList.add("in"); });
 
+  /* ---------- Black Friday / Christmas: show the running promotion, count down, copy codes ---------- */
+  (function () {
+    var P = window.RENN_PROMO; if (!P) return;
+    var d = new Date(), today = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    var s = P.mode === "off" ? "" : P.mode === "bf" ? "bf" : P.mode === "xmas" ? "xmas" :
+      (today >= P.bf[0] && today < P.bf[1]) ? "bf" : (today >= P.xmas[0] && today < P.xmas[1]) ? "xmas" : "";
+    var closed = false; try { closed = sessionStorage.getItem("renn-bar-" + s) === "1"; } catch (e) {}
+    document.querySelectorAll("[data-season]").forEach(function (el) {
+      el.hidden = el.dataset.season !== s || (closed && el.hasAttribute("data-bar"));
+    });
+    var bar = s && !closed && document.querySelector('[data-bar][data-season="' + s + '"]');
+    document.documentElement.classList.toggle("has-bar", !!bar);
+    document.querySelectorAll("[data-bar-close]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        try { sessionStorage.setItem("renn-bar-" + s, "1"); } catch (e) {}
+        b.parentNode.hidden = true; document.documentElement.classList.remove("has-bar");
+      });
+    });
+    function ends() {
+      var now = Date.now();
+      document.querySelectorAll("[data-ends]").forEach(function (el) {
+        var v = String(el.dataset.ends), end = new Date(+v.slice(0, 4), +v.slice(4, 6) - 1, +v.slice(6, 8)).getTime(), m = Math.max(0, Math.floor((end - now) / 60000));
+        var dd = Math.floor(m / 1440), hh = Math.floor(m % 1440 / 60), mm = m % 60;
+        el.textContent = m <= 0 ? "Ended" : "Ends in " + (dd ? dd + "d " + hh + "h" : hh + "h " + (mm < 10 ? "0" : "") + mm + "m");
+      });
+    }
+    ends(); setInterval(ends, 30000);
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-copy]"); if (!b) return;
+      var code = b.dataset.copy, done = function () { showToast("Code <b>" + code + "</b> copied. Paste it at checkout."); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(done, done); else done();
+    });
+  })();
+
   /* ---------- add to cart without leaving the page ---------- */
   var toast = document.getElementById("toast"), toastT;
   function showToast(html) {

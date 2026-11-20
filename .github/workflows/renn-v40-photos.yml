@@ -1,0 +1,24 @@
+name: renn v4.0 photos (one time)
+on:
+  push:
+    branches: [renn-shopify-theme]
+    paths: ['.github/workflows/renn-v40-photos.yml']
+permissions:
+  contents: write
+jobs:
+  swap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: renn-shopify-theme }
+      - name: Fetch, verify, replace
+        run: |
+          curl -fsSL -o /tmp/p.zip https://d2ol7oe51mr4n9.cloudfront.net/user_3LIjwiDLDmGwMEJWDvsGfdWkoUt/f6309f36-a37c-48e9-953b-d45914b9befd.zip
+          echo "d62f695c341f3cb6c6f0906836df6a9439be8c19af1f3f396a4debbcd8bc745a  /tmp/p.zip" | sha256sum -c -
+          unzip -o -q /tmp/p.zip -d assets
+          git rm -q .github/workflows/renn-v40-photos.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A assets
+          git commit -q -m "Renn v4.0: sharper product photos (1440 px, labels checked)"
+          git push origin HEAD:renn-shopify-theme

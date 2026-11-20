@@ -1,0 +1,15 @@
+{%- comment -%} Slim announcement bar for Black Friday or Christmas, with the code and a countdown. {%- endcomment -%}
+{%- capture season -%}{% render 'renn-promo-season' %}{%- endcapture -%}
+{%- assign season = season | strip -%}
+{%- if settings.promo_mode != 'off' -%}
+  {%- assign bf_end = settings.bf_end | remove: '-' -%}
+  {%- assign x_end = settings.xmas_end | remove: '-' -%}
+  <div class="pbar bf" data-season="bf" data-bar{% unless season == 'bf' %} hidden{% endunless %}>
+    <p><b>{{ settings.bf_bar }}</b>{%- if settings.bf_code != blank -%}<span class="sep" aria-hidden="true"></span><span class="lbl">Code</span> <button type="button" class="code" data-copy="{{ settings.bf_code | escape }}">{{ settings.bf_code }}</button>{%- endif -%}<span class="sep hide-s" aria-hidden="true"></span><span class="ends hide-s" data-ends="{{ bf_end }}"></span></p>
+    <button type="button" class="x" data-bar-close aria-label="Hide this message">&times;</button>
+  </div>
+  <div class="pbar xmas" data-season="xmas" data-bar{% unless season == 'xmas' %} hidden{% endunless %}>
+    <p><b>{{ settings.xmas_bar }}</b>{%- if settings.xmas_code != blank -%}<span class="sep" aria-hidden="true"></span><span class="lbl">Code</span> <button type="button" class="code" data-copy="{{ settings.xmas_code | escape }}">{{ settings.xmas_code }}</button>{%- endif -%}<span class="sep hide-s" aria-hidden="true"></span><span class="ends hide-s" data-ends="{{ x_end }}"></span></p>
+    <button type="button" class="x" data-bar-close aria-label="Hide this message">&times;</button>
+  </div>
+{%- endif -%}

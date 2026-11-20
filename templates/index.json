@@ -369,10 +369,112 @@
     "signup": {
       "type": "renn-signup",
       "settings": {}
+    },
+    "deals_bf": {
+      "type": "renn-promo",
+      "settings": {
+        "season": "bf",
+        "kicker": "Black Friday week",
+        "heading": "Black Friday",
+        "text": "Our best prices of the year, through Cyber Monday. Bundles are already marked down, and the code takes 20% off everything else.",
+        "note": "Bundle prices are final, so the code doesn't stack on them. While stocks last."
+      },
+      "blocks": {
+        "bf_set": {
+          "type": "deal",
+          "settings": {
+            "image": "set",
+            "badge": "Save $46",
+            "title": "The Face to Neck Set",
+            "line": "The neck cream and all four masks, for the whole routine.",
+            "price": "$89.00",
+            "was": "$135.00"
+          }
+        },
+        "bf_bundle": {
+          "type": "deal",
+          "settings": {
+            "image": "bundle",
+            "badge": "Save $40",
+            "title": "The Full Routine",
+            "line": "All four masks. One clean routine.",
+            "price": "$60.00",
+            "was": "$100.00"
+          }
+        },
+        "bf_code": {
+          "type": "deal",
+          "settings": {
+            "image": "code",
+            "badge": "20% off",
+            "title": "Everything else",
+            "line": "20% off every single product at checkout.",
+            "price": "20% off",
+            "was": ""
+          }
+        }
+      },
+      "block_order": [
+        "bf_set",
+        "bf_bundle",
+        "bf_code"
+      ]
+    },
+    "deals_xmas": {
+      "type": "renn-promo",
+      "settings": {
+        "season": "xmas",
+        "kicker": "Christmas",
+        "heading": "The Gift Edit",
+        "text": "Calm skincare sets, ready to give. Order early for delivery before Christmas.",
+        "note": "Gift sets are already marked down, so the code doesn't stack on them."
+      },
+      "blocks": {
+        "x_set": {
+          "type": "deal",
+          "settings": {
+            "image": "set",
+            "badge": "Save $36",
+            "title": "The Face to Neck Gift Set",
+            "line": "The neck cream and all four masks, for someone you love.",
+            "price": "$99.00",
+            "was": "$135.00"
+          }
+        },
+        "x_bundle": {
+          "type": "deal",
+          "settings": {
+            "image": "bundle",
+            "badge": "Save $35",
+            "title": "The Full Routine",
+            "line": "All four masks for a month of calm nights.",
+            "price": "$65.00",
+            "was": "$100.00"
+          }
+        },
+        "x_code": {
+          "type": "deal",
+          "settings": {
+            "image": "code",
+            "badge": "15% off",
+            "title": "Stocking fillers",
+            "line": "15% off any single mask or the neck cream.",
+            "price": "15% off",
+            "was": ""
+          }
+        }
+      },
+      "block_order": [
+        "x_set",
+        "x_bundle",
+        "x_code"
+      ]
     }
   },
   "order": [
     "film",
+    "deals_bf",
+    "deals_xmas",
     "shop",
     "routine",
     "inside",
