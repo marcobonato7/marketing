@@ -56,8 +56,8 @@
       assign texture = 'A rich, silky white cream that glides on under the cool gua sha head.'
       assign benefits = '5% Volufiline helps the neck and décolleté look firmer and smoother.|PDRN and collagen nourish skin for a healthy-looking glow.|The built-in gua sha massages as you apply. No extra tool needed.'
       assign how = 'Twist the gua sha head until the arrow lines up with ON.|Gently squeeze the tube to release a little cream.|Glide the gua sha up along your jawline, neck and décolleté until absorbed, then twist back to OFF.'
-      assign ings = 'Volufiline 5%::A plant-based ingredient used for a fuller, firmer-looking neck.|PDRN (sodium DNA)::A K-beauty favorite for calm, glowing-looking skin.|Collagen::Helps skin feel plump and smooth.|Niacinamide::Vitamin B3. Supports the skin barrier and evens out tone.'
-      assign note = 'Contains retinol: wear sunscreen during the day, and stop using it if irritation occurs.'
+      assign ings = 'Volufiline 5%::A plant-based ingredient used for a fuller, firmer-looking neck.|PDRN (sodium DNA)::A K-beauty favorite for calm, glowing-looking skin.|Collagen::Helps skin feel plump and smooth.'
+      assign note = 'Dermatologist tested. New to it? Try it on a small patch of skin first, and stop if irritation occurs.'
     when 'mud'
       assign n = 2
       assign color = '#8FB4D9'
@@ -259,7 +259,7 @@
 
 {%- if key != '' and key != 'bundle' and key != 'set' and settings.bundle_product != blank -%}
   <section class="blk upsell reveal">
-    <div class="wrap">{% render 'renn-bundle-card', kicker: 'Get all four' %}</div>
+    <div class="wrap">{% render 'renn-bundle-card', kicker: 'Get all four masks' %}</div>
   </section>
 {%- endif -%}
 {%- liquid
@@ -313,7 +313,7 @@
       "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
       "itemCondition": "https://schema.org/NewCondition",
       "url": {{ request.origin | append: variant.url | json }},
-      "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+      "seller": { "@type": "Organization", "name": {{ settings.brand_name | default: shop.name | json }} }
     }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   ]

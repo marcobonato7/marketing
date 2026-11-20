@@ -5,18 +5,35 @@
       {%- when 'page' -%}
         <h1 class="big">{{ page.title }}</h1>
         <div class="rte">{{ page.content }}</div>
+        {%- if page.handle == 'contact' -%}
+          {%- form 'contact', class: 'cform' -%}
+            {%- if form.posted_successfully? -%}
+              <p class="cform-ok">Thanks. Your message is on its way, and we'll reply by email.</p>
+            {%- else -%}
+              {%- if form.errors -%}<p class="cform-err">{{ form.errors | default_errors }}</p>{%- endif -%}
+              <p class="lede">Questions about an order or a product? Send us a note and a real person will reply.</p>
+              <label for="c-name">Name</label>
+              <input id="c-name" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+              <label for="c-email">Email</label>
+              <input id="c-email" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+              <label for="c-msg">Message</label>
+              <textarea id="c-msg" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+              <button class="btn" type="submit">Send message</button>
+            {%- endif -%}
+          {%- endform -%}
+        {%- endif -%}
 
       {%- when '404' -%}
         <span class="kicker mono">404</span>
         <h1 class="big">This page slipped away.</h1>
-        <p class="lede">It may have moved. The masks are still right where you left them.</p>
+        <p class="lede">It may have moved. Everything else is right where you left it.</p>
         <a class="btn" href="{{ routes.root_url }}#shop">Back to the shop</a>
 
       {%- when 'search' -%}
         <h1 class="big">Search</h1>
         <form action="{{ routes.search_url }}" method="get" class="searchform" role="search">
           <label class="vh" for="q">Search</label>
-          <input id="q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search masks">
+          <input id="q" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products">
           <button class="btn" type="submit">Search</button>
         </form>
         {%- if search.performed -%}

@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class="legal">
-    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ settings.brand_name | default: shop.name }}</span>
     <span>{{ section.settings.disclaimer }}</span>
   </div>
 </footer>

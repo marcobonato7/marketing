@@ -16,7 +16,7 @@
       <div class="empty rise">
         <div class="stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <p class="big-line">Reviews are on their way.</p>
-        <p class="muted">We only post reviews from real {{ shop.name }} customers. Bought a mask? We'd love to hear how it went.</p>
+        <p class="muted">We only post reviews from real {{ settings.brand_name | default: shop.name }} customers. Bought from us? We'd love to hear how it went.</p>
       </div>
     {%- endif -%}
   </div>

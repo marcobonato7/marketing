@@ -34,7 +34,9 @@
         {%- endfor -%}
         {%- if request.design_mode -%}<p class="muted">These cards show until your products are created in Shopify.</p>{%- endif -%}
       {%- endfor -%}
-      {%- if section.settings.show_bundle -%}{% render 'renn-bundle-card' %}{%- endif -%}
+      {%- capture season -%}{% render 'renn-promo-season' %}{%- endcapture -%}
+      {%- assign season = season | strip -%}
+      {%- if section.settings.show_bundle -%}<div class="bcard-wrap" data-season-off{% if season != blank %} hidden{% endif %}>{% render 'renn-bundle-card' %}</div>{%- endif -%}
     </div>
   </div>
 </section>

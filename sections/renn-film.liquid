@@ -85,7 +85,7 @@
             "availability": "https://schema.org/{% if p.available %}InStock{% else %}OutOfStock{% endif %}",
             "itemCondition": "https://schema.org/NewCondition",
             "url": {{ request.origin | append: p.url | json }},
-            "seller": { "@type": "Organization", "name": {{ shop.name | json }} }
+            "seller": { "@type": "Organization", "name": {{ settings.brand_name | default: shop.name | json }} }
           }
         }
       {%- endif -%}

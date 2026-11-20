@@ -8,7 +8,7 @@
   /* ---------- reveals ---------- */
   var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
     es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
-  }, { threshold: 0.18 }) : null;
+  }, { threshold: 0, rootMargin: "0px 0px -12% 0px" }) : null;
   document.querySelectorAll(".reveal").forEach(function (el) { io ? io.observe(el) : el.classList.add("in"); });
 
   /* ---------- TikTok reels: arrows and the in-page player ---------- */
@@ -38,6 +38,7 @@
     var s = P.mode === "off" ? "" : P.mode === "bf" ? "bf" : P.mode === "xmas" ? "xmas" :
       (today >= P.bf[0] && today < P.bf[1]) ? "bf" : (today >= P.xmas[0] && today < P.xmas[1]) ? "xmas" : "";
     var closed = false; try { closed = sessionStorage.getItem("renn-bar-" + s) === "1"; } catch (e) {}
+    document.querySelectorAll("[data-season-off]").forEach(function (el) { el.hidden = !!s; });
     document.querySelectorAll("[data-season]").forEach(function (el) {
       el.hidden = el.dataset.season !== s || (closed && el.hasAttribute("data-bar"));
     });

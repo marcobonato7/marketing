@@ -12,6 +12,13 @@
     "settings": [
       {
         "type": "text",
+        "id": "brand_name",
+        "label": "Shop name shown on the site",
+        "default": "Renn",
+        "info": "Used in the footer, page titles and search results."
+      },
+      {
+        "type": "text",
         "id": "wordmark",
         "label": "Wordmark",
         "default": "renn"

@@ -217,7 +217,7 @@
             "collagen": true,
             "pdrn": true,
             "kojic": false,
-            "neck": true
+            "neck": false
           }
         },
         "ing5": {
@@ -330,7 +330,7 @@
           "type": "qa",
           "settings": {
             "q": "Are these genuine medicube products?",
-            "a": "<p>Yes. Renn sells genuine medicube masks in their original packaging. Renn is an independent retailer and is not run by medicube.</p>"
+            "a": "<p>Yes. Renn sells genuine medicube products in their original packaging. Renn is an independent retailer and is not run by medicube.</p>"
           }
         },
         "q2": {
@@ -344,21 +344,21 @@
           "type": "qa",
           "settings": {
             "q": "Can I use these on sensitive skin?",
-            "a": "<p>Many people with sensitive skin use them, but every face is different. Try a small patch first. If you feel itching, skip the area under your nose and rinse if needed.</p>"
+            "a": "<p>Many people with sensitive skin use them, but every face is different. Try a small patch first, and if you feel itching or stinging, rinse it off and stop using it.</p>"
           }
         },
         "q4": {
           "type": "qa",
           "settings": {
             "q": "How often should I use each one?",
-            "a": "<p>The mud mask, once or twice a week. The night wrapping masks, 2 to 3 nights a week or whenever your skin asks for it.</p>"
+            "a": "<p>The neck cream, every day. The mud mask, once or twice a week. The night wrapping masks, 2 to 3 nights a week, or whenever your skin needs it.</p>"
           }
         },
         "q5": {
           "type": "qa",
           "settings": {
             "q": "How long does shipping take?",
-            "a": "<p>Add your shipping times and costs here. Your full shipping and returns policies are linked in the footer.</p>"
+            "a": "<p>Shipping options, times and costs are shown at checkout before you pay. Our full shipping and returns policies are linked at the bottom of every page.</p>"
           }
         }
       },

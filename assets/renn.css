@@ -571,3 +571,32 @@ section.promo h2.big{color:var(--milk)}
 .toast a{flex:none;padding:12px 18px;white-space:nowrap}
 @media (max-width:620px){.toast{border-radius:18px;padding:10px 10px 10px 12px;gap:12px}.toast img{width:46px;height:46px}.toast a{padding:11px 14px;font-size:13.5px}}
 .toast .t-txt small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- less scrolling on phones: two-up product cards, two-up ingredients ---------- */
+.bcard-wrap{grid-column:1/-1}
+.bcard-wrap[hidden],[data-season-off][hidden]{display:none}
+@media (max-width:620px){
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .scard{padding:8px 8px 12px;border-radius:16px}
+  .scard .tile{border-radius:12px}
+  .scard h3{font-size:15px;line-height:1.25;margin:10px 2px 6px}
+  .scard p,.scard .mono{display:none}
+  .scard .buy{flex-direction:column;align-items:stretch;gap:8px;padding:0 2px}
+  .scard .buy .price{font-size:15px}
+  .scard .buy .btn,.scard .buy form .btn{width:100%;height:38px;padding:0 10px;font-size:13.5px}
+  .scard .buy form{width:100%}
+  .ings{grid-template-columns:1fr 1fr}
+  .ing{padding:16px 12px 18px}
+  .ing .dot{margin-bottom:12px}
+  .ing h3{font-size:17px}
+  .ing p{font-size:13.5px}
+  section.blk{padding-top:64px;padding-bottom:64px}
+}
+/* contact form */
+.cform{display:grid;gap:10px;margin-top:28px;max-width:560px}
+.cform label{font:400 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:8px}
+.cform input,.cform textarea{font:400 16px/1.4 var(--body);padding:14px 16px;border-radius:14px;border:1px solid rgba(42,36,33,.18);background:var(--milk);color:var(--ink)}
+.cform textarea{resize:vertical}
+.cform .btn{justify-self:start;margin-top:8px}
+.cform-ok{padding:16px 18px;border-radius:14px;background:#E3EAE4}
+.cform-err{padding:12px 16px;border-radius:14px;background:#F6E1DE}

@@ -1,5 +1,5 @@
 <header class="hdr{% unless template.name == 'index' %} solid always{% endunless %}" id="hdr">
-  <a class="logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">{{ settings.wordmark | default: 'renn' }}<b>.</b></a>
+  <a class="logo" href="{{ routes.root_url }}" aria-label="{{ settings.brand_name | default: shop.name }} home">{{ settings.wordmark | default: 'renn' }}<b>.</b></a>
   <nav class="nav" aria-label="Main">
     <a href="{{ routes.root_url }}#shop">Shop</a>
     <a href="{{ routes.root_url }}#routine" class="hide-m">Routine</a>
