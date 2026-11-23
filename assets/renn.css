@@ -636,3 +636,7 @@ section.promo h2.big{color:var(--milk)}
 .cinfo{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px;font-size:15px}
 .cinfo li{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:baseline}
 .cinfo .mono{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+
+.signup .follow{margin-top:22px;font-size:15px;color:var(--ink-2)}
+.signup .follow a{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:500;text-decoration:none;border-bottom:1px solid currentColor}
+.signup .follow .tt-ico{width:16px;height:16px}

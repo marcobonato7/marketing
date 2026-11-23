@@ -330,7 +330,7 @@
           "type": "qa",
           "settings": {
             "q": "Are these genuine medicube products?",
-            "a": "<p>Yes. Renn sells genuine medicube products in their original packaging. Renn is an independent retailer and is not run by medicube.</p>"
+            "a": "<p>Yes. Renn sells genuine medicube products. Renn is an independent retailer and is not run by medicube.</p>"
           }
         },
         "q2": {

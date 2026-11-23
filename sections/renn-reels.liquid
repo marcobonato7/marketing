@@ -12,6 +12,8 @@
         <p class="lede rise">{{ section.settings.text }}</p>
       </div>
       <div class="reels-nav">
+{%- assign ig = settings.instagram | default: 'https://www.instagram.com/rennskincare/' -%}
+        <a class="btn ghost" href="{{ ig }}" target="_blank" rel="noopener">{% render 'renn-ig-icon' %} @rennskincare</a>
         {%- if settings.tiktok != blank -%}<a class="btn ghost" href="{{ settings.tiktok }}" target="_blank" rel="noopener">{% render 'renn-tt-icon' %} Follow on TikTok</a>{%- endif -%}
         <button type="button" class="arrow" data-reels="-1" aria-label="Previous">&larr;</button>
         <button type="button" class="arrow" data-reels="1" aria-label="Next">&rarr;</button>

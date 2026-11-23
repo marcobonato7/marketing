@@ -32,7 +32,8 @@
       {
         "type": "url",
         "id": "instagram",
-        "label": "Instagram link"
+        "label": "Instagram link",
+        "default": "https://www.instagram.com/rennskincare/"
       },
       {
         "type": "url",
