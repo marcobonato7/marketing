@@ -358,7 +358,7 @@
           "type": "qa",
           "settings": {
             "q": "How long does shipping take?",
-            "a": "<p>Within 2 business days of your order, we'll email you a tracking number so you can follow your parcel. Shipping costs and delivery times for your address are shown at checkout before you pay. <a href=\"/pages/shipping\">Full shipping info</a>.</p>"
+            "a": "<p>Within 2 business days of your order, we'll email you a tracking number so you can follow your parcel. Shipping in Canada is free on orders over $75. Costs and delivery times for your address are shown at checkout before you pay. <a href=\"/pages/shipping\">Full shipping info</a>.</p>"
           }
         },
         "q6": {

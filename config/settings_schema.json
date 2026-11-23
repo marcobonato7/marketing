@@ -84,6 +84,15 @@
     ]
   },
   {
+    "name": "Free shipping",
+    "settings": [
+      { "type": "paragraph", "content": "Shows how close a cart is to free shipping. Keep the amount the same as the free rate in Shopify Settings > Shipping and delivery." },
+      { "type": "checkbox", "id": "free_ship_on", "label": "Show free-shipping progress", "default": true },
+      { "type": "number", "id": "free_ship_threshold", "label": "Free shipping from (dollars)", "default": 75 },
+      { "type": "text", "id": "free_ship_where", "label": "Where it applies", "default": "in Canada" }
+    ]
+  },
+  {
     "name": "Promotions",
     "settings": [
       {

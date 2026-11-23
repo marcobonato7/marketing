@@ -1,0 +1,35 @@
+{%- comment -%}
+  "Add to your order" row: up to 3 products that are not already in the cart (or on this page).
+  Params: heading, sub, exclude (product id), ajax (true = add without leaving the page)
+{%- endcomment -%}
+{%- assign up_handles = 'kojic-acid-turmeric-night-wrapping-mask|pdrn-pink-caffeine-night-wrapping-mask|collagen-night-wrapping-mask|zero-pore-blackhead-mud-mask|pdrn-collagen-gua-sha-neck-wrinkle-cream' | split: '|' -%}
+{%- assign skip = cart.items | map: 'product_id' | join: ',' | prepend: ',' | append: ',' -%}
+{%- if exclude -%}{%- assign skip = skip | append: exclude | append: ',' -%}{%- endif -%}
+{%- assign shown = 0 -%}
+{%- capture cards -%}
+  {%- for h in up_handles -%}
+    {%- assign p = all_products[h] -%}
+    {%- if p == blank or p.available == false or shown >= 3 -%}{%- continue -%}{%- endif -%}
+    {%- assign k = p.id | prepend: ',' | append: ',' -%}
+    {%- if skip contains k -%}{%- continue -%}{%- endif -%}
+    {%- assign v = p.selected_or_first_available_variant -%}
+    <li class="up-card">
+      <a class="up-img" href="{{ p.url }}">{%- if p.featured_image -%}{{ p.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}</a>
+      <div class="up-txt">
+        <a class="up-name" href="{{ p.url }}">{{ p.title }}</a>
+        <span class="up-price">{{ v.price | money }}{% if v.compare_at_price > v.price %} <s>{{ v.compare_at_price | money }}</s>{% endif %}</span>
+      </div>
+      <form method="post" action="{{ routes.cart_add_url }}"{% if ajax %} class="add" data-add{% endif %}>
+        <input type="hidden" name="id" value="{{ v.id }}"><input type="hidden" name="quantity" value="1">
+        <button class="btn sm" type="submit" aria-label="Add {{ p.title | escape }}">+ Add</button>
+      </form>
+    </li>
+    {%- assign shown = shown | plus: 1 -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- if shown > 0 -%}
+  <div class="upsell">
+    <div class="up-head"><b>{{ heading | default: 'Add to your order' }}</b>{%- if sub != blank -%}<span class="muted small">{{ sub }}</span>{%- endif -%}</div>
+    <ul class="up-list">{{ cards }}</ul>
+  </div>
+{%- endif -%}

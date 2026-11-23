@@ -2,7 +2,8 @@
   <div class="wrap narrow">
     <h1 class="big">Your cart</h1>
     {%- if cart.item_count > 0 -%}
-      <form action="{{ routes.cart_url }}" method="post" class="cartform">
+      {% render 'renn-shipbar' %}
+      <form action="{{ routes.cart_url }}" method="post" class="cartform" id="cartmain">
         <ul class="lines">
           {%- for item in cart.items -%}
             <li class="line-item">
@@ -21,15 +22,18 @@
             </li>
           {%- endfor -%}
         </ul>
+      </form>
+      {% render 'renn-upsell', heading: 'Add to your order', sub: 'One more for your routine' %}
+      <div class="cartform" id="cartfoot">
         <div class="cart-foot">
-          <button class="btn ghost" type="submit" name="update">Update</button>
+          <button class="btn ghost" type="submit" name="update" form="cartmain">Update</button>
           <div class="sub">
             <p><span class="muted">Subtotal</span> <strong>{{ cart.total_price | money_with_currency }}</strong></p>
             <p class="muted small">Shipping and taxes are added at checkout. You'll get your tracking number by email within 2 business days. <a href="/pages/shipping">Shipping info</a></p>
-            <button class="btn wide" type="submit" name="checkout">Check out</button>
+            <button class="btn wide" type="submit" name="checkout" form="cartmain">Check out</button>
           </div>
         </div>
-      </form>
+      </div>
     {%- else -%}
       <p class="lede">Your cart is empty.</p>
       <a class="btn" href="{{ routes.root_url }}#shop">Shop now</a>

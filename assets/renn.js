@@ -106,7 +106,16 @@
         var nm = String((item.product_title || "item") + (item.variant_title && item.variant_title !== "Default Title" ? " · " + item.variant_title : "")).replace(/</g, "&lt;");
         var img = item.image ? "<img src=\"" + item.image + (item.image.indexOf("?") < 0 ? "?" : "&") + "width=120\" alt=\"\">" : "";
         showToast(img + "<span class=\"t-txt\"><small>Added to your cart</small><b>" + nm + "</b></span><a href=\"" + R.cart + "\">View cart</a>");
-        return fetch(R.cartJs, { headers: { "Accept": "application/json" } }).then(function (r) { return r.json(); }).then(function (c) { setCount(c.item_count); });
+        return fetch(R.cartJs, { headers: { "Accept": "application/json" } }).then(function (r) { return r.json(); }).then(function (c) {
+          setCount(c.item_count);
+          var S = window.RENN_SHIP, tx = toast && toast.querySelector(".t-txt");
+          if (S && tx && S.fs > 0) {
+            var left = S.fs - c.total_price, w = S.where ? " " + S.where : "";
+            var msg = left > 0 ? "Add $" + (left / 100).toFixed(2).replace(/\.00$/, "") + " more for free shipping" + w : "Free shipping" + w + " unlocked";
+            tx.insertAdjacentHTML("beforeend", "<em class=\"t-ship\">" + msg + "</em>");
+            clearTimeout(toastT); toastT = setTimeout(function () { toast.classList.remove("on"); }, 5600);
+          }
+        });
       })
       .catch(function (err) {
         showToast("<span>" + ((err && (err.description || err.message)) || "Couldn't add that. Please try again.") + "</span>");

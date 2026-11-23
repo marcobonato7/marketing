@@ -34,6 +34,7 @@
   <script>
     window.RENN_PROMO = { mode: {{ settings.promo_mode | json }}, bf: [{{ settings.bf_start | remove: '-' | plus: 0 }}, {{ settings.bf_end | remove: '-' | plus: 0 }}], xmas: [{{ settings.xmas_start | remove: '-' | plus: 0 }}, {{ settings.xmas_end | remove: '-' | plus: 0 }}] };
     window.RENN_ROUTES = { cartAdd: {{ routes.cart_add_url | append: '.js' | json }}, cart: {{ routes.cart_url | json }}, cartJs: {{ routes.cart_url | append: '.js' | json }} };
+    window.RENN_SHIP = {{ settings.free_ship_on | json }} ? { fs: {{ settings.free_ship_threshold | default: 75 | times: 100 }}, where: {{ settings.free_ship_where | json }} } : null;
   </script>
   <script src="{{ 'renn.js' | asset_url }}" defer></script>
 </body>
