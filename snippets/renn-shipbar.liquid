@@ -1,10 +1,10 @@
 {%- comment -%} Free-shipping progress. The threshold is in Theme settings > Free shipping; match it to your Shopify shipping rate. {%- endcomment -%}
-{%- if settings.free_ship_on -%}
-  {%- assign fs = settings.free_ship_threshold | times: 100 -%}
+{%- unless settings.free_ship_on == false -%}{%- assign fs_where = settings.free_ship_where | default: 'in Canada' -%}{%- assign fs_amt = settings.free_ship_threshold | default: 75 -%}
+  {%- assign fs = fs_amt | times: 100 -%}
   {%- assign left = fs | minus: cart.total_price -%}
   {%- assign pct = cart.total_price | times: 100 | divided_by: fs -%}{%- if pct > 100 -%}{%- assign pct = 100 -%}{%- endif -%}
   <div class="shipbar{% if left <= 0 %} done{% endif %}" data-shipbar data-fs="{{ fs }}">
-    <p data-shipmsg>{%- if left <= 0 -%}You've got free shipping{{ settings.free_ship_where | prepend: ' ' }}.{%- else -%}You're <b>{{ left | money }}</b> away from free shipping{{ settings.free_ship_where | prepend: ' ' }}.{%- endif -%}</p>
+    <p data-shipmsg>{%- if left <= 0 -%}You've got free shipping{{ fs_where | prepend: ' ' }}.{%- else -%}You're <b>{{ left | money }}</b> away from free shipping{{ fs_where | prepend: ' ' }}.{%- endif -%}</p>
     <span class="track"><i style="width:{{ pct }}%"></i></span>
   </div>
-{%- endif -%}
+{%- endunless -%}

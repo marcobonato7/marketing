@@ -176,7 +176,7 @@
         <li>Genuine {{ product.vendor | default: 'medicube' }}</li>
         {%- if kind -%}<li>{{ kind }}</li>{%- endif -%}
         <li>Tracking number by email within 2 business days. <a href="/pages/shipping">Shipping info</a></li>
-        {%- if settings.free_ship_on -%}<li>Free shipping{{ settings.free_ship_where | prepend: ' ' }} on orders over {{ settings.free_ship_threshold | times: 100 | money_without_trailing_zeros }}</li>{%- endif -%}
+        {%- unless settings.free_ship_on == false -%}{%- assign fs_where = settings.free_ship_where | default: 'in Canada' -%}{%- assign fs_amt = settings.free_ship_threshold | default: 75 -%}<li>Free shipping{{ fs_where | prepend: ' ' }} on orders over {{ fs_amt | times: 100 | money_without_trailing_zeros }}</li>{%- endunless -%}
       </ul>
 
       {% render 'renn-upsell', heading: 'Pairs well with', exclude: product.id, ajax: true %}
